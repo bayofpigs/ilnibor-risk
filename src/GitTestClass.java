@@ -1,6 +1,6 @@
 
 public class GitTestClass {
 	public static void main(String[] args) {
-		System.out.println("Test again!");
+		System.out.println("Test with github!");
 	}
 }
