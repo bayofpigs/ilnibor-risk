@@ -4,5 +4,6 @@ public class GitTestClass {
 		// Another derpy commit
 		System.out.println("Test with github!");
 		System.out.println("My Git brings all the girls to the yard!");
+		//sid - and they're like - it's better than yours
 	}
 }
