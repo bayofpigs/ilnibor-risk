@@ -35,11 +35,9 @@ class Country {
 	}
 	boolean invade(Country attacker) {
 		Random die = new Random();
-		int enemyTroops = attacker.getTroops();
-		if (enemyTroops == 1)
+		int attackDice = attacker.getTroops() - 1, defendDice = troops;
+		if (attackDice == 0)
 			return false;
-		int attackDice = enemyTroops - 1;
-		int defendDice = troops;
 		if (attackDice > 3)
 			attackDice = 3;
 		if (defendDice > 2)
