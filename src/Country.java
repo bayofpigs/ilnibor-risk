@@ -3,29 +3,18 @@ import java.util.Collections;
 import java.util.Random;
 
 class Country {
-	/*
-	 * Updates:
-	 * Commented the methods of this class
-	 * See Comments on the invade method. Message me responses.
-	 * - Mike
-	 */
-	
+
 	// Constants indicating the nation (color) occupying the territory
-	static final int OPEN = -1, YELLOW_ARMY = 0, GREEN_ARMY = 1, RED_ARMY = 2, 
-			BLUE_ARMY = 3, ORANGE_ARMY = 4;
-	
+	static final int OPEN = -1, YELLOW_ARMY = 0, GREEN_ARMY = 1, RED_ARMY = 2, BLUE_ARMY = 3, ORANGE_ARMY = 4;
 	// Name of the country
-	private String name;
-	
-	// integer representation of the army in question: based 
-	//   on the army constant
-	private int army;
-	
+	String name;
+	// Integer representation of the army in question: based on the army constants
+	int army;
 	// The amount of troops of the occupying nation on the specified country
-	private int troops;
-	
+	int troops;
+
 	/**
-	 * Class Country constructor.
+	 * Class Country constructor. 
 	 * @param countryName The name of the country.
 	 */
 	Country(String countryName) {
@@ -33,39 +22,6 @@ class Country {
 		army = OPEN;
 		troops = 0;
 	}
-	
-	/**
-	 * 
-	 * @return The name of the country.
-	 */
-	String getName(){
-		return name;
-	}
-	
-	/**
-	 * 
-	 * @return The army occupying the territory
-	 */
-	int getTeam(){
-		return army;
-	}
-	
-	/**
-	 * 
-	 * @return The number of units on the specified territory
-	 */
-	int getTroops(){
-		return troops;
-	}
-	
-	/**
-	 * 
-	 * @return Whether or not the nation in question is unoccupied.
-	 */
-	boolean unoccupied() {
-		return (army == OPEN);
-	}
-	
 	/**
 	 * Updates the army that owns this territory.
 	 * @param teamNumber The team constant color to occupy this territory
@@ -74,92 +30,80 @@ class Country {
 		army = teamNumber;
 		troops = 1;
 	}
-	
 	/**
-	 * Reinforce the territory
+	 * Simulates an invasion of the country by a foreign country.
+	 * @param attacker The country attacking this country
+	 * @return true if invasion successful, false if not
 	 */
-	void reinforce(){
-		troops ++;
-	}
-	
-	/**
-	 * Lose a soldier in this territory (typically the result of battle)
-	 */
-	void loseTroop(){
-		troops --;
-	}
-	
-	
 	boolean invade(Country attacker) {
-		/* Comments:
-		 * Can possibly be moved to the engine class
-		 * (separate Objects from game methods) 
-		 * In what situation does this function return true?
-		 */
 		Random die = new Random();
-		int attackDice = attacker.getTroops() - 1, defendDice = troops;
-		if (attackDice == 0)
-			return false;
-		if (attackDice > 3)
-			attackDice = 3;
-		if (defendDice > 2)
-			defendDice = 2;
-		ArrayList<Integer> defend = new ArrayList<Integer>();
-		ArrayList<Integer> attack = new ArrayList<Integer>();
-		for (int a = 0; a < defendDice; a ++)
+		System.out.println(attacker + "\n" + toString() + "\n\nThe " + getColor(attacker.army) + " attacks " + name + " from " + attacker.name + ".\n");
+		int attackDice = attacker.troops - 1, defendDice = troops;
+		if (attackDice == 0) return false;
+		if (attackDice > 3) attackDice = 3;
+		if (defendDice > 2) defendDice = 2;
+		ArrayList<Integer> defend = new ArrayList<Integer>(), attack = new ArrayList<Integer>();
+		for (int a = 0; a < defendDice; a++)
 			defend.add(die.nextInt(6) + 1);
-		for (int b = 0; b < attackDice; b ++)
+		for (int b = 0; b < attackDice; b++)
 			attack.add(die.nextInt(6) + 1);
 		Collections.sort(defend);
 		Collections.sort(attack);
 		Collections.reverse(defend);
 		Collections.reverse(attack);
-		if (attack.size() < defend.size())
-			defend.remove(1);
+		System.out.println("Attacker: " + attack + " (" + attacker.name + ")\nDefender: " + defend + " (" + name + ")\n");
+		if (attack.size() < defend.size()) defend.remove(1);
 		while (defend.size() < attack.size())
 			attack.remove(attack.size() - 1);
-		for (int i = 0; i < attack.size(); i ++)
+		for (int i = 0; i < attack.size(); i++)
 			if (attack.get(i) > defend.get(i))
-				troops --;
+				troops--;
 			else
-				attacker.loseTroop();
-		
+				attacker.troops--;
+		if (troops == 0) {
+			troops = attacker.troops - 1;
+			attacker.troops = 1;
+			army = attacker.army;
+			System.out.println(name + " has been conquered by the " + getColor(attacker.army) + ".\n\n" + attacker + "\n" + toString());
+			return true;
+		}
+		System.out.println(name + " defends the attack by the " + getColor(attacker.army) + ".\n\n" + attacker + "\n" + toString());
 		return false;
 	}
-	
-	
-	public String toString() {
-		String print = name + ": ";
-		if (unoccupied()) return print + "No Man's Land";
-		switch (army) {
-			case 0: print += "Yellow Army";
-					break;
-			case 1: print += "Green Army";
-					break;
-			case 2: print += "Red Army";
-					break;
-			case 3: print += "Blue Army";
-					break;
-			case 4: print += "Orange Army";
-					break;
+	/**
+	 * Converts integer representation of army to a string
+	 * @param teamNumber Integer representation of the army in question: based on the army constants
+	 * @return String representation of the army in question: based on the color of the army
+	 */
+	public String getColor(int teamNumber) {
+		String armyColor = "No Man's Land";
+		switch (teamNumber) {
+			case 0 : armyColor = "Yellow Army";	break;
+			case 1 : armyColor = "Green Army";	break;
+			case 2 : armyColor = "Red Army";	break;
+			case 3 : armyColor = "Blue Army";	break;
+			case 4 : armyColor = "Orange Army";	break;
 		}
+		return armyColor;
+	}
+	/**
+	 * Prints the status of the country
+	 * @return name, army, troops
+	 */
+	public String toString() {
+		String print = name + ": " + getColor(army);
+		if (army == OPEN) return print;
 		print += " (" + troops;
-		if (troops == 1)
-			return print + " troop)";
+		if (troops == 1) return print + " troop)";
 		return print + " troops)";
 	}
-	
-	
 	public static void main(String[] args) {
 		Country alpha = new Country("America");
 		alpha.occupy(0);
-		alpha.reinforce();
-		alpha.reinforce();
-		System.out.println(alpha);
+		alpha.troops += 2;
 		Country beta = new Country("Mexico");
 		beta.occupy(1);
-		beta.reinforce();
-		System.out.println(beta);
+		beta.troops ++;
 		beta.invade(alpha);
 	}
 }
