@@ -1,23 +1,28 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-
-class Country {
+/**
+ * The Country class represents a country in the board-game RISK.
+ * It is capabale of holding upto 100 troops from a single army but can also exist in an unoccupied state.
+ * @author Akhil Velagapudi
+ * @version 1.0
+ * @see Engine
+ */
+public class Country {
 
 	// Constants indicating the nation (color) occupying the territory
 	static final int OPEN = -1, YELLOW_ARMY = 0, GREEN_ARMY = 1, RED_ARMY = 2, BLUE_ARMY = 3, ORANGE_ARMY = 4;
 	// Name of the country
-	String name;
+	public String name;
 	// Integer representation of the army in question: based on the army constants
-	int army;
+	public int army;
 	// The amount of troops of the occupying nation on the specified country
-	int troops;
-
+	public int troops;
 	/**
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
 	 */
-	Country(String countryName) {
+	public Country(String countryName) {
 		name = countryName;
 		army = OPEN;
 		troops = 0;
@@ -26,16 +31,16 @@ class Country {
 	 * Updates the army that owns this territory.
 	 * @param teamNumber The team constant color to occupy this territory
 	 */
-	void occupy(int teamNumber) {
+	public void occupy(int teamNumber) {
 		army = teamNumber;
 		troops = 1;
 	}
 	/**
-	 * Simulates an invasion of the country by a foreign country.
+	 * Returns true if and only if
 	 * @param attacker The country attacking this country
-	 * @return true if invasion successful, false if not
+	 * @return true if invasion in successful, otherwise false
 	 */
-	boolean invade(Country attacker) {
+	public boolean invade(Country attacker) {
 		Random die = new Random();
 		System.out.println(attacker + "\n" + toString() + "\n\nThe " + getColor(attacker.army) + " attacks " + name + " from " + attacker.name + ".\n");
 		int attackDice = attacker.troops - 1, defendDice = troops;
