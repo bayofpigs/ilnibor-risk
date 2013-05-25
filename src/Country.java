@@ -36,13 +36,16 @@ public class Country {
 		troops = 1;
 	}
 	/**
-	 * Returns true if and only if
+	 * Attacker attacks the country once.
+	 * Returns true if and only if attacker successfully conquers the country.
 	 * @param attacker The country attacking this country
 	 * @return true if invasion in successful, otherwise false
+	 * @throws InterruptedException
 	 */
-	public boolean invade(Country attacker) {
+	public boolean invade(Country attacker) throws InterruptedException {
 		Random die = new Random();
-		System.out.println(attacker + "\n" + toString() + "\n\nThe " + getColor(attacker.army) + " attacks " + name + " from " + attacker.name + ".\n");
+		System.out.println("The " + getColor(attacker.army) + " attacks " + name + " from " + attacker.name + ".\n");
+		Thread.sleep(1000);
 		int attackDice = attacker.troops - 1, defendDice = troops;
 		if (attackDice == 0) return false;
 		if (attackDice > 3) attackDice = 3;
@@ -56,7 +59,9 @@ public class Country {
 		Collections.sort(attack);
 		Collections.reverse(defend);
 		Collections.reverse(attack);
-		System.out.println("Attacker: " + attack + " (" + attacker.name + ")\nDefender: " + defend + " (" + name + ")\n");
+		System.out.println("Attacker: " + attack + " (" + attacker.name + ")");
+		System.out.println("Defender: " + defend + " (" + name + ")\n");
+		Thread.sleep(2000);
 		if (attack.size() < defend.size()) defend.remove(1);
 		while (defend.size() < attack.size())
 			attack.remove(attack.size() - 1);
@@ -69,11 +74,30 @@ public class Country {
 			troops = attacker.troops - 1;
 			attacker.troops = 1;
 			army = attacker.army;
-			System.out.println(name + " has been conquered by the " + getColor(attacker.army) + ".\n\n" + attacker + "\n" + toString());
+			System.out.println(name + " has been conquered by the " + getColor(attacker.army) + ".\n");
 			return true;
 		}
-		System.out.println(name + " defends the attack by the " + getColor(attacker.army) + ".\n\n" + attacker + "\n" + toString());
+		System.out.println(name + " defends the attack by the " + getColor(attacker.army) + ".\n");
 		return false;
+	}
+	/**
+	 * Attacker keeps attacking the country until only one troop remains.
+	 * Returns true if and only if attacker successfully conquers the country.
+	 * @param attacker The country attacking this country
+	 * @return true if invasion in successful, otherwise false
+	 * @throws InterruptedException
+	 */
+	public boolean nuke(Country attacker) throws InterruptedException {
+		while (!invade(attacker)){
+			if (attacker.troops == 1)
+				return false;
+			System.out.println(attacker + "\n" + toString() + "\n");
+			Thread.sleep(5000);
+			for (int i = 0; i < 100; i ++)
+				System.out.println();
+			System.out.println(attacker + "\n" + toString() + "\n");
+		}
+		return true;
 	}
 	/**
 	 * Converts integer representation of army to a string
@@ -102,13 +126,17 @@ public class Country {
 		if (troops == 1) return print + " troop)";
 		return print + " troops)";
 	}
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		Country alpha = new Country("America");
 		alpha.occupy(0);
-		alpha.troops += 2;
+		alpha.troops += 5;
 		Country beta = new Country("Mexico");
 		beta.occupy(1);
-		beta.troops ++;
-		beta.invade(alpha);
+		beta.troops += 3;
+		for (int i = 0; i < 100; i ++)
+			System.out.println();
+		System.out.println(alpha + "\n" + beta + "\n");
+		beta.nuke(alpha);
+		System.out.println(alpha + "\n" + beta + "\n");
 	}
 }

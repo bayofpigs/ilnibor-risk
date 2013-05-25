@@ -2,7 +2,7 @@ import javax.swing.JFrame;
 public class GuiFrame extends JFrame {
 	public GuiFrame() {
 		add(new MainMenuPanel());
-		setTitle("iLNibor's Risk");
+		setTitle("iLNibor's RISK");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(900, 700);
 		setLocationRelativeTo(null);
