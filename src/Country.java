@@ -92,19 +92,28 @@ public class Country {
 				return false;
 			System.out.println(attacker + "\n" + toString() + "\n");
 			Thread.sleep(4000);
-			for (int i = 0; i < 100; i ++)
-				System.out.println();
+			System.out.println("-------------------------------\n");
 			System.out.println(attacker + "\n" + toString() + "\n");
 		}
 		return true;
 	}
-	public void reinforce(Country donator, int numTroops){
+	/**
+	 * Used after a successful attack or during the reinforce phase.
+	 * Enables the transfer of troops between two countries controlled by the same army.
+	 * @param donator The country donating the troops for reinforcement
+	 * @param numTroops The number of troops the country is donating for reinforcement
+	 * @return true if troops are transferred between the countries, otherwise false
+	 */
+	public boolean reinforce(Country donator, int numTroops){
+		if (numTroops == 0)
+			return false;
 		donator.troops -= numTroops;
 		troops += numTroops;
 		System.out.print("The " + getColor(donator.army) + " reinforced " + name + " with " + numTroops + " troop");
 		if (numTroops != 1)
 			System.out.print("s");
 		System.out.println(" from " + donator.name + "\n");
+		return true;
 	}
 	/**
 	 * Converts integer representation of army to a string
@@ -132,18 +141,5 @@ public class Country {
 		print += " (" + troops;
 		if (troops == 1) return print + " troop)";
 		return print + " troops)";
-	}
-	public static void main(String[] args) throws InterruptedException {
-		Country alpha = new Country("America");
-		alpha.occupy(0);
-		alpha.troops += 5;
-		Country beta = new Country("Mexico");
-		beta.occupy(1);
-		beta.troops += 3;
-		for (int i = 0; i < 100; i ++)
-			System.out.println();
-		System.out.println(alpha + "\n" + beta + "\n");
-		beta.nuke(alpha);
-		System.out.println(alpha + "\n" + beta + "\n");
 	}
 }
