@@ -71,10 +71,9 @@ public class Country {
 			else
 				attacker.troops--;
 		if (troops == 0) {
-			troops = attacker.troops - 1;
-			attacker.troops = 1;
 			army = attacker.army;
-			System.out.println(name + " has been conquered by the " + getColor(attacker.army) + ".\n");
+			System.out.println(name + " has been conquered by the " + getColor(attacker.army));
+			reinforce(attacker, attacker.troops - 1);
 			return true;
 		}
 		System.out.println(name + " defends the attack by the " + getColor(attacker.army) + ".\n");
@@ -92,12 +91,20 @@ public class Country {
 			if (attacker.troops == 1)
 				return false;
 			System.out.println(attacker + "\n" + toString() + "\n");
-			Thread.sleep(5000);
+			Thread.sleep(4000);
 			for (int i = 0; i < 100; i ++)
 				System.out.println();
 			System.out.println(attacker + "\n" + toString() + "\n");
 		}
 		return true;
+	}
+	public void reinforce(Country donator, int numTroops){
+		donator.troops -= numTroops;
+		troops += numTroops;
+		System.out.print("The " + getColor(donator.army) + " reinforced " + name + " with " + numTroops + " troop");
+		if (numTroops != 1)
+			System.out.print("s");
+		System.out.println(" from " + donator.name + "\n");
 	}
 	/**
 	 * Converts integer representation of army to a string
