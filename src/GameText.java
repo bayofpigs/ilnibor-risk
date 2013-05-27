@@ -1,5 +1,5 @@
-public class GameText{
-	public static void main(String[] args) throws InterruptedException{
+public class GameText {
+	public static void main(String[] args) throws InterruptedException {
 		Country alpha = new Country("America");
 		alpha.occupy(0);
 		alpha.troops += 5;

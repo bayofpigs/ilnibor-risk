@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+
 /**
  * The Country class represents a country in the board-game RISK.
  * It is capabale of holding upto 100 troops from a single army but can also exist in an unoccupied state.
@@ -9,15 +10,9 @@ import java.util.Random;
  * @see Engine
  */
 public class Country {
-
-	// Constants indicating the nation (color) occupying the territory
 	static final int OPEN = -1, YELLOW_ARMY = 0, GREEN_ARMY = 1, RED_ARMY = 2, BLUE_ARMY = 3, ORANGE_ARMY = 4;
-	// Name of the country
 	public String name;
-	// Integer representation of the army in question: based on the army constants
-	public int army;
-	// The amount of troops of the occupying nation on the specified country
-	public int troops;
+	public int army, troops;
 	/**
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
