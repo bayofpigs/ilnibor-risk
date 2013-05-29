@@ -1,13 +1,13 @@
 public class GameText {
 	public static void main(String[] args) throws InterruptedException {
-		Country alpha = new Country("America");
-		alpha.occupy(0);
-		alpha.troops += 5;
-		Country beta = new Country("Mexico");
-		beta.occupy(1);
-		beta.troops += 3;
-		System.out.println(alpha + "\n" + beta + "\n");
-		beta.nuke(alpha);
-		System.out.println(alpha + "\n" + beta + "\n");
+		Country america = new Country("America");
+		america.occupy(0);
+		america.troops += 5;
+		Country mexico = new Country("Mexico");
+		mexico.occupy(1);
+		mexico.troops += 3;
+		System.out.println(america + "\n" + mexico + "\n");
+		mexico.nuke(america);
+		System.out.println(america + "\n" + mexico + "\n");
 	}
 }
