@@ -10,24 +10,24 @@ import java.util.Random;
  * @see Engine
  */
 public class Country {
-	static final int OPEN = -1, YELLOW_ARMY = 0, GREEN_ARMY = 1, RED_ARMY = 2, BLUE_ARMY = 3, ORANGE_ARMY = 4;
 	public String name;
-	public int army, troops;
+	public int troops;
+	public Army army;
 	/**
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
 	 */
 	public Country(String countryName) {
 		name = countryName;
-		army = OPEN;
+		army = null;
 		troops = 0;
 	}
 	/**
 	 * Updates the army that owns this territory.
 	 * @param teamNumber The team constant color to occupy this territory
 	 */
-	public void occupy(int teamNumber) {
-		army = teamNumber;
+	public void occupy(Army anArmy) {
+		army = anArmy;
 		troops = 1;
 	}
 	/**
@@ -39,7 +39,7 @@ public class Country {
 	 */
 	public boolean invade(Country attacker) throws InterruptedException {
 		Random die = new Random();
-		System.out.println("The " + getColor(attacker.army) + " attacks " + name + " from " + attacker.name + ".\n");
+		System.out.println(attacker.army.armyName + " attacks " + name + " from " + attacker.name + ".\n");
 		Thread.sleep(1000);
 		int attackDice = attacker.troops - 1, defendDice = troops;
 		if (attackDice == 0) return false;
@@ -67,11 +67,11 @@ public class Country {
 				attacker.troops--;
 		if (troops == 0) {
 			army = attacker.army;
-			System.out.println(name + " has been conquered by the " + getColor(attacker.army));
+			System.out.println(name + " has been conquered by " + attacker.army.armyName);
 			reinforce(attacker, attacker.troops - 1);
 			return true;
 		}
-		System.out.println(name + " defends the attack by the " + getColor(attacker.army) + ".\n");
+		System.out.println(name + " defends the attack by " + attacker.army.armyName + ".\n");
 		return false;
 	}
 	/**
@@ -104,35 +104,19 @@ public class Country {
 			return false;
 		donator.troops -= numTroops;
 		troops += numTroops;
-		System.out.print("The " + getColor(donator.army) + " reinforced " + name + " with " + numTroops + " troop");
+		System.out.print(donator.army.armyName + " reinforced " + name + " with " + numTroops + " troop");
 		if (numTroops != 1)
 			System.out.print("s");
 		System.out.println(" from " + donator.name + "\n");
 		return true;
 	}
 	/**
-	 * Converts integer representation of army to a string
-	 * @param teamNumber Integer representation of the army in question: based on the army constants
-	 * @return String representation of the army in question: based on the color of the army
-	 */
-	public String getColor(int teamNumber) {
-		String armyColor = "No Man's Land";
-		switch (teamNumber) {
-			case 0 : armyColor = "Yellow Army";	break;
-			case 1 : armyColor = "Green Army";	break;
-			case 2 : armyColor = "Red Army";	break;
-			case 3 : armyColor = "Blue Army";	break;
-			case 4 : armyColor = "Orange Army";	break;
-		}
-		return armyColor;
-	}
-	/**
 	 * Prints the status of the country
 	 * @return name, army, troops
 	 */
 	public String toString() {
-		String print = name + ": " + getColor(army);
-		if (army == OPEN) return print;
+		String print = name + ": " + army.armyName;
+		if (army == null) return print;
 		print += " (" + troops;
 		if (troops == 1) return print + " troop)";
 		return print + " troops)";
