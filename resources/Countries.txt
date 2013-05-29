@@ -16,8 +16,7 @@ Scandinavia
 Northern Europe
 Southern Europe
 Western Europe
-West Ukraine
-East Ukraine
+Western Ukraine
 North Africa
 Egypt
 Congo
@@ -25,6 +24,7 @@ East Africa
 South Africa
 Madagascar
 Middle East
+Eastern Ukraine
 Afghanistan
 India
 China
@@ -34,9 +34,9 @@ Yakutsk
 Irkutsk
 Mongolia
 Kamchatka
+Japan
 Indonesia
 New Guinea
 Western Australia
 Eastern Australia
 LotR
-Japan

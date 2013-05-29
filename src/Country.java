@@ -10,6 +10,7 @@ import java.util.Random;
  * @see Engine
  */
 public class Country {
+	public ArrayList<Country> neighbors;
 	public String name;
 	public int troops;
 	public Army army;
@@ -19,8 +20,12 @@ public class Country {
 	 */
 	public Country(String countryName) {
 		name = countryName;
+		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
+	}
+	public void addNeighbors(ArrayList<Country> countryNeighbors){
+		neighbors = countryNeighbors;
 	}
 	/**
 	 * Updates the army that owns this territory.
@@ -30,6 +35,9 @@ public class Country {
 		army = anArmy;
 		troops = 1;
 	}
+	public boolean isNeighbor(Country other){
+		return neighbors.contains(other);
+	}
 	/**
 	 * Attacker attacks the country once.
 	 * Returns true if and only if attacker successfully conquers the country.
@@ -38,11 +46,11 @@ public class Country {
 	 * @throws InterruptedException
 	 */
 	public boolean invade(Country attacker) throws InterruptedException {
+		if (!isNeighbor(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
 		Random die = new Random();
 		System.out.println(attacker.army.armyName + " attacks " + name + " from " + attacker.name + ".\n");
 		Thread.sleep(1000);
 		int attackDice = attacker.troops - 1, defendDice = troops;
-		if (attackDice == 0) return false;
 		if (attackDice > 3) attackDice = 3;
 		if (defendDice > 2) defendDice = 2;
 		ArrayList<Integer> defend = new ArrayList<Integer>(), attack = new ArrayList<Integer>();
@@ -83,8 +91,7 @@ public class Country {
 	 */
 	public boolean nuke(Country attacker) throws InterruptedException {
 		while (!invade(attacker)){
-			if (attacker.troops == 1)
-				return false;
+			if (!isNeighbor(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
 			System.out.println(attacker + "\n" + toString() + "\n");
 			Thread.sleep(4000);
 			System.out.println("-------------------------------\n");
@@ -100,7 +107,7 @@ public class Country {
 	 * @return true if troops are transferred between the countries, otherwise false
 	 */
 	public boolean reinforce(Country donator, int numTroops){
-		if (numTroops == 0)
+		if (numTroops == 0 || !isNeighbor(donator) || !army.equals(donator.army))
 			return false;
 		donator.troops -= numTroops;
 		troops += numTroops;
