@@ -1,12 +1,11 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JMenuBar;
-import javax.swing.JButton;
-
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
  
 /**
  * TODO:
@@ -25,11 +24,13 @@ public class GuiFrame extends JFrame {
 	private GameBoardPanel gameBoard;
 	private String MENUPANEL = "Menu";
 	private String GAMEPANEL = "Game";
+	private ImageIcon icon = new ImageIcon("resources/iconimage.png");
 	
 	public GuiFrame() {
 		makeMenu();
 		this.setBackground(Color.white);
 		setTitle("iLNibor's RISK");
+		setIconImage(icon.getImage());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1179, 700);
 		setLocationRelativeTo(null);
