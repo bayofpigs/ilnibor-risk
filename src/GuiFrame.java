@@ -62,8 +62,9 @@ public class GuiFrame extends JFrame {
 									"Mike Zhang" +
 									"<br>Akhil Velegapudi" +
 									"<br>Sid Senthilkumar</font><br>" +
-									"And of course..." +
-									"<font size = \"20\" color = \"black\" face = \"georgia\"><br><u><i>Robin Li</i></u></font></p>" +
+									"In Loving Memory Of..." +
+									"<font size = \"20\" color = \"black\" face = \"georgia\"><br><i>Robin Li</i></font>" +
+									"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Our dear leader.</p>" +
 									//"<p style = \"color:gray\">" +
 									"<font size = \"20\" color = \"black\"><u>________</u></font>" + 
 									//"<font size = \"5\">Motto:<br><i>\"For Great Justice:<br>&nbsp;Take off every Zig\"</i></font></p>" +
