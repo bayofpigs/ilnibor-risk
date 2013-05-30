@@ -58,16 +58,30 @@ public class Engine {
 	public void preGame(){
 		for (int i = 0; unoccupiedTerritory(); i ++){
 			if (i > countries.size()) i = 0;
-			pickCountry().occupy(armies.get(i));
+			occupyCountry().occupy(armies.get(i));
 		}
 	}
 	
-	public Country pickCountry(){
+	public void game(){
+		
+	}
+	
+	public boolean checkGame(){
+		for (Army a: armies){
+			if (a.countries.size() == 0)
+				armies.remove(a);
+			for (Continent b: continents)
+				if (b.completeControl(a)) a.continents.add(b);
+		}
+		return (armies.size() > 1);
+	}
+	
+	public Country occupyCountry(){
 		//returns a country that is unoccupied (country.army = null) by reading mouse click
 		Country clickedOn = new Country("This is the country they clicked on", 5, 5);
 		if (clickedOn.army == null)
-			return pickCountry();
-		return clickedOn;
+			return clickedOn;
+		return pickCountry();
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {

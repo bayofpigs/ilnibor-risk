@@ -97,6 +97,8 @@ public class Country extends JLabel{
 			else
 				attacker.troops--;
 		if (troops == 0) {
+			if (army.continents.size() == 0)
+				attacker.army.riskCards += army.riskCards;
 			army = attacker.army;
 			color = army.armyColor;
 			System.out.println(name + " has been conquered by " + attacker.army.armyName);
