@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,10 +34,10 @@ public class GuiFrame extends JFrame {
 	private String GAMEPANEL = "Game";
 	private ImageIcon icon = new ImageIcon("resources/iconimage.png");
 	private Dimension frameSize;
+	private Engine game;
 	
-	public GuiFrame() {
+	public GuiFrame() throws FileNotFoundException {
 		makeMenu();
-		//this.setBackground(Color.white);
 		frameSize = new Dimension(1179, 700);
 		setTitle("iLNibor's RISK");
 		setIconImage(icon.getImage());
@@ -44,9 +47,14 @@ public class GuiFrame extends JFrame {
 		setResizable(false);
 		setLayout(new BorderLayout());
 		cards = new JPanel(new CardLayout());
-		
+		Army north = new Army(Color.RED, "Akhil");
+		Army south = new Army(Color.BLUE, "Sid");
+		ArrayList<Army> teams = new ArrayList<Army>();
+		teams.add(north);
+		teams.add(south);
+		game = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), teams);
 		mainMenu = new MainMenuPanel();
-		gameBoard = new GameBoardPanel();
+		gameBoard = new GameBoardPanel(game);
 		mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setMinimumSize(frameSize);
 		mainPanel.setMaximumSize(frameSize);
@@ -114,7 +122,7 @@ public class GuiFrame extends JFrame {
 		
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		GuiFrame g = new GuiFrame();
 		g.setVisible(true);
 	}

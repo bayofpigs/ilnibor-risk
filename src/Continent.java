@@ -21,7 +21,9 @@ public class Continent {
 		return 0;
 	}
 	public String toString(){
-		String print = continentName + " (" + continentValue + " troops)\n";
-		
+		String print = continentName + " (" + continentValue + " troops) -- " + territories.get(0).name;
+		for (int i = 1; i < territories.size(); i ++)
+			print += ", " + territories.get(i).name;
+		return print;
 	}
 }

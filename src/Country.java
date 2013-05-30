@@ -13,36 +13,31 @@ import java.awt.Dimension;
  * @version 1.0
  * @see Engine
  */
-@SuppressWarnings("serial")
 public class Country extends JLabel{
+	private static final long serialVersionUID = 1;
 	public ArrayList<Country> neighbors;
 	public String name;
 	public int troops;
 	public Army army;
 	public Color color;
-	private Dimension dim;
+	public Dimension dim;
 	/**
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
 	 */
-	public Country(String countryName) {
-		dim = new Dimension(25, 25);
+	public Country(String countryName, int leftBound, int rightBound) {
 		name = countryName;
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
 		color = Color.LIGHT_GRAY;
-		this.setOpaque(true);
-		this.setPreferredSize(dim);
-		this.setHorizontalAlignment(SwingConstants.CENTER);
-		this.setVerticalAlignment(SwingConstants.CENTER);
+		setOpaque(true);
+		setPreferredSize(new Dimension(25, 25));
+		setHorizontalAlignment(SwingConstants.CENTER);
+		setVerticalAlignment(SwingConstants.CENTER);
+		setBounds(leftBound, rightBound, 25, 25);
 		updateLabel();
 	}
-	
-	public Dimension getDim() {
-		return dim;
-	}
-	
 	public void updateLabel(){
 		setBackground(color);
 		setText("" + troops);

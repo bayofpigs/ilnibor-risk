@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.util.ArrayList;
 
 public class GameBoardPanel extends JPanel{
 	private String mapImgDir;
@@ -18,7 +19,7 @@ public class GameBoardPanel extends JPanel{
 	// The size of the map
 	private final Dimension BGSIZE = new Dimension(1179, 700); 
 	
-	public GameBoardPanel() {
+	public GameBoardPanel(Engine game) {
 		setPreferredSize(BGSIZE);
 		setMaximumSize(BGSIZE);
 		setMinimumSize(BGSIZE);
@@ -30,7 +31,7 @@ public class GameBoardPanel extends JPanel{
 		mapImgDir = "resources/map.jpg";
 		mapImg = (new ImageIcon(mapImgDir)).getImage();
 		
-		setUpButtons();
+		setUpButtons(game.countries);
 		
 		this.addMouseListener(
 			new MouseAdapter() {
@@ -42,12 +43,9 @@ public class GameBoardPanel extends JPanel{
 		);
 	}
 	
-	public void setUpButtons() {
-		Country c1 = new Country("iLNibor Land");
-		Insets insets = this.getInsets();
-		Dimension dim = c1.getDim();
-		c1.setBounds(insets.left + 134, insets.top + 134, dim.width, dim.height);
-		add(c1);
+	public void setUpButtons(ArrayList<Country> countries) {
+		for (Country a: countries)
+			add(a);
 	}
 	
 	public void paintComponent(Graphics g) {

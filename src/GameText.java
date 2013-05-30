@@ -4,11 +4,11 @@ import java.util.Arrays;
 
 public class GameText {
 	public static void main(String[] args) throws InterruptedException {
-		Country america = new Country("America");
+		Country america = new Country("America", 50, 50);
 		Army north = new Army(Color.RED, "Akhil");
 		america.occupy(north);
 		america.troops += 5;
-		Country mexico = new Country("Mexico");
+		Country mexico = new Country("Mexico", 100, 100);
 		Army south = new Army(Color.BLUE, "Sid");
 		mexico.occupy(south);
 		mexico.troops += 3;
