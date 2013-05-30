@@ -30,8 +30,6 @@ public class Country extends JLabel{
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
-		color = Color.LIGHT_GRAY;
-		//setOpaque(true);
 		setPreferredSize(new Dimension(25, 25));
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setVerticalAlignment(SwingConstants.CENTER);
@@ -39,7 +37,8 @@ public class Country extends JLabel{
 		updateLabel();
 	}
 	public void updateLabel(){
-		setBackground(color);
+		if (army != null)
+			setForeground(army.armyColor);
 		setText("" + troops);
 	}
 	

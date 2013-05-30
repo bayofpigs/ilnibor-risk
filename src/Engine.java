@@ -10,7 +10,7 @@ public class Engine {
 	public Engine(File mapCountries, File mapNeighbors, File mapContinents, ArrayList<Army> gameArmies) throws FileNotFoundException{
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
-		armies = new ArrayList<Army>();
+		armies = gameArmies;
 		Scanner a = new Scanner(mapCountries);
 		buildCountries(a);
 		a = new Scanner(mapNeighbors);

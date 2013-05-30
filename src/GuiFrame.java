@@ -55,6 +55,7 @@ public class GuiFrame extends JFrame {
 		game = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), teams);
 		mainMenu = new MainMenuPanel();
 		gameBoard = new GameBoardPanel(game);
+		game.countries.get(0).occupy(game.armies.get(0));
 		mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setMinimumSize(frameSize);
 		mainPanel.setMaximumSize(frameSize);
