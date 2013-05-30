@@ -76,12 +76,16 @@ public class Engine {
 		return (armies.size() > 1);
 	}
 	
+	public void readClick(Country c) {
+		System.out.println("Country " + c);
+	}
+	
 	public Country occupyCountry(){
 		//returns a country that is unoccupied (country.army = null) by reading mouse click
 		Country clickedOn = new Country("This is the country they clicked on", 5, 5);
 		if (clickedOn.army == null)
 			return clickedOn;
-		return pickCountry();
+		return occupyCountry();
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {

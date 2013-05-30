@@ -15,11 +15,12 @@ import java.util.ArrayList;
 public class GameBoardPanel extends JPanel{
 	private String mapImgDir;
 	private Image mapImg;
-	
+	private Engine game;
 	// The size of the map
 	private final Dimension BGSIZE = new Dimension(1179, 700); 
 	
-	public GameBoardPanel(Engine game) {
+	public GameBoardPanel(Engine en) {
+		game = en;
 		setPreferredSize(BGSIZE);
 		setMaximumSize(BGSIZE);
 		setMinimumSize(BGSIZE);
@@ -33,19 +34,31 @@ public class GameBoardPanel extends JPanel{
 		
 		setUpButtons(game.countries);
 		
-		this.addMouseListener(
-			new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					System.out.println(e.getPoint());
-				}
-			}
-		
-		);
+//		this.addMouseListener(
+//			new MouseAdapter() {
+//				public void mouseClicked(MouseEvent e) {
+//					System.out.println(e.getPoint());
+//				}
+//			}
+//		
+//		);
 	}
 	
 	public void setUpButtons(ArrayList<Country> countries) {
-		for (Country a: countries)
+		for (Country a: countries) {
+			a.addMouseListener(
+				new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						processClick((Country)e.getSource());
+					}
+				}
+			) ;
 			add(a);
+		}
+	}
+	
+	public void processClick(Country c) {
+		game.readClick(c);
 	}
 	
 	public void paintComponent(Graphics g) {
