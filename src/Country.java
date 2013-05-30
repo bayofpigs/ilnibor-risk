@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -25,7 +26,7 @@ public class Country extends JLabel{
 	 * @param countryName The name of the country.
 	 */
 	public Country(String countryName) {
-		dim = new Dimension(10, 20);
+		dim = new Dimension(25, 25);
 		name = countryName;
 		neighbors = new ArrayList<Country>();
 		army = null;
@@ -33,6 +34,8 @@ public class Country extends JLabel{
 		color = Color.LIGHT_GRAY;
 		this.setOpaque(true);
 		this.setPreferredSize(dim);
+		this.setHorizontalAlignment(SwingConstants.CENTER);
+		this.setVerticalAlignment(SwingConstants.CENTER);
 		updateLabel();
 	}
 	
@@ -44,9 +47,11 @@ public class Country extends JLabel{
 		setBackground(color);
 		setText("" + troops);
 	}
+	
 	public void addNeighbors(ArrayList<Country> countryNeighbors){
 		neighbors = countryNeighbors;
 	}
+	
 	/**
 	 * Updates the army that owns this territory.
 	 * @param teamNumber The team constant color to occupy this territory
@@ -57,9 +62,11 @@ public class Country extends JLabel{
 		troops = 1;
 		updateLabel();
 	}
+	
 	public boolean isNeighbor(Country other){
 		return neighbors.contains(other);
 	}
+	
 	/**
 	 * Attacker attacks the country once.
 	 * Returns true if and only if attacker successfully conquers the country.
@@ -107,6 +114,7 @@ public class Country extends JLabel{
 		System.out.println(name + " defends the attack by " + attacker.army.armyName + ".\n");
 		return false;
 	}
+	
 	/**
 	 * Attacker keeps attacking the country until only one troop remains.
 	 * Returns true if and only if attacker successfully conquers the country.
@@ -124,6 +132,7 @@ public class Country extends JLabel{
 		}
 		return true;
 	}
+	
 	/**
 	 * Used after a successful attack or during the reinforce phase.
 	 * Enables the transfer of troops between two countries controlled by the same army.
@@ -143,6 +152,7 @@ public class Country extends JLabel{
 		updateLabel();
 		return true;
 	}
+	
 	/**
 	 * Prints the status of the country
 	 * @return name, army, troops
