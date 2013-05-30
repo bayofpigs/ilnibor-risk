@@ -20,4 +20,8 @@ public class Continent {
 			return continentValue;
 		return 0;
 	}
+	public String toString(){
+		String print = continentName + " (" + continentValue + " troops)\n";
+		
+	}
 }
