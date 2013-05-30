@@ -18,11 +18,13 @@ public class Engine {
 		a = new Scanner(mapContinents);
 		buildContinents(a);
 	}
+	
 	public void buildCountries(Scanner in){
 		int a = Integer.parseInt(in.nextLine());
 		for (int i = 0; i < a; i ++)
 			countries.add(new Country(in.nextLine()));
 	}
+	
 	public void buildNeighbors(Scanner in){
 		int a = in.nextInt();
 		for (int i = 0; i < a; i ++){
@@ -46,6 +48,7 @@ public class Engine {
 			continents.add(new Continent(continentName, troopValue, temp));
 		}
 	}
+	
 	public static void main(String[] args) throws FileNotFoundException {
 		Engine alpha = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"));
 	}

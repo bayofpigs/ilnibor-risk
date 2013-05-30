@@ -1,43 +1,127 @@
 42
 Alaska
+68
+85
 Northwest Territory
+126
+136
 Alberta
+119
+185
 Ontario
+191
+202
 Quebec
+257
+192
 Greenland
+331
+101
 Western United States
+120
+269
 Eastern United States
+207
+292
 Central America
+138
+332
 Venezuela
+292
+414
 Brazil
+374
+499
 Argentina
+334
+565
 Iceland
+488
+134
 Great Britain
+541
+157
 Scandinavia
+609
+103
 Northern Europe
+613
+207
 Southern Europe
+629
+245
 Western Europe
+556
+219
 Western Ukraine
+662
+197
 North Africa
+550
+370
 Egypt
+654
+365
 Congo
+627
+449
 East Africa
+684
+464
 South Africa
+642
+524
 Madagascar
+746
+515
 Middle East
+710
+324
 Eastern Ukraine
+784
+148
 Afghanistan
+759
+234
 India
+827
+318
 China
+876
+266
 Siam
+908
+329
 Siberia
+847
+126
 Yakutsk
+924
+77
 Irkutsk
+925
+154
 Mongolia
+925
+223
 Kamchatka
+1004
+75
 Japan
+1021
+257
 Indonesia
+954
+417
 New Guinea
+1054
+423
 Western Australia
+971
+520
 Eastern Australia
+1063
+526
 LotR
+1106
+553

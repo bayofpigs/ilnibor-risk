@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 public class GameBoardPanel extends JPanel{
 	private String mapImgDir;
@@ -29,13 +31,22 @@ public class GameBoardPanel extends JPanel{
 		mapImg = (new ImageIcon(mapImgDir)).getImage();
 		
 		setUpButtons();
+		
+		this.addMouseListener(
+			new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					System.out.println(e.getPoint());
+				}
+			}
+		
+		);
 	}
 	
 	public void setUpButtons() {
 		Country c1 = new Country("iLNibor Land");
 		Insets insets = this.getInsets();
 		Dimension dim = c1.getDim();
-		c1.setBounds(insets.left + 100, insets.top + 100, dim.width, dim.height);
+		c1.setBounds(insets.left + 134, insets.top + 134, dim.width, dim.height);
 		add(c1);
 	}
 	
