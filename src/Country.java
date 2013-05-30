@@ -122,9 +122,9 @@ public class Country {
 	 * @return name, army, troops
 	 */
 	public String toString() {
-		String print = name + ": " + army.armyName;
-		if (army == null) return print;
-		print += " (" + troops;
+		String print = name + ": ";
+		if (army == null) return print + "No Man's Land";
+		print += army.armyName + " (" + troops;
 		if (troops == 1) return print + " troop)";
 		return print + " troops)";
 	}
