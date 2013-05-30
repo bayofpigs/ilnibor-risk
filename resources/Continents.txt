@@ -1,0 +1,24 @@
+North America
+5
+0
+8
+South America
+2
+9
+11
+Europe
+5
+12
+18
+Africa
+3
+19
+25
+Asia
+7
+26
+36
+Australia
+2
+37
+41
