@@ -49,6 +49,27 @@ public class Engine {
 		}
 	}
 	
+	public boolean unoccupiedTerritory(){
+		for (Country a: countries)
+			if (a.army == null) return true;
+		return false;
+	}
+	
+	public void preGame(){
+		for (int i = 0; unoccupiedTerritory(); i ++){
+			if (i > countries.size()) i = 0;
+			pickCountry().occupy(armies.get(i));
+		}
+	}
+	
+	public Country pickCountry(){
+		//returns a country that is unoccupied (country.army = null) by reading mouse click
+		Country clickedOn = new Country("This is the country they clicked on", 5, 5);
+		if (clickedOn.army == null)
+			return pickCountry();
+		return clickedOn;
+	}
+	
 	public static void main(String[] args) throws FileNotFoundException {
 		Engine alpha = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), null);
 	}
