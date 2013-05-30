@@ -27,6 +27,16 @@ public class GameBoardPanel extends JPanel{
 		
 		mapImgDir = "resources/map.jpg";
 		mapImg = (new ImageIcon(mapImgDir)).getImage();
+		
+		setUpButtons();
+	}
+	
+	public void setUpButtons() {
+		Country c1 = new Country("iLNibor Land");
+		Insets insets = this.getInsets();
+		Dimension dim = c1.getDim();
+		c1.setBounds(insets.left + 100, insets.top + 100, dim.width, dim.height);
+		add(c1);
 	}
 	
 	public void paintComponent(Graphics g) {

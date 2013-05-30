@@ -25,12 +25,13 @@ public class Country extends JLabel{
 	 * @param countryName The name of the country.
 	 */
 	public Country(String countryName) {
-		dim = new Dimension(50, 50);
+		dim = new Dimension(10, 20);
 		name = countryName;
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
 		color = Color.LIGHT_GRAY;
+		this.setOpaque(true);
 		this.setPreferredSize(dim);
 		updateLabel();
 	}
