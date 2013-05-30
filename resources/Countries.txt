@@ -1,16 +1,16 @@
 42
 Alaska
-68
-85
+67
+88
 Northwest Territory
 126
-136
+130
 Alberta
 119
 185
 Ontario
 191
-202
+200
 Quebec
 257
 192
@@ -22,7 +22,7 @@ Western United States
 269
 Eastern United States
 207
-292
+290
 Central America
 138
 332
@@ -36,8 +36,8 @@ Argentina
 334
 565
 Iceland
-488
-134
+472
+130
 Great Britain
 541
 157
@@ -54,8 +54,8 @@ Western Europe
 556
 219
 Western Ukraine
-662
-197
+673
+188
 North Africa
 550
 370
@@ -73,7 +73,7 @@ South Africa
 524
 Madagascar
 746
-515
+510
 Middle East
 710
 324

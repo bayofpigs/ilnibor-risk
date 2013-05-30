@@ -31,7 +31,7 @@ public class Country extends JLabel{
 		army = null;
 		troops = 0;
 		color = Color.LIGHT_GRAY;
-		setOpaque(true);
+		//setOpaque(true);
 		setPreferredSize(new Dimension(25, 25));
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setVerticalAlignment(SwingConstants.CENTER);
