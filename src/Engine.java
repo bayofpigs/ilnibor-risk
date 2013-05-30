@@ -57,12 +57,19 @@ public class Engine {
 	
 	public void preGame(){
 		for (int i = 0; unoccupiedTerritory(); i ++){
-			if (i > countries.size()) i = 0;
+			if (i > armies.size()) i = 0;
 			occupyCountry().occupy(armies.get(i));
 		}
 	}
 	
 	public void game(){
+		for (int i = 0; checkGame(); i ++){
+			if (i > armies.size()) i = 0;
+			
+		}
+	}
+	
+	public void reinforce(){
 		
 	}
 	
