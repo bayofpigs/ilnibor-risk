@@ -62,6 +62,10 @@ public class Engine {
 		}
 	}
 	
+	public void readClick(Country c) {
+		System.out.println("Country " + c);
+	}
+	
 	public Country pickCountry(){
 		//returns a country that is unoccupied (country.army = null) by reading mouse click
 		Country clickedOn = new Country("This is the country they clicked on", 5, 5);
