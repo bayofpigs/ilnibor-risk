@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Dimension;
 
 /**
  * The Country class represents a country in the board-game RISK.
@@ -9,20 +12,36 @@ import java.util.Random;
  * @version 1.0
  * @see Engine
  */
-public class Country {
+@SuppressWarnings("serial")
+public class Country extends JLabel{
 	public ArrayList<Country> neighbors;
 	public String name;
 	public int troops;
 	public Army army;
+	public Color color;
+	private Dimension dim;
 	/**
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
 	 */
 	public Country(String countryName) {
+		dim = new Dimension(50, 50);
 		name = countryName;
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
+		color = Color.LIGHT_GRAY;
+		this.setPreferredSize(dim);
+		updateLabel();
+	}
+	
+	public Dimension getDim() {
+		return dim;
+	}
+	
+	public void updateLabel(){
+		setBackground(color);
+		setText("" + troops);
 	}
 	public void addNeighbors(ArrayList<Country> countryNeighbors){
 		neighbors = countryNeighbors;
@@ -33,7 +52,9 @@ public class Country {
 	 */
 	public void occupy(Army anArmy) {
 		army = anArmy;
+		color = anArmy.armyColor;
 		troops = 1;
+		updateLabel();
 	}
 	public boolean isNeighbor(Country other){
 		return neighbors.contains(other);
@@ -75,10 +96,13 @@ public class Country {
 				attacker.troops--;
 		if (troops == 0) {
 			army = attacker.army;
+			color = army.armyColor;
 			System.out.println(name + " has been conquered by " + attacker.army.armyName);
 			reinforce(attacker, attacker.troops - 1);
+			updateLabel();
 			return true;
 		}
+		updateLabel();
 		System.out.println(name + " defends the attack by " + attacker.army.armyName + ".\n");
 		return false;
 	}
@@ -115,6 +139,7 @@ public class Country {
 		if (numTroops != 1)
 			System.out.print("s");
 		System.out.println(" from " + donator.name + "\n");
+		updateLabel();
 		return true;
 	}
 	/**
