@@ -7,14 +7,18 @@ public class Engine {
 	ArrayList<Country> countries;
 	ArrayList<Continent> continents;
 	ArrayList<Army> armies;
+	
 	public Engine(File mapCountries, File mapNeighbors, File mapContinents, ArrayList<Army> gameArmies) throws FileNotFoundException{
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		armies = gameArmies;
+		
 		Scanner a = new Scanner(mapCountries);
 		buildCountries(a);
+		
 		a = new Scanner(mapNeighbors);
 		buildNeighbors(a);
+		
 		a = new Scanner(mapContinents);
 		buildContinents(a);
 	}
@@ -35,6 +39,7 @@ public class Engine {
 			countries.get(i).addNeighbors(temp);
 		}
 	}
+	
 	public void buildContinents(Scanner in){
 		int a = Integer.parseInt(in.nextLine());
 		for (int i = 0; i < a; i ++){

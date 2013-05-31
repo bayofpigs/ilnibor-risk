@@ -32,13 +32,14 @@ public class GuiFrame extends JFrame {
 	private JPanel sidePanel;
 	private String MENUPANEL = "Menu";
 	private String GAMEPANEL = "Game";
-	private ImageIcon icon = new ImageIcon("resources/iconimage.png");
+	private ImageIcon icon;
 	private Dimension frameSize;
 	private Engine game;
 	
 	public GuiFrame() throws FileNotFoundException {
 		makeMenu();
 		frameSize = new Dimension(1179, 700);
+		icon = new ImageIcon("resources/iconimage.png");
 		setTitle("iLNibor's RISK");
 		setIconImage(icon.getImage());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -47,15 +48,20 @@ public class GuiFrame extends JFrame {
 		setResizable(false);
 		setLayout(new BorderLayout());
 		cards = new JPanel(new CardLayout());
+		
 		Army north = new Army(Color.RED, "Akhil");
 		Army south = new Army(Color.BLUE, "Sid");
 		ArrayList<Army> teams = new ArrayList<Army>();
 		teams.add(north);
 		teams.add(south);
-		game = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), teams);
+		game = new Engine(new File("resources/Countries.txt"), 
+			   new File("resources/Neighbors.txt"), 
+			   new File("resources/Continents.txt"), teams);
+		
 		mainMenu = new MainMenuPanel();
 		gameBoard = new GameBoardPanel(game);
 		game.countries.get(0).occupy(game.armies.get(0));
+		
 		mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setMinimumSize(frameSize);
 		mainPanel.setMaximumSize(frameSize);
@@ -78,6 +84,7 @@ public class GuiFrame extends JFrame {
 									"<font size = \"20\" color = \"black\"><u>________</u></font>" + 
 									//"<font size = \"5\">Motto:<br><i>\"For Great Justice:<br>&nbsp;Take off every Zig\"</i></font></p>" +
 								  "</html>");
+		
 		sidePanel.setBackground(Color.white);
 		sidePanel.add(title, BorderLayout.WEST);
 		mainPanel.add(sidePanel);
