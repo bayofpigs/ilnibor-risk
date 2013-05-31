@@ -15,9 +15,6 @@ import javax.swing.JLabel;
  
 /**
  * TODO:
- * Implement GameBoardPanel
- * Implement buttons on the mainmenu and have the buttons
- * 	transition the layout to the actual gameboard
  * 
  * @see documentation on cardLayout 
  * 	(here: http://docs.oracle.com/javase/tutorial/uiswing/layout/card.html)

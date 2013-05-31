@@ -3,32 +3,49 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The game engine for the Risk game
+ * @author Akhil Velegapudi
+ *
+ */
 public class Engine {
-	ArrayList<Country> countries;
-	ArrayList<Continent> continents;
-	ArrayList<Army> armies;
+	ArrayList<Country> countries; // The array of countries; to be read from Countries.txt
+	ArrayList<Continent> continents; // The array of continents, to be read from Continents.txt
+	ArrayList<Army> armies; // The array of Armies to be read from input
 	
 	public Engine(File mapCountries, File mapNeighbors, File mapContinents, ArrayList<Army> gameArmies) throws FileNotFoundException{
+		// Initialize the array variables
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		armies = gameArmies;
 		
+		// Fill the countries array with the contents of Countries.txt file
 		Scanner a = new Scanner(mapCountries);
 		buildCountries(a);
 		
+		// Add neighbors to each country
 		a = new Scanner(mapNeighbors);
 		buildNeighbors(a);
 		
+		// Fill the continents array with the contents of the Continents.txt file
 		a = new Scanner(mapContinents);
 		buildContinents(a);
 	}
 	
+	/**
+	 * Builds the country array
+	 * @param in: The scanner containing the file with the country data
+	 */
 	public void buildCountries(Scanner in){
 		int a = Integer.parseInt(in.nextLine());
 		for (int i = 0; i < a; i ++)
 			countries.add(new Country(in.nextLine(), Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine())));
 	}
 	
+	/**
+	 * Sets the neighbors of each country
+	 * @param in: The scanner containing the file with the neighbor data
+	 */
 	public void buildNeighbors(Scanner in){
 		int a = in.nextInt();
 		for (int i = 0; i < a; i ++){
@@ -40,6 +57,10 @@ public class Engine {
 		}
 	}
 	
+	/**
+	 * Builds the continents array
+	 * @param in: The scanner containing the file with Continent Data
+	 */
 	public void buildContinents(Scanner in){
 		int a = Integer.parseInt(in.nextLine());
 		for (int i = 0; i < a; i ++){
@@ -54,6 +75,11 @@ public class Engine {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return A Boolean indicated whether or not any territories remained
+	 * unoccupied
+	 */
 	public boolean unoccupiedTerritory(){
 		for (Country a: countries)
 			if (a.army == null) return true;
