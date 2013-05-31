@@ -6,8 +6,15 @@ import java.util.Scanner;
 /**
  * The game engine for the Risk game
  * @author Akhil Velegapudi
+ * @Code_Reviewer Mike Zhang
+ *
+ *TODO
+ *Separate the gameArmies build variable thing from the constructor or at least add a separate setArmies
+ *once debugging is over. It would be better to have the user input the number of players and
+ *the army names through the GUI.
  *
  */
+
 public class Engine {
 	ArrayList<Country> countries; // The array of countries; to be read from Countries.txt
 	ArrayList<Continent> continents; // The array of continents, to be read from Continents.txt
@@ -85,6 +92,7 @@ public class Engine {
 			if (a.army == null) return true;
 		return false;
 	}
+	
 	
 	public void preGame(){
 		for (int i = 0; unoccupiedTerritory(); i ++){
