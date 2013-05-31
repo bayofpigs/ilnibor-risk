@@ -6,6 +6,8 @@ import java.util.Scanner;
 /**
  * The game engine for the Risk game
  * @author Akhil Velegapudi
+ * @version 1.0
+ * @see Game
  * @Code_Reviewer Mike Zhang
  *
  *TODO
@@ -16,10 +18,11 @@ import java.util.Scanner;
  */
 
 public class Engine {
-	ArrayList<Country> countries; // The array of countries; to be read from Countries.txt
-	ArrayList<Continent> continents; // The array of continents, to be read from Continents.txt
-	ArrayList<Army> armies; // The array of Armies to be read from input
-	
+	public ArrayList<Country> countries; // The array of countries; to be read from Countries.txt
+	public ArrayList<Continent> continents; // The array of continents, to be read from Continents.txt
+	public ArrayList<Army> armies; // The array of Armies to be read from input
+	public int gameState;
+	private static final int PRE_GAME = 0, REINFORCE_A = 1, RECRUIT = 2, ATTACK = 3, OCCUPY = 4, REINFORCE_B = 5;
 	public Engine(File mapCountries, File mapNeighbors, File mapContinents, ArrayList<Army> gameArmies) throws FileNotFoundException{
 		// Initialize the array variables
 		countries = new ArrayList<Country>();
