@@ -25,15 +25,15 @@ public class Country extends JLabel{
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
 	 */
-	public Country(String countryName, int leftBound, int rightBound) {
+	public Country(String countryName, int leftBound, int topBound) {
 		name = countryName;
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
-		setPreferredSize(new Dimension(25, 25));
+		setPreferredSize(new Dimension(40, 40));
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setVerticalAlignment(SwingConstants.CENTER);
-		setBounds(leftBound, rightBound, 25, 25);
+		setBounds(leftBound - 10, topBound - 10, 40, 40);
 		updateLabel();
 	}
 	public void updateLabel(){

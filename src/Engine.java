@@ -22,13 +22,28 @@ public class Engine {
 	public ArrayList<Continent> continents; // The array of continents, to be read from Continents.txt
 	public ArrayList<Army> armies; // The array of Armies to be read from input
 	public int gameState;
-	private static final int PRE_GAME = 0, REINFORCE_A = 1, RECRUIT = 2, ATTACK = 3, OCCUPY = 4, REINFORCE_B = 5;
+	private Army turn;
+	private static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK = 3, OCCUPY = 4, FORTIFY = 5, END_GAME = 6;
+	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
+	/*
+	 * Text versions:
+	 * PRE_GAME, OCCUPY = "OCCUPY"
+	 * REINFORCE_A, RECRUIT = "REINFORCE"
+	 * ATTACK = "ATTACK"
+	 * FORTIFY = "FORTIFY"
+	 * END_GAME = "GAME OVER"
+	 */
 	public Engine(File mapCountries, File mapNeighbors, File mapContinents, ArrayList<Army> gameArmies) throws FileNotFoundException{
 		// Initialize the array variables
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		armies = gameArmies;
-		
+		for (int i = 2; i < 40; i += 2)
+			riskValues.add(i);
+		for (Army a: armies){
+			a.addReinforcements(armies.size());
+			a.addRiskValues(riskValues);
+		}
 		// Fill the countries array with the contents of Countries.txt file
 		Scanner a = new Scanner(mapCountries);
 		buildCountries(a);
@@ -40,6 +55,8 @@ public class Engine {
 		// Fill the continents array with the contents of the Continents.txt file
 		a = new Scanner(mapContinents);
 		buildContinents(a);
+		turn = armies.get(0);
+		gameState = 0;
 	}
 	
 	/**
@@ -96,25 +113,6 @@ public class Engine {
 		return false;
 	}
 	
-	
-	public void preGame(){
-		for (int i = 0; unoccupiedTerritory(); i ++){
-			if (i > armies.size()) i = 0;
-			occupyCountry().occupy(armies.get(i));
-		}
-	}
-	
-	public void game(){
-		for (int i = 0; checkGame(); i ++){
-			if (i > armies.size()) i = 0;
-			
-		}
-	}
-	
-	public void reinforce(){
-		
-	}
-	
 	public boolean checkGame(){
 		for (Army a: armies){
 			if (a.countries.size() == 0)
@@ -126,15 +124,34 @@ public class Engine {
 	}
 	
 	public void readClick(Country c) {
-		System.out.println("Country " + c);
+		if (gameState == 0) preGame(c);
+		else if (gameState == 1) reinforce(c);
+		System.out.println(c);
 	}
 	
-	public Country occupyCountry(){
-		//returns a country that is unoccupied (country.army = null) by reading mouse click
-		Country clickedOn = new Country("This is the country they clicked on", 5, 5);
-		if (clickedOn.army == null)
-			return clickedOn;
-		return occupyCountry();
+	public void preGame(Country c){
+		if (c.troops != 0)
+			return;
+		c.occupy(turn);
+		turn.reinforcements --;
+		if (armies.indexOf(turn) == armies.size() - 1) turn = armies.get(0);
+		else turn = armies.get(armies.indexOf(turn) + 1);
+		if (!unoccupiedTerritory()) gameState = 1;
+	}
+	
+	public void reinforce(Country c){
+		if (!c.army.equals(turn) || turn.reinforcements < 1)
+			return;
+		c.troops ++;
+		turn.reinforcements --;
+		if (armies.indexOf(turn) == armies.size() - 1) turn = armies.get(0);
+		else turn = armies.get(armies.indexOf(turn) + 1);
+		gameState = 2;
+		for (Army a: armies)
+			if (a.reinforcements != 0) gameState = 1;
+		if (gameState == 2)
+			for (Army a: armies)
+				a.reinforcements();
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {
