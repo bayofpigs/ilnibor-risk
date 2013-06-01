@@ -54,7 +54,6 @@ public class Country extends JLabel{
 		army = anArmy;
 		color = anArmy.armyColor;
 		troops = 1;
-		updateLabel();
 	}
 	
 	public boolean isNeighbor(Country other){
@@ -103,10 +102,8 @@ public class Country extends JLabel{
 			color = army.armyColor;
 			System.out.println(name + " has been conquered by " + attacker.army.armyName);
 			reinforce(attacker, attacker.troops - 1);
-			updateLabel();
 			return true;
 		}
-		updateLabel();
 		System.out.println(name + " defends the attack by " + attacker.army.armyName + ".\n");
 		return false;
 	}

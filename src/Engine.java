@@ -127,6 +127,7 @@ public class Engine {
 		if (gameState == 0) preGame(c);
 		else if (gameState == 1) reinforce(c);
 		System.out.println(c);
+		c.updateLabel();
 	}
 	
 	public void preGame(Country c){
