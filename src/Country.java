@@ -30,6 +30,10 @@ public class Country extends JLabel{
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
+		
+		// Debug -- sets the hit box to opaque
+		setOpaque(true);
+		
 		setPreferredSize(new Dimension(40, 40));
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setVerticalAlignment(SwingConstants.CENTER);

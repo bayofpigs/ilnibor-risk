@@ -23,7 +23,7 @@ public class Engine {
 	public ArrayList<Army> armies; // The array of Armies to be read from input
 	public int gameState;
 	private Army turn;
-	private static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK = 3, OCCUPY = 4, FORTIFY = 5, END_GAME = 6;
+	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK = 3, OCCUPY = 4, FORTIFY = 5, END_GAME = 6;
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
 	/*
 	 * Text versions:

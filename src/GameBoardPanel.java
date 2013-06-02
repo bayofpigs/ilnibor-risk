@@ -1,6 +1,7 @@
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JButton;
 
 import java.awt.Graphics;
 import java.awt.Insets;
@@ -27,11 +28,16 @@ import java.util.ArrayList;
  */
 public class GameBoardPanel extends JPanel{
 	private String mapImgDir; // String directory of where the map image is located
+	private String phaseCompleteDir;
+	private ImageIcon phaseCompleteImage;
+	private JButton phaseComplete;
 	private Image mapImg; // Stores the map image
 	private Engine game; // The engine of the game
 	private final Dimension BGSIZE; // The size of the map
+	private boolean buttonAppear;
 	
 	public GameBoardPanel(Engine en) {
+		buttonAppear = false;
 		// Set the size of the gameboard
 		BGSIZE = new Dimension(1179, 700);
 		
@@ -56,14 +62,29 @@ public class GameBoardPanel extends JPanel{
 		// the game engine and resources/countries.txt
 		setUpButtons(game.countries);
 		
+		// Setups turn based labels and buttons
+		setupCurrentPlayer();
+		
 		//  Click Coordinate finder, for debug purposes
-//		this.addMouseListener(
-//			new MouseAdapter() {
-//				public void mouseClicked(MouseEvent e) {
-//					System.out.println(e.getPoint());
-//				}
-//			}
-//		);
+		this.addMouseListener(
+			new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					System.out.println(e.getPoint());
+				}
+			}
+		);
+	}
+	
+	public void setupCurrentPlayer() {
+		phaseCompleteDir = "resources/turndone.png";
+		phaseCompleteImage = new ImageIcon(phaseCompleteDir);
+		phaseComplete = new JButton(phaseCompleteImage);
+		Insets insets = this.getInsets();
+		phaseComplete.setBounds(insets.left + 46, insets.top + 443, 
+								phaseCompleteImage.getIconWidth(), 
+								phaseCompleteImage.getIconHeight());
+		
+		add(phaseComplete);
 	}
 	
 	/**
