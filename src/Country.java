@@ -5,6 +5,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 /**
  * The Country class represents a country in the board-game RISK.
@@ -21,6 +22,7 @@ public class Country extends JLabel{
 	public Army army;
 	public Color color;
 	public Dimension dim;
+	public boolean attackPosition;
 	/**
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
@@ -41,9 +43,9 @@ public class Country extends JLabel{
 		updateLabel();
 	}
 	public void updateLabel(){
-		if (army != null)
-			setForeground(army.armyColor);
+		if (army != null) setForeground(army.armyColor);
 		setText("" + troops);
+		if (attackPosition) setText("=" + troops + "=");
 	}
 	
 	public void addNeighbors(ArrayList<Country> countryNeighbors){
