@@ -135,8 +135,7 @@ public class Engine {
 			return;
 		c.occupy(turn);
 		turn.reinforcements --;
-		if (armies.indexOf(turn) == armies.size() - 1) turn = armies.get(0);
-		else turn = armies.get(armies.indexOf(turn) + 1);
+		rotate();
 		if (!unoccupiedTerritory()) gameState = 1;
 	}
 	
@@ -145,14 +144,18 @@ public class Engine {
 			return;
 		c.troops ++;
 		turn.reinforcements --;
-		if (armies.indexOf(turn) == armies.size() - 1) turn = armies.get(0);
-		else turn = armies.get(armies.indexOf(turn) + 1);
+		rotate();
 		gameState = 2;
 		for (Army a: armies)
 			if (a.reinforcements != 0) gameState = 1;
 		if (gameState == 2)
 			for (Army a: armies)
 				a.reinforcements();
+	}
+	
+	public void rotate(){
+		if (armies.indexOf(turn) == armies.size() - 1) turn = armies.get(0);
+		else turn = armies.get(armies.indexOf(turn) + 1);
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException {
