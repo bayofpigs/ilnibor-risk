@@ -88,7 +88,7 @@ public class ImageButton extends JLabel {
 		frame.pack();
 
 		// Add Image File location
-		javax.swing.JLabel imageButton = new ImageButton("Alaska.png");
+		javax.swing.JLabel imageButton = new ImageButton("resources/Country Images/Alaska.png");
 
 		// add the button to the panel so that it becomes visible
 		panel.add(imageButton);
