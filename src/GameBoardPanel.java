@@ -35,10 +35,10 @@ public class GameBoardPanel extends JPanel{
 	private Image mapImg; // Stores the map image
 	private Engine game; // The engine of the game
 	private final Dimension BGSIZE; // The size of the map
-	private boolean buttonAppear;
+	private ColorTurnIndicator turnIndicator;
 	
 	public GameBoardPanel(Engine en) {
-		buttonAppear = false;
+		
 		// Set the size of the gameboard
 		BGSIZE = new Dimension(1179, 700);
 		
@@ -85,7 +85,12 @@ public class GameBoardPanel extends JPanel{
 								phaseCompleteImage.getIconWidth(), 
 								phaseCompleteImage.getIconHeight());
 		
+		turnIndicator = new ColorTurnIndicator();
+		Dimension indDim = turnIndicator.getDim();
+		turnIndicator.setBounds(insets.left + 46, insets.top + 550,
+								indDim.width, indDim.height);
 		add(phaseComplete);
+		add(turnIndicator);
 	}
 	
 	/**
