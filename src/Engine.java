@@ -65,8 +65,14 @@ public class Engine {
 	 */
 	public void buildCountries(Scanner in){
 		int a = Integer.parseInt(in.nextLine());
+		String countryName = "";
+		String fileName = "";
 		for (int i = 0; i < a; i ++)
-			countries.add(new Country(in.nextLine(), Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine())));
+		{
+			countryName = in.nextLine();
+			fileName = "resources/Country Images/" + countryName;
+			countries.add(new Country(countryName, Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine()), fileName));
+		}
 	}
 	
 	/**

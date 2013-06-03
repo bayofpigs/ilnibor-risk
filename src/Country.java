@@ -9,15 +9,16 @@ import java.awt.Font;
 
 /**
  * The Country class represents a country in the board-game RISK.
- * It is capabale of holding upto 100 troops from a single army but can also exist in an unoccupied state.
+ * It is capable of holding up to 100 troops from a single army but can also exist in an unoccupied state.
  * @author Akhil Velagapudi
  * @version 1.0
  * @see Engine
  */
-public class Country extends JLabel{
+public class Country extends ImageButton{
 	private static final long serialVersionUID = 1;
 	public ArrayList<Country> neighbors;
 	public String name;
+	public String fileName;
 	public int troops;
 	public Army army;
 	public Color color;
@@ -27,8 +28,10 @@ public class Country extends JLabel{
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
 	 */
-	public Country(String countryName, int leftBound, int topBound) {
+	public Country(String countryName, int leftBound, int topBound, String fileLocation) {
+		super(fileLocation);
 		name = countryName;
+		fileName = fileLocation;
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
