@@ -23,7 +23,7 @@ import javax.swing.JLabel;
  */
 public class ImageButton extends JLabel {
 	private static final long serialVersionUID = 1L;
-	private static Image image;
+	public static Image image;
 	public MouseAdapter mouseAdapter;
 
 	public ImageButton(String fileName) {

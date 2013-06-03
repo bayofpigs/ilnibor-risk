@@ -43,6 +43,9 @@ public class Country extends ImageButton{
 		//setHorizontalAlignment(SwingConstants.CENTER);
 		//setVerticalAlignment(SwingConstants.CENTER);
 		setBounds(leftBound, topBound, 300, 300);
+		
+		// Debug -- sets the hit box to opaque
+		//setOpaque(true);
 		updateLabel();
 	}
 	public void updateLabel(){
