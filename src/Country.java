@@ -47,11 +47,9 @@ public class Country extends ImageButton{
 		// Debug -- sets the hit box to opaque
 		//setOpaque(true);
 		
-		//setPreferredSize(new Dimension(40, 40));
-		//setHorizontalAlignment(SwingConstants.CENTER);
-		//setVerticalAlignment(SwingConstants.CENTER);
-		//setBounds(leftBound - 10, topBound - 10, 40, 40);
-		//updateLabel();
+		setPreferredSize(new Dimension(250, 250));
+		setBounds(leftBound, topBound, 250, 250);
+		updateLabel();
 	}
 	public void updateLabel(){
 		if (army != null) setForeground(army.armyColor);

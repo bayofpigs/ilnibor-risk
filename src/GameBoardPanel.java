@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -99,8 +100,10 @@ public class GameBoardPanel extends JPanel{
 				// adds a click listener to each country
 				new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
-						// sends the click to the process click method
-						processClick((Country)e.getSource());
+						boolean transparent = ((BufferedImage) ((Country)(e.getSource())).image).getRGB(e.getX(), e.getY()) == Color.white.getRGB();
+						if (!transparent) {
+							processClick((Country)e.getSource());
+						}
 					}
 				}
 			) ;
