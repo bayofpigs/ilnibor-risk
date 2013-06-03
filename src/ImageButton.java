@@ -13,9 +13,10 @@ import javax.swing.JLabel;
 
 /**
  * This class represents a JButton that is in the shape of any image
- * The image location should be passed as a parameter in the constructor as a String
+ * The image directory should be passed as a parameter in the constructor as a String
  * Any pixels in the image that are white are treated as transparent and will not be
- * visible Override the method buttonPressed() with whatever code you wish to
+ * visible 
+ * Override the method buttonPressed() with whatever code you wish to
  * execute when the button is pressed
  * 
  * @author Sid

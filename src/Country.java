@@ -7,7 +7,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
+
+
 /**
+ * TODO: 
+ * Find where the Country label is being created and its bounds set
+ * Fix the bounds so that the label displays properly on the map, not just weird squares/rectangles
+ * Align the images of the countries on the map by modifying the countries.txt file
+ * Change Black Images to Country Images so that images are transparent again
+ * 
  * The Country class represents a country in the board-game RISK.
  * It is capable of holding up to 100 troops from a single army but can also exist in an unoccupied state.
  * @author Akhil Velagapudi
@@ -42,8 +50,8 @@ public class Country extends ImageButton{
 		//setPreferredSize(new Dimension(40, 40));
 		//setHorizontalAlignment(SwingConstants.CENTER);
 		//setVerticalAlignment(SwingConstants.CENTER);
-		setBounds(leftBound - 10, topBound - 10, 40, 40);
-		updateLabel();
+		//setBounds(leftBound - 10, topBound - 10, 40, 40);
+		//updateLabel();
 	}
 	public void updateLabel(){
 		if (army != null) setForeground(army.armyColor);

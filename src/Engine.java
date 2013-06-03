@@ -70,7 +70,7 @@ public class Engine {
 		for (int i = 0; i < a; i ++)
 		{
 			countryName = in.nextLine();
-			fileName = "resources/Country Images/" + countryName + ".png";
+			fileName = "resources/Black Images/" + countryName + ".png";
 			countries.add(new Country(countryName, Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine()), fileName));
 		}
 	}
