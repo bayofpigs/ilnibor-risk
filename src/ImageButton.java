@@ -42,6 +42,7 @@ public class ImageButton extends JLabel {
 		try {
 			image = javax.imageio.ImageIO.read(new java.io.File(fileName));
 		} catch (IOException e) {
+			System.out.println(fileName);
 			e.printStackTrace();
 		}
 		ImageIcon icon = new javax.swing.ImageIcon(makeColorTransparent(image, Color.WHITE));
