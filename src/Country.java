@@ -1,12 +1,8 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-
 
 
 /**
@@ -43,15 +39,11 @@ public class Country extends ImageButton{
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
-		
-		// Debug -- sets the hit box to opaque
-		//setOpaque(true);
-		
-		//setPreferredSize(new Dimension(40, 40));
+		setPreferredSize(new Dimension(300, 300));
 		//setHorizontalAlignment(SwingConstants.CENTER);
 		//setVerticalAlignment(SwingConstants.CENTER);
-		//setBounds(leftBound - 10, topBound - 10, 40, 40);
-		//updateLabel();
+		setBounds(leftBound, topBound, 300, 300);
+		updateLabel();
 	}
 	public void updateLabel(){
 		if (army != null) setForeground(army.armyColor);

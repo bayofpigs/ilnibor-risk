@@ -83,7 +83,9 @@ public class GameBoardPanel extends JPanel{
 		phaseComplete.setBounds(insets.left + 46, insets.top + 443, 
 								phaseCompleteImage.getIconWidth(), 
 								phaseCompleteImage.getIconHeight());
-		
+		phaseComplete.addMouseListener(
+			new MouseAdapter() {public void mouseClicked(MouseEvent e) {endClick();}}
+		);
 		add(phaseComplete);
 	}
 	
@@ -96,14 +98,8 @@ public class GameBoardPanel extends JPanel{
 	public void setUpButtons(ArrayList<Country> countries) {
 		for (Country a: countries) {
 			a.addMouseListener(
-				// adds a click listener to each country
-				new MouseAdapter() {
-					public void mouseClicked(MouseEvent e) {
-						// sends the click to the process click method
-						processClick((Country)e.getSource());
-					}
-				}
-			) ;
+				new MouseAdapter() {public void mouseClicked(MouseEvent e) {processClick((Country)e.getSource());}}
+			);
 			add(a);
 		}
 	}
@@ -111,6 +107,10 @@ public class GameBoardPanel extends JPanel{
 	public void processClick(Country c) {
 		// sends information on the country clicked to the Engine to be processed
 		game.readClick(c);
+	}
+	
+	public void endClick(){
+		game.endClick();
 	}
 	
 	/**

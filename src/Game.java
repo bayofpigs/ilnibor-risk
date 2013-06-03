@@ -19,11 +19,8 @@ public class Game {
 		teams.add(south);
 		teams.add(east);
 		teams.add(west);
-		Engine engine = new Engine(new File("resources/Countries.txt"), 
-				   new File("resources/Neighbors.txt"), 
-				   new File("resources/Continents.txt"), teams); 
+		Engine engine = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), teams); 
 		GuiFrame gui = new GuiFrame(engine);
-		gui.setVisible(true);
-		
+		gui.setVisible(true);		
 	}
 }

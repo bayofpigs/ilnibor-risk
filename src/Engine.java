@@ -23,7 +23,7 @@ public class Engine {
 	public ArrayList<Army> armies; // The array of Armies to be read from input
 	public int gameState;
 	private Army turn;
-	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK = 3, OCCUPY = 4, FORTIFY = 5, END_GAME = 6;
+	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, ATTACK_B = 4, OCCUPY = 5, FORTIFY = 6, END_GAME = 7;
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
 	/*
 	 * Text versions:
@@ -130,10 +130,15 @@ public class Engine {
 	}
 	
 	public void readClick(Country c) {
-		if (gameState == 0) preGame(c);
-		else if (gameState == 1) reinforce(c);
+		if (gameState == OCCUPY) preGame(c);
+		else if (gameState == REINFORCE) reinforce(c);
 		System.out.println(c);
 		c.updateLabel();
+	}
+	
+	public void endClick(){
+		if (gameState == RECRUIT) gameState = ATTACK_A;
+		else if (gameState == ATTACK_A || gameState == ATTACK_B) gameState = FORTIFY;
 	}
 	
 	public void preGame(Country c){
@@ -162,9 +167,5 @@ public class Engine {
 	public void rotate(){
 		if (armies.indexOf(turn) == armies.size() - 1) turn = armies.get(0);
 		else turn = armies.get(armies.indexOf(turn) + 1);
-	}
-	
-	public static void main(String[] args) throws FileNotFoundException {
-		Engine alpha = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), null);
 	}
 }
