@@ -16,7 +16,8 @@ public class Army {
 		risk = riskValues;
 	}
 	public void addReinforcements(int armies){
-		if (armies == 3) reinforcements += 35;
+		if (armies == 2) reinforcements += 40;
+		else if (armies == 3) reinforcements += 35;
 		else if (armies == 4) reinforcements += 30;
 		else if (armies == 5) reinforcements += 25;
 	}

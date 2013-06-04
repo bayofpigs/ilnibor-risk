@@ -47,7 +47,7 @@ public class ColorTurnIndicator extends JPanel {
 		case Engine.ATTACK_A:
 			textLabel.setText("ATTACK");
 			break;
-		case Engine.FORTIFY:
+		case Engine.FORTIFY_A:
 			textLabel.setText("FORTIFY");
 			break;
 		case Engine.END_GAME:

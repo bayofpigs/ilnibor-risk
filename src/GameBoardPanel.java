@@ -112,10 +112,15 @@ public class GameBoardPanel extends JPanel{
 				new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
 						Country country = (Country)(e.getSource());
-						boolean transparent = ((BufferedImage) country.image).getRGB(e.getX(), e.getY()) == Color.white.getRGB();
-						if (!transparent) {
-							processClick(country);
-						}
+						//boolean transparent = ((BufferedImage) country.image).getRGB(e.getX(), e.getY()) == Color.white.getRGB();
+						//if (!transparent) {
+							try {
+								processClick(country);
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						//}
 					}
 				}
 			) ;
@@ -123,7 +128,7 @@ public class GameBoardPanel extends JPanel{
 		}
 	}
 	
-	public void processClick(Country c) {
+	public void processClick(Country c) throws InterruptedException {
 		// sends information on the country clicked to the Engine to be processed
 		game.readClick(c);
 	}

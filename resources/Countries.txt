@@ -1,70 +1,70 @@
 42
 Alaska
-35
-45
+68
+85
 Northwest Territory
-62
-30
+126
+136
 Alberta
-73
-138
+119
+185
 Ontario
-160
-58
+191
+202
 Quebec
-500
-500
+257
+192
 Greenland
-272
-10
+331
+101
 Western United States
-40
-170
+120
+269
 Eastern United States
-180
-200
+207
+292
 Central America
-60
-260
+138
+332
 Venezuela
-235
-390
+292
+414
 Brazil
-280
-406
+374
+499
 Argentina
-276
-422
-Iceland
-475
-25
-Great Britain
-500
-50
-Scandinavia
-514
-94
-Northern Europe
-500
-50
-Southern Europe
-500
-127
-Western Europe
-501
-52
-Western Ukraine
-470
-17
-North Africa
-467
-252
-Egypt
-470
-265
-Congo
-544
 334
+565
+Iceland
+488
+134
+Great Britain
+541
+157
+Scandinavia
+609
+103
+Northern Europe
+613
+207
+Southern Europe
+629
+245
+Western Europe
+556
+219
+Western Ukraine
+662
+197
+North Africa
+550
+370
+Egypt
+654
+365
+Congo
+627
+449
 East Africa
 684
 464
@@ -72,56 +72,56 @@ South Africa
 642
 524
 Madagascar
-695
-428
+746
+515
 Middle East
-684
-0
+710
+324
 Eastern Ukraine
-709
-27
+784
+148
 Afghanistan
-715
-28
+759
+234
 India
-708
-20
+827
+318
 China
-760
-77
+876
+266
 Siam
-758
-23
+908
+329
 Siberia
-735
--50
+847
+126
 Yakutsk
-858
--32
+924
+77
 Irkutsk
-760
-74
+925
+154
 Mongolia
-755
-75
+925
+223
 Kamchatka
-914
--16
+1004
+75
 Japan
-976
-175
+1021
+257
 Indonesia
-897
-360
+954
+417
 New Guinea
 1054
 423
 Western Australia
-933
-417
+971
+520
 Eastern Australia
-900
-358
+1063
+526
 LotR
-996
-353
+1106
+553

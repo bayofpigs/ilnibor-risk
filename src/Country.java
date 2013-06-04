@@ -3,6 +3,8 @@ import java.util.Collections;
 import java.util.Random;
 import java.awt.Color;
 import java.awt.Dimension;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 
 /**
@@ -18,7 +20,7 @@ import java.awt.Dimension;
  * @version 1.0
  * @see Engine
  */
-public class Country extends ImageButton{
+public class Country extends JLabel{
 	private static final long serialVersionUID = 1;
 	public ArrayList<Country> neighbors;
 	public String name;
@@ -33,16 +35,16 @@ public class Country extends ImageButton{
 	 * @param countryName The name of the country.
 	 */
 	public Country(String countryName, int leftBound, int topBound, String fileLocation) {
-		super(fileLocation, leftBound, topBound, countryName);
+		//super(fileLocation, leftBound, topBound, countryName);
 		name = countryName;
 		fileName = fileLocation;
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
-		setPreferredSize(new Dimension(300, 300));
-		//setHorizontalAlignment(SwingConstants.CENTER);
-		//setVerticalAlignment(SwingConstants.CENTER);
-		//setBounds(leftBound, topBound, 300, 300);
+		setPreferredSize(new Dimension(25, 25));
+		setHorizontalAlignment(SwingConstants.CENTER);
+		setVerticalAlignment(SwingConstants.CENTER);
+		setBounds(leftBound, topBound, 25, 25);
 		
 		// Debug -- sets the hit box to opaque
 		//setOpaque(true);
