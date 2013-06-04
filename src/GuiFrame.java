@@ -4,9 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +21,7 @@ import javax.swing.JLabel;
  * @author That Kid Named Sid
  *
  */
+@SuppressWarnings("serial")
 public class GuiFrame extends JFrame {
 	private JPanel cards; // The primary, center panel of the board. Flips through multiple pages in response to user input
 	private JPanel mainPanel; // A panel containing the mainMenu of the game. Features the mainMenu and a panel containing text
