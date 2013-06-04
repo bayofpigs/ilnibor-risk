@@ -92,7 +92,9 @@ public class GameBoardPanel extends JPanel{
 		this.addMouseListener(
 			new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					int index = new Color((((BufferedImage) countryMap).getRGB(e.getX(), e.getY()))).getBlue();
+					int index = 1000;
+					if (!(e.getX() >= 1160))
+						index = new Color((((BufferedImage) countryMap).getRGB(e.getX() - 14, e.getY()))).getBlue();
 					processColor(index, e.getPoint());
 				}
 			}
@@ -108,7 +110,7 @@ public class GameBoardPanel extends JPanel{
 				e.printStackTrace();
 			}
 		else if (blueIndex >= game.countries.size())
-			System.out.println(blueIndex);
+			System.out.println(x);
 		else
 			System.out.println("Why is the blueIndex less than one?!?!?!");
 	}
