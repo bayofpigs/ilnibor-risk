@@ -12,8 +12,8 @@ public class ColorTurnIndicator extends JPanel {
 	public ColorTurnIndicator() {
 		displayDimension = new Dimension(200, 70);
 		textLabel = new JLabel();
-		textLabel.setAlignmentX(SwingConstants.CENTER);
-		textLabel.setAlignmentY(SwingConstants.CENTER);
+		textLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		textLabel.setVerticalAlignment(SwingConstants.CENTER);
 		
 		this.setMinimumSize(displayDimension);
 		this.setMaximumSize(displayDimension);
@@ -36,22 +36,22 @@ public class ColorTurnIndicator extends JPanel {
 	public void setText(int state) {
 		switch(state) {
 		case Engine.PRE_GAME:
-			textLabel.setText("OCCUPY");
+			textLabel.setText("<html><font size = \"20\" face = \"georgia\">OCCUPY</font></html>");
 			break;
 		case Engine.REINFORCE:
-			textLabel.setText("REINFORCE");
+			textLabel.setText("<html><font size = \"20\" face = \"georgia\">REINFORCE</font></html>");
 			break;
 		case Engine.RECRUIT:
-			textLabel.setText("REINFORCE");
+			textLabel.setText("<html><font size = \"20\" face = \"georgia\">REINFORCE</font></html>");
 			break;
 		case Engine.ATTACK_A:
-			textLabel.setText("ATTACK");
+			textLabel.setText("<html><font size = \"20\" face = \"georgia\">ATTACK</font></html>");
 			break;
 		case Engine.FORTIFY_A:
-			textLabel.setText("FORTIFY");
+			textLabel.setText("<html><font size = \"20\" face = \"georgia\">FORTIFY</font></html>");
 			break;
 		case Engine.END_GAME:
-			textLabel.setText("GAME OVER");
+			textLabel.setText("<html><font size = \"20\" face = \"georgia\">GAME OVER</font></html>");
 			break;
 		}
 	}

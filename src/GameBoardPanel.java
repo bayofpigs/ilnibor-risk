@@ -37,8 +37,12 @@ public class GameBoardPanel extends JPanel{
 	private Engine game; // The engine of the game
 	private final Dimension BGSIZE; // The size of the map
 	private ColorTurnIndicator turnIndicator;
+	int previousState;
+	Color previousColor;
 	
 	public GameBoardPanel(Engine en) {
+		previousState = 0;
+		previousColor = Color.gray;
 		
 		// Set the size of the gameboard
 		BGSIZE = new Dimension(1179, 700);
@@ -91,10 +95,26 @@ public class GameBoardPanel extends JPanel{
 		
 		turnIndicator = new ColorTurnIndicator();
 		Dimension indDim = turnIndicator.getDim();
-		turnIndicator.setBounds(insets.left + 46, insets.top + 550,
+		turnIndicator.setBounds(insets.left + 46, insets.top + 520,
 								indDim.width, indDim.height);
+		
+		turnIndicator.setText(game.gameState);
+		previousState = game.gameState;
+		turnIndicator.changeColor(game.turn.armyColor);
+		previousColor = game.turn.armyColor;
 		add(phaseComplete);
 		add(turnIndicator);
+	}
+	
+	public void updateIndicator() {
+		if (game.gameState != previousState) {
+			turnIndicator.setText(game.gameState);
+		}
+		previousState = game.gameState;
+		if (!game.turn.armyColor.equals(previousColor)) {
+			turnIndicator.changeColor(game.turn.armyColor);
+		}
+		previousColor = game.turn.armyColor;
 	}
 	/**
 	 * TODO:
@@ -114,12 +134,16 @@ public class GameBoardPanel extends JPanel{
 						Country country = (Country)(e.getSource());
 						//boolean transparent = ((BufferedImage) country.image).getRGB(e.getX(), e.getY()) == Color.white.getRGB();
 						//if (!transparent) {
+						
 							try {
 								processClick(country);
+								
 							} catch (InterruptedException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
+							
+							updateIndicator();
 						//}
 					}
 				}
