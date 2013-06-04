@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -9,9 +10,17 @@ import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageProducer;
+import java.awt.image.RGBImageFilter;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -30,10 +39,12 @@ import java.util.Date;
  */
 public class GameBoardPanel extends JPanel{
 	private String mapImgDir; // String directory of where the map image is located
+	private String countryMapDir; //String directory of where the country map image is located
 	private String phaseCompleteDir;
 	private ImageIcon phaseCompleteImage;
 	private JButton phaseComplete;
 	private Image mapImg; // Stores the map image
+	private BufferedImage countryMap; //Stores map with corresponding country images
 	private Engine game; // The engine of the game
 	private final Dimension BGSIZE; // The size of the map
 	private ColorTurnIndicator turnIndicator;
@@ -58,7 +69,17 @@ public class GameBoardPanel extends JPanel{
 		// Insert the map image into the mapImg variable
 		// The map is drawn onto the gameboard in the paintcomponent() method
 		mapImgDir = "resources/map.jpg";
-		mapImg = (new ImageIcon(mapImgDir)).getImage();
+		mapImg = new ImageIcon(mapImgDir).getImage();
+		
+		// Creates the map object that contains the corresponding countries associated
+		// with x, y coordinates on map.jpg
+		countryMapDir = "resources/map.png";
+		try {
+			countryMap = ImageIO.read(new File(countryMapDir));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		
 		// setup the labels of troop numbers for each country as prescribed by 
 		// the game engine and resources/countries.txt
@@ -71,10 +92,25 @@ public class GameBoardPanel extends JPanel{
 		this.addMouseListener(
 			new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					System.out.println(e.getPoint());
+					int index = new Color((((BufferedImage) countryMap).getRGB(e.getX(), e.getY()))).getBlue();
+					processColor(index, e.getPoint());
 				}
 			}
 		);
+	}
+	
+	public void processColor(int blueIndex, Point x)
+	{
+		if (blueIndex >= 0 && blueIndex < game.countries.size())
+			try {
+				processClick(game.countries.get(blueIndex));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		else if (blueIndex >= game.countries.size())
+			System.out.println(blueIndex);
+		else
+			System.out.println("Why is the blueIndex less than one?!?!?!");
 	}
 	
 	public void setupCurrentPlayer() {

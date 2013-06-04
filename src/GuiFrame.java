@@ -68,7 +68,7 @@ public class GuiFrame extends JFrame {
 		// Initializes the cards variable
 		cards = new JPanel(new CardLayout());
 		
-		// Removde Tester code (don't know if this should have be here, Akhil
+		// Removed Tester code (don't know if this should have be here, Akhil
 		// it might be better to make a separate class, say Game.java,
 		// to put a tester like this.)
 		
