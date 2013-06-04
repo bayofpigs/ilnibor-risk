@@ -96,9 +96,10 @@ public class GameBoardPanel extends JPanel{
 		add(phaseComplete);
 		add(turnIndicator);
 	}
+
 	/**
-	 * TODO:
-	 * Having some problems in this method/reading clicks; check it out
+	 * TODO: rename setUpButtons and update references to this method; 
+	 * the counters on the map are no longer buttons
 	 */
 	/**
 	 * Places an arraylist of Countries in their appropriate positions 
@@ -108,22 +109,6 @@ public class GameBoardPanel extends JPanel{
 	**/
 	public void setUpButtons(ArrayList<Country> countries) {
 		for (Country a: countries) {
-			a.addMouseListener(
-				new MouseAdapter() {
-					public void mouseClicked(MouseEvent e) {
-						Country country = (Country)(e.getSource());
-						//boolean transparent = ((BufferedImage) country.image).getRGB(e.getX(), e.getY()) == Color.white.getRGB();
-						//if (!transparent) {
-							try {
-								processClick(country);
-							} catch (InterruptedException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						//}
-					}
-				}
-			) ;
 			add(a);
 		}
 	}
