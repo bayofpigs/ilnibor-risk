@@ -46,13 +46,10 @@ public class Country extends ImageButton{
 		
 		// Debug -- sets the hit box to opaque
 		//setOpaque(true);
-<<<<<<< HEAD
 		
 		//Following two lines were put into the ImageButton class
 		//setPreferredSize(new Dimension(250, 350));
 		//setBounds(leftBound, topBound, 250, 350);
-=======
->>>>>>> branch 'master' of https://github.com/bayofpigs/ilnibor-risk.git
 		updateLabel();
 	}
 	public void updateLabel(){
