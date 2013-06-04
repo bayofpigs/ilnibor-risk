@@ -37,7 +37,7 @@ public class Country extends ImageButton{
 	 * @param countryName The name of the country.
 	 */
 	public Country(String countryName, int leftBound, int topBound, String fileLocation) {
-		super(fileLocation);
+		super(fileLocation, leftBound, topBound, countryName);
 		name = countryName;
 		fileName = fileLocation;
 		neighbors = new ArrayList<Country>();
@@ -47,8 +47,9 @@ public class Country extends ImageButton{
 		// Debug -- sets the hit box to opaque
 		//setOpaque(true);
 		
-		setPreferredSize(new Dimension(250, 250));
-		setBounds(leftBound, topBound, 250, 250);
+		//Following two lines were put into the ImageButton class
+		//setPreferredSize(new Dimension(250, 350));
+		//setBounds(leftBound, topBound, 250, 350);
 		updateLabel();
 	}
 	public void updateLabel(){

@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * 
@@ -87,7 +88,10 @@ public class GameBoardPanel extends JPanel{
 		
 		add(phaseComplete);
 	}
-	
+	/**
+	 * TODO:
+	 * Having some problems in this method/reading clicks; check it out
+	 */
 	/**
 	 * Places an arraylist of Countries in their appropriate positions 
 	 * In general, is called from the constructor with reference to the 
@@ -100,9 +104,10 @@ public class GameBoardPanel extends JPanel{
 				// adds a click listener to each country
 				new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
-						boolean transparent = ((BufferedImage) ((Country)(e.getSource())).image).getRGB(e.getX(), e.getY()) == Color.white.getRGB();
+						Country country = (Country)(e.getSource());
+						boolean transparent = ((BufferedImage) country.image).getRGB(e.getX(), e.getY()) == Color.white.getRGB();
 						if (!transparent) {
-							processClick((Country)e.getSource());
+							processClick(country);
 						}
 					}
 				}
