@@ -48,8 +48,9 @@ public class GameBoardPanel extends JPanel{
 	private Engine game; // The engine of the game
 	private final Dimension BGSIZE; // The size of the map
 	private ColorTurnIndicator turnIndicator;
-	int previousState;
-	Color previousColor;
+	private int previousState;
+	private Color previousColor;
+	private JLabel reinIndicator;
 	
 	public GameBoardPanel(Engine en) {
 		previousState = 0;
@@ -133,15 +134,23 @@ public class GameBoardPanel extends JPanel{
 		
 		turnIndicator = new ColorTurnIndicator();
 		Dimension indDim = turnIndicator.getDim();
-		turnIndicator.setBounds(insets.left + 46, insets.top + 550,
+		turnIndicator.setBounds(insets.left + 46, insets.top + 530,
 								indDim.width, indDim.height);
+		
+		reinIndicator = new JLabel();
 		
 		turnIndicator.setText(game.gameState);
 		previousState = game.gameState;
 		turnIndicator.changeColor(game.turn.armyColor);
+		
+		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " 
+														+ game.turn.reinforcements + "</font></head>");
+		reinIndicator.setBounds(insets.left + 46, insets.top + 590, indDim.width, indDim.height);
+		
 		previousColor = game.turn.armyColor;
 		add(phaseComplete);
 		add(turnIndicator);
+		add(reinIndicator);
 	}
 	
 	public void updateIndicator() {
@@ -153,6 +162,9 @@ public class GameBoardPanel extends JPanel{
 			turnIndicator.changeColor(game.turn.armyColor);
 		}
 		previousColor = game.turn.armyColor;
+		
+		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " 
+				+ game.turn.reinforcements + "</font></head>");
 	}
 	/**
 	 * TODO: rename setUpButtons and update references to this method; 

@@ -156,13 +156,13 @@ public class Engine {
 	}
 	
 	public void reinforce(Country c){
-		if (!c.army.equals(turn) || turn.reinforcements < 1) return;
+		if (!c.army.equals(turn)) return;
 		c.troops ++;
 		turn.reinforcements --;
 		rotate();
 		gameState = RECRUIT;
 		for (Army a: armies)
-			if (a.reinforcements != 0) gameState = REINFORCE;
+			if (a.reinforcements > 0) gameState = REINFORCE;
 		if (gameState == RECRUIT)
 			for (Army a: armies)
 				a.reinforcements();

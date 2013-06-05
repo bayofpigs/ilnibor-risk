@@ -36,22 +36,22 @@ public class ColorTurnIndicator extends JPanel {
 	public void setText(int state) {
 		switch(state) {
 		case Engine.PRE_GAME:
-			textLabel.setText("<html><font size = \"20\" face = \"georgia\">OCCUPY</font></html>");
+			textLabel.setText("<html><font color = \"white\" size = \"10\" face = \"georgia\">OCCUPY</font></html>");
 			break;
 		case Engine.REINFORCE:
-			textLabel.setText("<html><font size = \"20\" face = \"georgia\">REINFORCE</font></html>");
+			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">REINFORCE</font></html>");
 			break;
 		case Engine.RECRUIT:
-			textLabel.setText("<html><font size = \"20\" face = \"georgia\">REINFORCE</font></html>");
+			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">REINFORCE</font></html>");
 			break;
 		case Engine.ATTACK_A:
-			textLabel.setText("<html><font size = \"20\" face = \"georgia\">ATTACK</font></html>");
+			textLabel.setText("<html><font color = \"white\" size = \"10\" face = \"georgia\">ATTACK</font></html>");
 			break;
 		case Engine.FORTIFY_A:
-			textLabel.setText("<html><font size = \"20\" face = \"georgia\">FORTIFY</font></html>");
+			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">FORTIFY</font></html>");
 			break;
 		case Engine.END_GAME:
-			textLabel.setText("<html><font size = \"20\" face = \"georgia\">GAME OVER</font></html>");
+			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">GAME OVER</font></html>");
 			break;
 		}
 	}
