@@ -22,7 +22,7 @@ public class Engine {
 	public ArrayList<Continent> continents; // The array of continents, to be read from Continents.txt
 	public ArrayList<Army> armies; // The array of Armies to be read from input
 	public int gameState;
-	private Army turn;
+	public Army turn;
 	private Country attacker, donor;
 	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, ATTACK_B = 4, FORTIFY_A = 5, FORTIFY_B = 6, END_GAME = 7;
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
@@ -68,14 +68,8 @@ public class Engine {
 	 */
 	public void buildCountries(Scanner in){
 		int a = Integer.parseInt(in.nextLine());
-		String countryName = "";
-		String fileName = "";
 		for (int i = 0; i < a; i ++)
-		{
-			countryName = in.nextLine();
-			fileName = "resources/Black Images/" + countryName + ".png";
-			countries.add(new Country(countryName, Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine()), fileName));
-		}
+			countries.add(new Country(in.nextLine(), Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine())));
 	}
 	
 	/**

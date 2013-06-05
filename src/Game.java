@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public class Game {
 	public static void main(String[] args) throws java.io.FileNotFoundException{
-		Army north = new Army(Color.RED, "Akhil");
-		Army south = new Army(Color.BLUE, "Nithin");
-		Army east = new Army(Color.GREEN, "Mike");
+		Army north = new Army(Color.RED, "Akhilles");
+		Army south = new Army(Color.BLUE, "Sid the Kid");
+		Army east = new Army(Color.GREEN, "Gnahzekim");
 		//Army west = new Army(Color.ORANGE, "Robin");
 		ArrayList<Army> teams = new ArrayList<Army>();
 		teams.add(north);

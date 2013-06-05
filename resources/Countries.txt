@@ -4,7 +4,7 @@ Alaska
 85
 Northwest Territory
 126
-136
+131
 Alberta
 119
 185
@@ -37,7 +37,7 @@ Argentina
 565
 Iceland
 488
-134
+143
 Great Britain
 541
 157
@@ -48,8 +48,8 @@ Northern Europe
 613
 207
 Southern Europe
-629
-245
+627
+242
 Western Europe
 556
 219
@@ -103,7 +103,7 @@ Irkutsk
 154
 Mongolia
 925
-223
+218
 Kamchatka
 1004
 75

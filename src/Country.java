@@ -34,10 +34,8 @@ public class Country extends JLabel{
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
 	 */
-	public Country(String countryName, int leftBound, int topBound, String fileLocation) {
-		//super(fileLocation, leftBound, topBound, countryName);
-		name = countryName;
-		fileName = fileLocation;
+	public Country(String name, int leftBound, int topBound) {
+		this.name = name;
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
@@ -48,10 +46,6 @@ public class Country extends JLabel{
 		
 		// Debug -- sets the hit box to opaque
 		//setOpaque(true);
-		
-		//Following two lines were put into the ImageButton class
-		//setPreferredSize(new Dimension(250, 350));
-		//setBounds(leftBound, topBound, 250, 350);
 		updateLabel();
 	}
 	public void updateLabel(){
