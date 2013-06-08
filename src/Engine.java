@@ -26,6 +26,7 @@ public class Engine {
 	private Country attacker, donor;
 	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, ATTACK_B = 4, FORTIFY_A = 5, FORTIFY_B = 6, END_GAME = 7;
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
+	
 	/*
 	 * Text versions:
 	 * PRE_GAME, OCCUPY = "OCCUPY"
@@ -179,6 +180,12 @@ public class Engine {
 	
 	public void attackA(Country c){
 		if (!c.army.equals(turn)) return;
+		
+		// Mike's edit: Toggle which country is selected to attack with
+		c.toggleAttackPos();
+		c.updateLabel();
+		// </end> Mike's edit
+		
 		attacker = c;
 		gameState = ATTACK_B;
 	}
@@ -187,7 +194,14 @@ public class Engine {
 		if (c.invade(attacker))
 			if (!checkGame()) gameState = END_GAME;
 			else occupy(c);
-		else gameState = ATTACK_A;
+		else {
+			gameState = ATTACK_A;
+		}
+		
+		// Mike's edit:
+		attacker.toggleAttackPos();
+		attacker.updateLabel();
+		// End edit
 	}
 	
 	public void occupy(Country c){

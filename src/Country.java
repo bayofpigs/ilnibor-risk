@@ -39,6 +39,7 @@ public class Country extends JLabel{
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
+		attackPosition = false;
 		setPreferredSize(new Dimension(25, 25));
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setVerticalAlignment(SwingConstants.CENTER);
@@ -67,6 +68,10 @@ public class Country extends JLabel{
 		anArmy.countries.add(this);
 		color = anArmy.armyColor;
 		troops = 1;
+	}
+	
+	public void toggleAttackPos() {
+		attackPosition = !attackPosition;
 	}
 	
 	public boolean isNeighbor(Country other){

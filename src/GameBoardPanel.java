@@ -93,7 +93,7 @@ public class GameBoardPanel extends JPanel{
 		// Setups turn based labels and buttons
 		setupCurrentPlayer();
 		
-		//  Click Coordinate finder, for debug purposes
+		//  Click Coordinate finder, for usage with country buttons
 		this.addMouseListener(
 			new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
@@ -106,6 +106,7 @@ public class GameBoardPanel extends JPanel{
 		);
 	}
 	
+	// Processes the color clicked and uses information to update countries
 	public void processColor(int blueIndex, Point x)
 	{
 		if (blueIndex >= 0 && blueIndex < game.countries.size())
@@ -116,6 +117,7 @@ public class GameBoardPanel extends JPanel{
 			}
 	}
 	
+	// Set ups the turn indicator
 	public void setupCurrentPlayer() {
 		phaseCompleteDir = "resources/turndone.png";
 		phaseCompleteImage = new ImageIcon(phaseCompleteDir);
@@ -149,6 +151,7 @@ public class GameBoardPanel extends JPanel{
 		add(reinIndicator);
 	}
 	
+	// Updates the indicator
 	public void updateIndicator() {
 		if (game.gameState != previousState) {
 			turnIndicator.setText(game.gameState);
@@ -162,6 +165,7 @@ public class GameBoardPanel extends JPanel{
 		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " 
 				+ game.turn.reinforcements + "</font></head>");
 	}
+	
 	/**
 	 * TODO: rename setUpButtons and update references to this method; 
 	 * the counters on the map are no longer buttons
@@ -206,6 +210,7 @@ public class GameBoardPanel extends JPanel{
 	
 	public void endClick(){
 		game.endClick();
+		updateIndicator();
 	}
 	
 	/**
