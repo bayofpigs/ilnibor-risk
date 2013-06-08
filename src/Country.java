@@ -64,6 +64,7 @@ public class Country extends JLabel{
 	 */
 	public void occupy(Army anArmy) {
 		army = anArmy;
+		anArmy.countries.add(this);
 		color = anArmy.armyColor;
 		troops = 1;
 	}
@@ -83,7 +84,6 @@ public class Country extends JLabel{
 		if (!isNeighbor(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
 		Random die = new Random();
 		System.out.println(attacker.army.armyName + " attacks " + name + " from " + attacker.name + ".\n");
-		Thread.sleep(1000);
 		int attackDice = attacker.troops - 1, defendDice = troops;
 		if (attackDice > 3) attackDice = 3;
 		if (defendDice > 2) defendDice = 2;
@@ -98,7 +98,6 @@ public class Country extends JLabel{
 		Collections.reverse(attack);
 		System.out.println("Attacker: " + attack + " (" + attacker.name + ")");
 		System.out.println("Defender: " + defend + " (" + name + ")\n");
-		Thread.sleep(2000);
 		if (attack.size() < defend.size()) defend.remove(1);
 		while (defend.size() < attack.size())
 			attack.remove(attack.size() - 1);
@@ -110,7 +109,9 @@ public class Country extends JLabel{
 		if (troops == 0) {
 			if (army.continents.size() == 0)
 				attacker.army.riskCards += army.riskCards;
+			army.countries.remove(this);
 			army = attacker.army;
+			army.countries.add(this);
 			color = army.armyColor;
 			System.out.println(name + " has been conquered by " + attacker.army.armyName);
 			reinforce(attacker, attacker.troops - 1);
@@ -131,7 +132,6 @@ public class Country extends JLabel{
 		while (!invade(attacker)){
 			if (!isNeighbor(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
 			System.out.println(attacker + "\n" + toString() + "\n");
-			Thread.sleep(4000);
 			System.out.println("-------------------------------\n");
 			System.out.println(attacker + "\n" + toString() + "\n");
 		}
@@ -154,7 +154,6 @@ public class Country extends JLabel{
 		if (numTroops != 1)
 			System.out.print("s");
 		System.out.println(" from " + donator.name + "\n");
-		updateLabel();
 		return true;
 	}
 	

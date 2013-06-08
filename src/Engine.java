@@ -135,8 +135,9 @@ public class Engine {
 		else if (gameState == FORTIFY_A) fortifyA(c);
 		else if (gameState == FORTIFY_B) fortifyB(c);
 		else if (gameState == END_GAME) System.out.println("GAME OVER");
-		System.out.println(c);
-		c.updateLabel();
+		//System.out.println(c);
+		for (Country a: countries)
+			a.updateLabel();
 	}
 	
 	public void endClick(){
@@ -172,7 +173,7 @@ public class Engine {
 		if (!c.army.equals(turn)) return;
 		c.troops ++;
 		turn.reinforcements --;
-		if (turn.reinforcements == 0)
+		if (turn.reinforcements <= 0)
 			gameState = ATTACK_A;
 	}
 	
@@ -192,8 +193,9 @@ public class Engine {
 	public void occupy(Country c){
 		//attacker sends troops to c
 		//implement sliding bar
-		int numTroops = 0;
-		c.reinforce(donor, numTroops);
+		int minTroops = 1;
+		int maxTroops = attacker.troops - 1;
+		c.reinforce(attacker, maxTroops);
 		gameState = ATTACK_A;
 	}
 	
@@ -206,6 +208,8 @@ public class Engine {
 	public void fortifyB(Country c){
 		//donor sends troops to c
 		//implement sliding bar
+		int minTroops = 1;
+		int maxTroops = donor.troops - 1;
 		int numTroops = 0;
 		if (!c.reinforce(donor, numTroops)) return;
 		rotate();

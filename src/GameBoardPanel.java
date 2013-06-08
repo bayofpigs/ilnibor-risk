@@ -114,10 +114,6 @@ public class GameBoardPanel extends JPanel{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		else if (blueIndex >= game.countries.size())
-			System.out.println(x);
-		else
-			System.out.println("Why is the blueIndex less than one?!?!?!");
 	}
 	
 	public void setupCurrentPlayer() {

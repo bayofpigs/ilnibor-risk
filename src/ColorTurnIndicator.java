@@ -36,7 +36,7 @@ public class ColorTurnIndicator extends JPanel {
 	public void setText(int state) {
 		switch(state) {
 		case Engine.PRE_GAME:
-			textLabel.setText("<html><font color = \"white\" size = \"10\" face = \"georgia\">OCCUPY</font></html>");
+			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">OCCUPY</font></html>");
 			break;
 		case Engine.REINFORCE:
 			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">REINFORCE</font></html>");
@@ -45,7 +45,7 @@ public class ColorTurnIndicator extends JPanel {
 			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">REINFORCE</font></html>");
 			break;
 		case Engine.ATTACK_A:
-			textLabel.setText("<html><font color = \"white\" size = \"10\" face = \"georgia\">ATTACK</font></html>");
+			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">ATTACK</font></html>");
 			break;
 		case Engine.FORTIFY_A:
 			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">FORTIFY</font></html>");
