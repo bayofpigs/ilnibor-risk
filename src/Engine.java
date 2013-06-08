@@ -227,6 +227,7 @@ public class Engine {
 		int numTroops = 0;
 		if (!c.reinforce(donor, numTroops)) return;
 		rotate();
+		turn.reinforcements();
 		gameState = RECRUIT;
 	}
 	
