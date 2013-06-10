@@ -40,10 +40,10 @@ public class Country extends JLabel{
 		army = null;
 		troops = 0;
 		attackPosition = false;
-		setPreferredSize(new Dimension(50, 50));
+		setPreferredSize(new Dimension(27, 27));
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setVerticalAlignment(SwingConstants.CENTER);
-		setBounds(leftBound, topBound, 50, 50);
+		setBounds(leftBound, topBound, 27, 27);
 		
 		// Debug -- sets the hit box to opaque
 		//setOpaque(true);
