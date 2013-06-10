@@ -84,7 +84,7 @@ public class GameBoardPanel extends JPanel{
 		//  Click Coordinate finder, for usage with country buttons
 		this.addMouseListener(
 			new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
+				public void mouseReleased(MouseEvent e) {
 					int index = 1000;
 					if (e.getX() < 1160)
 						index = new Color((((BufferedImage) countryMap).getRGB(e.getX() - 14, e.getY()))).getBlue();
