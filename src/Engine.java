@@ -151,6 +151,8 @@ public class Engine {
 			if (gameState == FORTIFY_B) donor.toggleSpecialOff();
 			gameState = RECRUIT;
 		}
+		for (Country a: countries)
+			a.updateLabel();
 	}
 	
 	public void preGame(Country c){
@@ -199,7 +201,7 @@ public class Engine {
 	public void occupy(Country c){
 		//attacker sends troops to c
 		//implement sliding bar
-		int minTroops = 1;
+		//int minTroops = 1;
 		int maxTroops = attacker.troops - 1;
 		c.reinforce(attacker, maxTroops);
 		gameState = ATTACK_A;
@@ -215,10 +217,9 @@ public class Engine {
 	public void fortifyB(Country c){
 		//donor sends troops to c
 		//implement sliding bar
-		int minTroops = 1;
+		//int minTroops = 1;
 		int maxTroops = donor.troops - 1;
-		int numTroops = 0;
-		if (!c.reinforce(donor, numTroops)) return;
+		if (!c.reinforce(donor, maxTroops)) return;
 		gameState = FORTIFY_A;
 		donor.toggleSpecialOff();
 	}

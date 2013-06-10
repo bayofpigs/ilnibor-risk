@@ -15,7 +15,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * 
@@ -30,6 +29,7 @@ import java.util.ArrayList;
  * @see Country
  * 
  */
+@SuppressWarnings("serial")
 public class GameBoardPanel extends JPanel{
 	private String mapImgDir; // String directory of where the map image is located
 	private String countryMapDir; //String directory of where the country map image is located
