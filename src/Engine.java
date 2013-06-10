@@ -141,14 +141,16 @@ public class Engine {
 	}
 	
 	public void endClick(){
-		if (gameState == ATTACK_A || gameState == ATTACK_B) gameState = FORTIFY_A;
+		if (gameState == ATTACK_A || gameState == ATTACK_B){
+			attacker.toggleSpecialOff();
+			gameState = FORTIFY_A;
+		}
 		else if (gameState == FORTIFY_A || gameState == FORTIFY_B){
 			rotate();
 			turn.reinforcements();
+			if (gameState == FORTIFY_B) donor.toggleSpecialOff();
 			gameState = RECRUIT;
 		}
-		attacker.toggleSpecialOff();
-		donor.toggleSpecialOff();
 	}
 	
 	public void preGame(Country c){
