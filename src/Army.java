@@ -29,10 +29,12 @@ public class Army {
 			riskCards -= 3;
 			reinforcements += risk.remove(0);
 		}
+		System.out.println(armyName + " " + reinforcements);
 		int territoryTroops = countries.size() / 3;
 		if (territoryTroops < 3) territoryTroops = 3;
 		reinforcements += territoryTroops;
 		for (Continent a: continents)
 			reinforcements += a.continentValue;
+		System.out.println(armyName + " " + reinforcements);
 	}
 }

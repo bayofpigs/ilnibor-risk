@@ -123,6 +123,7 @@ public class Engine {
 				armies.remove(a);
 			for (Continent b: continents)
 				if (b.completeControl(a)) a.continents.add(b);
+				else a.continents.remove(b);
 		}
 		return (armies.size() > 1);
 	}
@@ -145,6 +146,7 @@ public class Engine {
 		if (gameState == ATTACK_A || gameState == ATTACK_B) gameState = FORTIFY_A;
 		else if (gameState == FORTIFY_A || gameState == FORTIFY_B){
 			rotate();
+			turn.reinforcements();
 			gameState = RECRUIT;
 		}
 	}
@@ -165,9 +167,10 @@ public class Engine {
 		gameState = RECRUIT;
 		for (Army a: armies)
 			if (a.reinforcements > 0) gameState = REINFORCE;
-		if (gameState == RECRUIT)
-			for (Army a: armies)
-				a.reinforcements();
+		if (gameState == RECRUIT){
+			rotate();
+			turn.reinforcements();
+		}
 	}
 	
 	public void recruit(Country c){
@@ -202,6 +205,7 @@ public class Engine {
 		attacker.toggleAttackPos();
 		attacker.updateLabel();
 		// End edit
+		System.out.println(turn.continents);
 	}
 	
 	public void occupy(Country c){
@@ -217,6 +221,7 @@ public class Engine {
 		if (!c.army.equals(turn)) return;
 		donor = c;
 		gameState = FORTIFY_B;
+		System.out.println(donor);
 	}
 	
 	public void fortifyB(Country c){
@@ -224,8 +229,8 @@ public class Engine {
 		//implement sliding bar
 		int minTroops = 1;
 		int maxTroops = donor.troops - 1;
-		int numTroops = 0;
-		if (!c.reinforce(donor, numTroops)) return;
+		System.out.println(c);
+		if (!c.reinforce(donor, maxTroops)) return;
 		rotate();
 		turn.reinforcements();
 		gameState = RECRUIT;

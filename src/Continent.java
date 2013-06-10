@@ -12,7 +12,7 @@ public class Continent {
 	
 	public boolean completeControl(Army anArmy){
 		for (Country a: territories)
-			if (!anArmy.continents.contains(a))
+			if (!anArmy.countries.contains(a))
 				return false;
 		return true;
 	}
