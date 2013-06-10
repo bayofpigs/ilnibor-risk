@@ -136,7 +136,6 @@ public class Engine {
 		else if (gameState == FORTIFY_A) fortifyA(c);
 		else if (gameState == FORTIFY_B) fortifyB(c);
 		else if (gameState == END_GAME) System.out.println("GAME OVER");
-		//System.out.println(c);
 		for (Country a: countries)
 			a.updateLabel();
 	}
@@ -145,8 +144,11 @@ public class Engine {
 		if (gameState == ATTACK_A || gameState == ATTACK_B) gameState = FORTIFY_A;
 		else if (gameState == FORTIFY_A || gameState == FORTIFY_B){
 			rotate();
+			turn.reinforcements();
 			gameState = RECRUIT;
 		}
+		attacker.toggleSpecialOff();
+		donor.toggleSpecialOff();
 	}
 	
 	public void preGame(Country c){
@@ -165,43 +167,31 @@ public class Engine {
 		gameState = RECRUIT;
 		for (Army a: armies)
 			if (a.reinforcements > 0) gameState = REINFORCE;
-		if (gameState == RECRUIT)
-			for (Army a: armies)
-				a.reinforcements();
+		if (gameState == RECRUIT){
+			turn.reinforcements();
+		}
 	}
 	
 	public void recruit(Country c){
 		if (!c.army.equals(turn)) return;
 		c.troops ++;
 		turn.reinforcements --;
-		if (turn.reinforcements <= 0)
-			gameState = ATTACK_A;
+		if (turn.reinforcements <= 0) gameState = ATTACK_A;
 	}
 	
 	public void attackA(Country c){
 		if (!c.army.equals(turn)) return;
-		
-		// Mike's edit: Toggle which country is selected to attack with
-		c.toggleAttackPos();
-		c.updateLabel();
-		// </end> Mike's edit
-		
 		attacker = c;
 		gameState = ATTACK_B;
+		attacker.toggleSpecialOn();
 	}
 	
 	public void attackB(Country c) throws InterruptedException{
 		if (c.invade(attacker))
 			if (!checkGame()) gameState = END_GAME;
 			else occupy(c);
-		else {
-			gameState = ATTACK_A;
-		}
-		
-		// Mike's edit:
-		attacker.toggleAttackPos();
-		attacker.updateLabel();
-		// End edit
+		else gameState = ATTACK_A;
+		attacker.toggleSpecialOff();
 	}
 	
 	public void occupy(Country c){
@@ -217,6 +207,7 @@ public class Engine {
 		if (!c.army.equals(turn)) return;
 		donor = c;
 		gameState = FORTIFY_B;
+		donor.toggleSpecialOn();
 	}
 	
 	public void fortifyB(Country c){
@@ -226,9 +217,8 @@ public class Engine {
 		int maxTroops = donor.troops - 1;
 		int numTroops = 0;
 		if (!c.reinforce(donor, numTroops)) return;
-		rotate();
-		turn.reinforcements();
-		gameState = RECRUIT;
+		gameState = FORTIFY_A;
+		donor.toggleSpecialOff();
 	}
 	
 	public void rotate(){

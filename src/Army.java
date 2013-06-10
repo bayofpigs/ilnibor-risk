@@ -20,15 +20,17 @@ public class Army {
 	}
 	public void addReinforcements(int armies){
 		if (armies == 2) reinforcements += 40;
-		else if (armies == 3) reinforcements += 15;//35;
+		else if (armies == 3) reinforcements += 35;
 		else if (armies == 4) reinforcements += 30;
 		else if (armies == 5) reinforcements += 25;
 	}
 	public void reinforcements(){
+		System.out.println(reinforcements);
 		if (riskCards > 4){
 			riskCards -= 3;
 			reinforcements += risk.remove(0);
 		}
+		System.out.println(reinforcements);
 		int territoryTroops = countries.size() / 3;
 		if (territoryTroops < 3) territoryTroops = 3;
 		reinforcements += territoryTroops;
