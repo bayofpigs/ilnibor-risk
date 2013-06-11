@@ -117,7 +117,7 @@ public class Engine {
 		return false;
 	}
 	
-	public boolean checkGame(){
+	public void updateGame(){
 		for (Army a: armies){
 			if (a.countries.size() == 0)
 				armies.remove(a);
@@ -125,8 +125,8 @@ public class Engine {
 				if (b.completeControl(a)) a.continents.add(b);
 				else a.continents.remove(b);
 		}
-		return (armies.size() > 1);
 	}
+
 	
 	public void readClick(Country c) throws InterruptedException {
 		if (gameState == PRE_GAME) preGame(c);
@@ -137,18 +137,26 @@ public class Engine {
 		else if (gameState == FORTIFY_A) fortifyA(c);
 		else if (gameState == FORTIFY_B) fortifyB(c);
 		else if (gameState == END_GAME) System.out.println("GAME OVER");
-		//System.out.println(c);
 		for (Country a: countries)
 			a.updateLabel();
 	}
 	
 	public void endClick(){
-		if (gameState == ATTACK_A || gameState == ATTACK_B) gameState = FORTIFY_A;
+		if (gameState == ATTACK_A || gameState == ATTACK_B){
+			attacker.toggleSpecialOff();
+			gameState = FORTIFY_A;
+		}
 		else if (gameState == FORTIFY_A || gameState == FORTIFY_B){
 			rotate();
 			turn.reinforcements();
+<<<<<<< HEAD
+=======
+			if (gameState == FORTIFY_B) donor.toggleSpecialOff();
+>>>>>>> branch 'master' of https://github.com/bayofpigs/ilnibor-risk.git
 			gameState = RECRUIT;
 		}
+		for (Country a: countries)
+			a.updateLabel();
 	}
 	
 	public void preGame(Country c){
@@ -168,7 +176,10 @@ public class Engine {
 		for (Army a: armies)
 			if (a.reinforcements > 0) gameState = REINFORCE;
 		if (gameState == RECRUIT){
+<<<<<<< HEAD
 			rotate();
+=======
+>>>>>>> branch 'master' of https://github.com/bayofpigs/ilnibor-risk.git
 			turn.reinforcements();
 		}
 	}
@@ -177,26 +188,21 @@ public class Engine {
 		if (!c.army.equals(turn)) return;
 		c.troops ++;
 		turn.reinforcements --;
-		if (turn.reinforcements <= 0)
-			gameState = ATTACK_A;
+		if (turn.reinforcements <= 0) gameState = ATTACK_A;
 	}
 	
 	public void attackA(Country c){
 		if (!c.army.equals(turn)) return;
-		
-		// Mike's edit: Toggle which country is selected to attack with
-		c.toggleAttackPos();
-		c.updateLabel();
-		// </end> Mike's edit
-		
 		attacker = c;
 		gameState = ATTACK_B;
+		attacker.toggleSpecialOn();
 	}
 	
 	public void attackB(Country c) throws InterruptedException{
 		if (c.invade(attacker))
-			if (!checkGame()) gameState = END_GAME;
+			if (armies.size() > 1) gameState = END_GAME;
 			else occupy(c);
+<<<<<<< HEAD
 		else {
 			gameState = ATTACK_A;
 		}
@@ -206,12 +212,17 @@ public class Engine {
 		attacker.updateLabel();
 		// End edit
 		System.out.println(turn.continents);
+=======
+		else gameState = ATTACK_A;
+		updateGame();
+		attacker.toggleSpecialOff();
+>>>>>>> branch 'master' of https://github.com/bayofpigs/ilnibor-risk.git
 	}
 	
 	public void occupy(Country c){
 		//attacker sends troops to c
 		//implement sliding bar
-		int minTroops = 1;
+		//int minTroops = 1;
 		int maxTroops = attacker.troops - 1;
 		c.reinforce(attacker, maxTroops);
 		gameState = ATTACK_A;
@@ -221,19 +232,29 @@ public class Engine {
 		if (!c.army.equals(turn)) return;
 		donor = c;
 		gameState = FORTIFY_B;
+<<<<<<< HEAD
 		System.out.println(donor);
+=======
+		donor.toggleSpecialOn();
+>>>>>>> branch 'master' of https://github.com/bayofpigs/ilnibor-risk.git
 	}
 	
 	public void fortifyB(Country c){
 		//donor sends troops to c
 		//implement sliding bar
-		int minTroops = 1;
+		//int minTroops = 1;
 		int maxTroops = donor.troops - 1;
+<<<<<<< HEAD
 		System.out.println(c);
 		if (!c.reinforce(donor, maxTroops)) return;
 		rotate();
 		turn.reinforcements();
 		gameState = RECRUIT;
+=======
+		if (!c.reinforce(donor, maxTroops)) return;
+		gameState = FORTIFY_A;
+		donor.toggleSpecialOff();
+>>>>>>> branch 'master' of https://github.com/bayofpigs/ilnibor-risk.git
 	}
 	
 	public void rotate(){

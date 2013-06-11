@@ -40,10 +40,10 @@ public class Country extends JLabel{
 		army = null;
 		troops = 0;
 		attackPosition = false;
-		setPreferredSize(new Dimension(25, 25));
+		setPreferredSize(new Dimension(49, 49));
 		setHorizontalAlignment(SwingConstants.CENTER);
 		setVerticalAlignment(SwingConstants.CENTER);
-		setBounds(leftBound, topBound, 25, 25);
+		setBounds(leftBound - 12, topBound - 12, 49, 49);
 		
 		// Debug -- sets the hit box to opaque
 		//setOpaque(true);
@@ -70,8 +70,12 @@ public class Country extends JLabel{
 		troops = 1;
 	}
 	
-	public void toggleAttackPos() {
-		attackPosition = !attackPosition;
+	public void toggleSpecialOn() {
+		attackPosition = true;
+	}
+	
+	public void toggleSpecialOff(){
+		attackPosition = false;
 	}
 	
 	public boolean isNeighbor(Country other){
