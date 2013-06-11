@@ -117,15 +117,15 @@ public class Engine {
 		return false;
 	}
 	
-	public boolean checkGame(){
+	public void updateGame(){
 		for (Army a: armies){
 			if (a.countries.size() == 0)
 				armies.remove(a);
 			for (Continent b: continents)
 				if (b.completeControl(a)) a.continents.add(b);
 		}
-		return (armies.size() > 1);
 	}
+
 	
 	public void readClick(Country c) throws InterruptedException {
 		if (gameState == PRE_GAME) preGame(c);
@@ -192,9 +192,10 @@ public class Engine {
 	
 	public void attackB(Country c) throws InterruptedException{
 		if (c.invade(attacker))
-			if (!checkGame()) gameState = END_GAME;
+			if (armies.size() > 1) gameState = END_GAME;
 			else occupy(c);
 		else gameState = ATTACK_A;
+		updateGame();
 		attacker.toggleSpecialOff();
 	}
 	
