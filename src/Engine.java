@@ -121,9 +121,10 @@ public class Engine {
 		for (Army a: armies){
 			if (a.countries.size() == 0)
 				armies.remove(a);
-			for (Continent b: continents)
+			for (Continent b: continents){
+				a.continents.remove(b);
 				if (b.completeControl(a)) a.continents.add(b);
-				else a.continents.remove(b);
+			}
 		}
 	}
 
@@ -149,10 +150,7 @@ public class Engine {
 		else if (gameState == FORTIFY_A || gameState == FORTIFY_B){
 			rotate();
 			turn.reinforcements();
-<<<<<<< HEAD
-=======
 			if (gameState == FORTIFY_B) donor.toggleSpecialOff();
->>>>>>> branch 'master' of https://github.com/bayofpigs/ilnibor-risk.git
 			gameState = RECRUIT;
 		}
 		for (Country a: countries)
@@ -176,10 +174,6 @@ public class Engine {
 		for (Army a: armies)
 			if (a.reinforcements > 0) gameState = REINFORCE;
 		if (gameState == RECRUIT){
-<<<<<<< HEAD
-			rotate();
-=======
->>>>>>> branch 'master' of https://github.com/bayofpigs/ilnibor-risk.git
 			turn.reinforcements();
 		}
 	}
@@ -200,23 +194,11 @@ public class Engine {
 	
 	public void attackB(Country c) throws InterruptedException{
 		if (c.invade(attacker))
-			if (armies.size() > 1) gameState = END_GAME;
+			if (armies.size() == 1) gameState = END_GAME;
 			else occupy(c);
-<<<<<<< HEAD
-		else {
-			gameState = ATTACK_A;
-		}
-		
-		// Mike's edit:
-		attacker.toggleAttackPos();
-		attacker.updateLabel();
-		// End edit
-		System.out.println(turn.continents);
-=======
 		else gameState = ATTACK_A;
 		updateGame();
 		attacker.toggleSpecialOff();
->>>>>>> branch 'master' of https://github.com/bayofpigs/ilnibor-risk.git
 	}
 	
 	public void occupy(Country c){
@@ -232,11 +214,7 @@ public class Engine {
 		if (!c.army.equals(turn)) return;
 		donor = c;
 		gameState = FORTIFY_B;
-<<<<<<< HEAD
-		System.out.println(donor);
-=======
 		donor.toggleSpecialOn();
->>>>>>> branch 'master' of https://github.com/bayofpigs/ilnibor-risk.git
 	}
 	
 	public void fortifyB(Country c){
@@ -244,17 +222,9 @@ public class Engine {
 		//implement sliding bar
 		//int minTroops = 1;
 		int maxTroops = donor.troops - 1;
-<<<<<<< HEAD
-		System.out.println(c);
-		if (!c.reinforce(donor, maxTroops)) return;
-		rotate();
-		turn.reinforcements();
-		gameState = RECRUIT;
-=======
 		if (!c.reinforce(donor, maxTroops)) return;
 		gameState = FORTIFY_A;
 		donor.toggleSpecialOff();
->>>>>>> branch 'master' of https://github.com/bayofpigs/ilnibor-risk.git
 	}
 	
 	public void rotate(){

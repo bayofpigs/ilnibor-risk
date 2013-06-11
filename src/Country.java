@@ -155,7 +155,6 @@ public class Country extends JLabel{
 	 * @return true if troops are transferred between the countries, otherwise false
 	 */
 	public boolean reinforce(Country donator, int numTroops){
-		System.out.println(";;;;;;;;;;;;;;;;");
 		System.out.println(numTroops);
 		System.out.println(army);
 		System.out.println(donator.army);
