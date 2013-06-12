@@ -23,8 +23,8 @@ public class Engine {
 	public ArrayList<Army> armies; // The array of Armies to be read from input
 	public int gameState;
 	public Army turn;
-	private Country attacker, donor;
-	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, ATTACK_B = 4, FORTIFY_A = 5, FORTIFY_B = 6, END_GAME = 7;
+	private Country donor, reciever;
+	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8, END_GAME = 9;
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
 	
 	/*
@@ -58,8 +58,8 @@ public class Engine {
 		a = new Scanner(mapContinents);
 		buildContinents(a);
 		turn = armies.get(0);
-		attacker = null;
-		donor = null;
+		donor = countries.get(0);
+		reciever = countries.get(0);
 		gameState = PRE_GAME;
 	}
 	
@@ -135,24 +135,24 @@ public class Engine {
 		else if (gameState == RECRUIT) recruit(c);
 		else if (gameState == ATTACK_A) attackA(c);
 		else if (gameState == ATTACK_B) attackB(c);
+		else if (gameState == OCCUPY) occupy(c);
 		else if (gameState == FORTIFY_A) fortifyA(c);
 		else if (gameState == FORTIFY_B) fortifyB(c);
+		else if (gameState == FORTIFY_C) fortifyC(c);
 		else if (gameState == END_GAME) System.out.println("GAME OVER");
 		for (Country a: countries)
 			a.updateLabel();
 	}
 	
 	public void endClick(){
-		if (gameState == ATTACK_A || gameState == ATTACK_B){
-			attacker.toggleSpecialOff();
-			gameState = FORTIFY_A;
-		}
-		else if (gameState == FORTIFY_A || gameState == FORTIFY_B){
+		if (gameState == ATTACK_A || gameState == ATTACK_B) gameState = FORTIFY_A;
+		else if (gameState == OCCUPY) gameState = ATTACK_A;
+		else if (gameState == FORTIFY_A || gameState == FORTIFY_B || gameState == FORTIFY_C){
 			rotate();
 			turn.reinforcements();
-			if (gameState == FORTIFY_B) donor.toggleSpecialOff();
 			gameState = RECRUIT;
 		}
+		donor.toggleSpecialOff();
 		for (Country a: countries)
 			a.updateLabel();
 	}
@@ -187,27 +187,32 @@ public class Engine {
 	
 	public void attackA(Country c){
 		if (!c.army.equals(turn)) return;
-		attacker = c;
+		donor = c;
 		gameState = ATTACK_B;
-		attacker.toggleSpecialOn();
+		donor.toggleSpecialOn();
 	}
 	
 	public void attackB(Country c) throws InterruptedException{
-		if (c.invade(attacker))
-			if (armies.size() == 1) gameState = END_GAME;
-			else occupy(c);
-		else gameState = ATTACK_A;
+		reciever = c;
+		boolean invade = c.invade(donor);
 		updateGame();
-		attacker.toggleSpecialOff();
+		if (invade)
+			if (armies.size() == 1) gameState = END_GAME;
+			else gameState = OCCUPY;
+		else{
+			gameState = ATTACK_A;
+			donor.toggleSpecialOff();
+		}
 	}
 	
 	public void occupy(Country c){
-		//attacker sends troops to c
-		//implement sliding bar
-		//int minTroops = 1;
-		int maxTroops = attacker.troops - 1;
-		c.reinforce(attacker, maxTroops);
-		gameState = ATTACK_A;
+		if (!c.equals(reciever)) return;
+		donor.troops --;
+		reciever.troops ++;
+		if (donor.troops == 1){
+			gameState = ATTACK_A;
+			donor.toggleSpecialOff();
+		}
 	}
 	
 	public void fortifyA(Country c){
@@ -218,13 +223,21 @@ public class Engine {
 	}
 	
 	public void fortifyB(Country c){
-		//donor sends troops to c
-		//implement sliding bar
-		//int minTroops = 1;
-		int maxTroops = donor.troops - 1;
-		if (!c.reinforce(donor, maxTroops)) return;
-		gameState = FORTIFY_A;
-		donor.toggleSpecialOff();
+		reciever = c;
+		if (!reciever.canReinforce(donor)) return;
+		gameState = FORTIFY_C;
+	}
+	
+	public void fortifyC(Country c){
+		if (!c.equals(reciever)) return;
+		donor.troops --;
+		reciever.troops ++;
+		if (donor.troops == 1){
+			rotate();
+			turn.reinforcements();
+			gameState = RECRUIT;
+			donor.toggleSpecialOff();
+		}
 	}
 	
 	public void rotate(){

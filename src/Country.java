@@ -116,14 +116,15 @@ public class Country extends JLabel{
 			else
 				attacker.troops--;
 		if (troops == 0) {
-			if (army.continents.size() == 0)
-				attacker.army.riskCards += army.riskCards;
 			army.countries.remove(this);
-			army = attacker.army;
 			army.countries.add(this);
+			if (army.countries.size() == 0)
+				attacker.army.riskCards += army.riskCards;
+			army = attacker.army;
 			color = army.armyColor;
+			troops ++;
+			attacker.troops --;
 			System.out.println(name + " has been conquered by " + attacker.army.armyName);
-			reinforce(attacker, attacker.troops - 1);
 			return true;
 		}
 		System.out.println(name + " defends the attack by " + attacker.army.armyName + ".\n");
@@ -147,26 +148,8 @@ public class Country extends JLabel{
 		return true;
 	}
 	
-	/**
-	 * Used after a successful attack or during the reinforce phase.
-	 * Enables the transfer of troops between two countries controlled by the same army.
-	 * @param donator The country donating the troops for reinforcement
-	 * @param numTroops The number of troops the country is donating for reinforcement
-	 * @return true if troops are transferred between the countries, otherwise false
-	 */
-	public boolean reinforce(Country donator, int numTroops){
-		System.out.println(numTroops);
-		System.out.println(army);
-		System.out.println(donator.army);
-		if (numTroops == 0 || !isNeighbor(donator) || !army.equals(donator.army))
-			return false;
-		donator.troops -= numTroops;
-		troops += numTroops;
-		System.out.print(donator.army.armyName + " reinforced " + name + " with " + numTroops + " troop");
-		if (numTroops != 1)
-			System.out.print("s");
-		System.out.println(" from " + donator.name + "\n");
-		return true;
+	public boolean canReinforce(Country donator) {
+		return (isNeighbor(donator) && army.equals(donator.army) && !donator.equals(this));
 	}
 	
 	/**
