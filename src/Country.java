@@ -123,7 +123,9 @@ public class Country extends JLabel{
 			army.countries.add(this);
 			color = army.armyColor;
 			System.out.println(name + " has been conquered by " + attacker.army.armyName);
-			reinforce(attacker, attacker.troops - 1);
+			
+			// Deleted this line --Mike
+			//reinforce(attacker, attacker.troops - 1);
 			return true;
 		}
 		System.out.println(name + " defends the attack by " + attacker.army.armyName + ".\n");
@@ -155,7 +157,8 @@ public class Country extends JLabel{
 	 * @return true if troops are transferred between the countries, otherwise false
 	 */
 	public boolean reinforce(Country donator, int numTroops){
-		if (numTroops == 0 || !isNeighbor(donator) || !army.equals(donator.army))
+		//Commented out first case: see functin canBeReinforced -- Mike
+		if (/*numTroops == 0 ||*/ !isNeighbor(donator) || !army.equals(donator.army))
 			return false;
 		donator.troops -= numTroops;
 		troops += numTroops;
@@ -164,6 +167,10 @@ public class Country extends JLabel{
 			System.out.print("s");
 		System.out.println(" from " + donator.name + "\n");
 		return true;
+	}
+	
+	public boolean canBeReinforced(Country donator) {
+		return (isNeighbor(donator) || army.equals(donator.army) || donator.equals(this));
 	}
 	
 	/**
