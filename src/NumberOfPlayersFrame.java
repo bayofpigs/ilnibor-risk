@@ -11,12 +11,14 @@ import java.awt.Color;
 public class NumberOfPlayersFrame extends JDialog{
 	ArrayList<JLabel> nameLabels;
 	JComboBox<Integer> combo;
+	JPanel topPanel;
 	String[] possibleNames;
 	
 	public NumberOfPlayersFrame() {
+		topPanel = new JPanel();
+		this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		nameLabels = new ArrayList<JLabel>();
 		combo = new JComboBox<Integer>();
-		
 		
 	}
 }
