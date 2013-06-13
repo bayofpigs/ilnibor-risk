@@ -34,6 +34,7 @@ public class Army {
 		if (territoryTroops < 3) territoryTroops = 3;
 		reinforcements += territoryTroops;
 		System.out.println(armyName + " " + reinforcements);
+		System.out.println(continents);
 		for (Continent a: continents)
 			reinforcements += a.continentValue;
 		System.out.println(armyName + " " + reinforcements);

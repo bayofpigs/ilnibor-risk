@@ -117,10 +117,10 @@ public class Country extends JLabel{
 				attacker.troops--;
 		if (troops == 0) {
 			army.countries.remove(this);
-			army.countries.add(this);
 			if (army.countries.size() == 0)
 				attacker.army.riskCards += army.riskCards;
 			army = attacker.army;
+			army.countries.add(this);
 			color = army.armyColor;
 			troops ++;
 			attacker.troops --;

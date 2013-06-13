@@ -253,7 +253,10 @@ public class Engine {
 				armies.remove(a);
 			for (Continent b: continents){
 				a.continents.remove(b);
-				if (b.completeControl(a)) a.continents.add(b);
+				if (b.completeControl(a)){
+					System.out.println(b.completeControl(a));
+					a.continents.add(b);
+				}
 			}
 		}
 	}
@@ -324,11 +327,11 @@ public class Engine {
 	
 	public void attackB(Country c) throws InterruptedException{
 		reciever = c;
-		boolean invade = c.invade(donor);
-		updateGame();
-		if (invade)
+		if (c.invade(donor)){
+			updateGame();
 			if (armies.size() == 1) gameState = END_GAME;
 			else gameState = OCCUPY;
+		}
 		else{
 			gameState = ATTACK_A;
 			donor.toggleSpecialOff();
