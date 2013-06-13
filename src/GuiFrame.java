@@ -23,13 +23,13 @@ import javax.swing.JLabel;
  */
 @SuppressWarnings("serial")
 public class GuiFrame extends JFrame {
-	private JPanel cards; // The primary, center panel of the board. Flips through multiple pages in response to user input
+	protected JPanel cards; // The primary, center panel of the board. Flips through multiple pages in response to user input
 	private JPanel mainPanel; // A panel containing the mainMenu of the game. Features the mainMenu and a panel containing text
 	private JPanel sidePanel; // The panel on the right side of the mainmenu. Contains the group credit text.
-	private MainMenuPanel mainMenu; // The mainMenu of the game. To be placed onto the mainPanel.
-	private GameBoardPanel gameBoard; // The gameboard of the game. To be placed on the cards variable
-	private String MENUPANEL = "Menu"; // The string label for the mainmenu of the game for the cards variable
-	private String GAMEPANEL = "Game"; // The string label for the gameboard of the game for the cards variable
+	protected MainMenuPanel mainMenu; // The mainMenu of the game. To be placed onto the mainPanel.
+	protected GameBoardPanel gameBoard; // The gameboard of the game. To be placed on the cards variable
+	protected String MENUPANEL = "Menu"; // The string label for the mainmenu of the game for the cards variable
+	protected String GAMEPANEL = "Game"; // The string label for the gameboard of the game for the cards variable
 	private ImageIcon icon; // The icon of the game on the titlebar of the program
 	private Dimension frameSize; // The size of the frame in general
 		
@@ -107,50 +107,23 @@ public class GuiFrame extends JFrame {
 		cards.add(mainPanel, MENUPANEL);
 		add(cards);
 		
-		// Setup the listeners for the main menu (See: probably should not be here, 
-		// but I see no other way of implementing this so far)
-		setupMainMenuListener();
-		
 		// Setup listeners for the return to main menu button on the actual gameBoard
 		// NOT IMPLEMENTED YET
 		setupGameListener();
 	}
 	
+	public void flipToGame() {
+		CardLayout cl = (CardLayout)cards.getLayout();
+		cl.show(cards, GAMEPANEL);
+	}
+	
 	public void setGameBoardPanelInformation(GameBoardPanel gbd) {
 		gameBoard = gbd;
 		cards.add(gameBoard, GAMEPANEL);
+		cards.revalidate();
+		cards.repaint();
 	}
 	
-	
-	/**
-	 * Sets up listener for the start and exit buttons on the mainmenu
-	 */
-	public void setupMainMenuListener() {
-		// The start button from the main menu
-		JButton start = mainMenu.getStartButton();
-		
-		// The exit button from the mainmenu
-		JButton exit = mainMenu.getExitButton();
-		start.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					// On user click start: the center panel flips to the main game
-					CardLayout cl = (CardLayout)cards.getLayout();
-					cl.show(cards, GAMEPANEL);
-				}
-			}		
-		);
-		
-		exit.addActionListener(
-			new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					// On user click exit, the application exits.
-					exitApp();
-				}
-			}
-		);
-				
-	}
 	
 	/**
 	 * Exits the application

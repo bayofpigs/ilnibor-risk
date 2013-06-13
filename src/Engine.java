@@ -1,7 +1,10 @@
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -10,7 +13,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -37,7 +39,8 @@ public class Engine {
 	public int gameState;
 	public Army turn;
 	private Country donor, reciever;
-	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8, END_GAME = 9;
+	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, 
+			ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8, END_GAME = 9;
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
 	
 	private GuiFrame gameGui;
@@ -65,13 +68,6 @@ public class Engine {
 		
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
-		armies = gameArmies;
-		for (int i = 2; i < 40; i += 2)
-			riskValues.add(i);
-		for (Army a: armies){
-			a.addReinforcements(armies.size());
-			a.addRiskValues(riskValues);
-		}
 		
 		// Fill the countries array with the contents of Countries.txt file
 		Scanner a = new Scanner(mapCountries);
@@ -84,15 +80,18 @@ public class Engine {
 		// Fill the continents array with the contents of the Continents.txt file
 		a = new Scanner(mapContinents);
 		buildContinents(a);
-		turn = armies.get(0);
-		donor = countries.get(0);
-		reciever = countries.get(0);
-		gameState = PRE_GAME;
 		
-		// Build the GUI
+		// Initalize the GUI
 		gameGui = gui;
 		gameBoard = new GameBoardPanel(countries);
 		gui.setGameBoardPanelInformation(gameBoard);
+		
+	}
+	
+	public void start() {
+		donor = countries.get(0);
+		reciever = countries.get(0);
+		gameState = PRE_GAME;
 		
 		countryMapDir = "resources/map.png";
 		try {
@@ -104,7 +103,7 @@ public class Engine {
 		previousState = 0;
 		previousColor = Color.gray;
 		setUpGameBoardListeners();
-		setupGameCurrentPlayer();
+		setupMainMenuListener();
 	}
 	
 	public void setUpGameBoardListeners() {
@@ -160,6 +159,63 @@ public class Engine {
 		gameBoard.add(reinIndicator);
 	}
 
+	
+	/**
+	 * Sets up listener for the start and exit buttons on the mainmenu
+	 */
+	public void setupMainMenuListener() {
+		// The start button from the main menu
+		JButton start = gameGui.mainMenu.getStartButton();
+		
+		// The exit button from the mainmenu
+		JButton exit = gameGui.mainMenu.getExitButton();
+		start.addActionListener(
+			new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					initiateGame();
+				}
+			}		
+		);
+		
+		exit.addActionListener(
+			new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					// On user click exit, the application exits.
+					gameGui.exitApp();
+				}
+			}
+		);
+				
+	}
+	
+	public void initiateGame() {
+		// On user click start: the center panel flips to the main game
+		NumberOfPlayersFrame s = new NumberOfPlayersFrame(gameGui);
+		s.setLocationRelativeTo(gameGui);
+		s.setVisible(true);
+		
+		if (s.getAccepted()) {
+			System.out.println("I'm here!");
+			ArrayList<Army> players = s.getArmyList();
+			setArmies(players);
+			
+			for (int i = 2; i < 40; i += 2)
+				riskValues.add(i);
+			for (Army a: armies){
+				a.addReinforcements(armies.size());
+				a.addRiskValues(riskValues);
+			}
+			
+			turn = armies.get(0);
+			setupGameCurrentPlayer();
+			
+			gameGui.flipToGame();
+		}
+	}
+	
+	public void setArmies(ArrayList<Army> players) {
+		armies = players;
+	}
 	
 	// Processes the color clicked and uses information to update countries
 	public void processColor(int blueIndex, Point x)

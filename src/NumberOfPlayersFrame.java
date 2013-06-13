@@ -12,6 +12,7 @@ import java.io.File;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -23,9 +24,8 @@ public class NumberOfPlayersFrame extends JDialog{
 	private Dimension dialogSize;
 	private ArrayList<JLabel> colorLabels;
 	private ArrayList<JTextField> nameFields;
-	private final ArrayList<Color> COLORSLIST = new ArrayList<Color>(
-			Arrays.asList(new Color[]{Color.red, Color.blue, Color.green,
-			Color.orange, Color.yellow} ));
+	private final Color[] COLORS = new Color[]{Color.MAGENTA, Color.blue, Color.green,
+			Color.RED, Color.cyan};
 	private ArrayList<Color> availColors = new ArrayList<Color>();
 	private JComboBox<Integer> combo;
 	private JPanel namePanel;
@@ -33,15 +33,17 @@ public class NumberOfPlayersFrame extends JDialog{
 	private JPanel okayCancelPanel;
 	private JButton okay;
 	private JButton cancel;
-	private String[] possibleNames;
-	private boolean accepted;
+	private boolean userClickOK;
+	private int currentPlayerNum;
 	
-	public NumberOfPlayersFrame() {
-		dialogSize = new Dimension(200, 300);
+	public NumberOfPlayersFrame(Frame parentFrame) {
+		super(parentFrame);
+		this.setModal(true);
+		dialogSize = new Dimension(200, 350);
 		this.setTitle("How many players?");
 		this.setSize(dialogSize);
 		this.setResizable(false);
-		accepted = false;
+		userClickOK = false;
 		this.setLayout(new BorderLayout());
 		comboPanel = new JPanel();
 		namePanel = new JPanel();
@@ -51,17 +53,14 @@ public class NumberOfPlayersFrame extends JDialog{
 		nameFields = new ArrayList<JTextField>();
 		colorLabels = new ArrayList<JLabel>();
 		
-		Integer[] comboOptions = new Integer[] {1, 2, 3, 4, 5};
+		Integer[] comboOptions = new Integer[] {2, 3, 4, 5};
 		combo = new JComboBox<Integer>(comboOptions);
 		combo.setSelectedItem(new Integer(3));
 		comboPanel.add(combo);
 		
-		availColors = COLORSLIST;
-		for (int i = 0; i < (int)combo.getSelectedItem(); i++) {
-			namePanel.add(createAndGetNewPanel());
-		}
+		setNameLayout((int)combo.getSelectedItem());
 		
-		okay = new JButton("Okay");
+		okay = new JButton("OK");
 		cancel = new JButton("Cancel");
 		okayCancelPanel.add(okay);
 		okayCancelPanel.add(cancel);
@@ -69,6 +68,8 @@ public class NumberOfPlayersFrame extends JDialog{
 		this.add(comboPanel, BorderLayout.NORTH);
 		this.add(namePanel, BorderLayout.CENTER);
 		this.add(okayCancelPanel, BorderLayout.SOUTH);
+		
+		setupListeners();
 	}
 	
 	public JPanel createAndGetNewPanel() {
@@ -80,6 +81,7 @@ public class NumberOfPlayersFrame extends JDialog{
 		int index = (int)(Math.random() * availColors.size());
 		newLabel.setBackground(availColors.remove(index));
 		newLabel.setOpaque(true);
+		newLabel.setText("Player " + currentPlayerNum + "'s Name:");
 		colorLabels.add(newLabel);
 		
 		JTextField newTextField = new JTextField(10);
@@ -91,12 +93,64 @@ public class NumberOfPlayersFrame extends JDialog{
 		return newPanel;
 	}
 	
-	public boolean getAccepted() {
-		return accepted;
+	public void setupListeners() {
+		combo.addActionListener(
+			new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setNameLayout((int)combo.getSelectedItem());
+				}
+			}
+		);
+		
+		okay.addActionListener(
+			new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					userClickOK = true;
+					exit();
+				}
+			}
+		);
+		
+		cancel.addActionListener(
+			new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					userClickOK = false;
+					exit();
+				}
+			}
+		);
 	}
 	
-	public static void main(String[] args) {
-		NumberOfPlayersFrame n = new NumberOfPlayersFrame();
-		n.setVisible(true);
+	public void setNameLayout(int numSelected) {
+		availColors.clear();
+		availColors = new ArrayList<Color>(Arrays.asList(COLORS));
+		colorLabels.clear();
+		nameFields.clear();
+		namePanel.removeAll();
+		for (currentPlayerNum = 1; currentPlayerNum <= numSelected; currentPlayerNum++) {
+			namePanel.add(createAndGetNewPanel());
+		}
+		
+		namePanel.revalidate();
+		namePanel.repaint();
 	}
+	
+	public ArrayList<Army> getArmyList() {
+		ArrayList<Army> armies = new ArrayList<Army>();
+		for (int i = 0; i < colorLabels.size(); i++) {
+			armies.add(new Army(colorLabels.get(i).getBackground(), 
+					nameFields.get(i).getText()));
+		}
+		
+		return armies;
+	}
+	
+	public void exit() {
+		this.dispose();
+	}
+	
+	public boolean getAccepted() {
+		return userClickOK;
+	}
+	
 }

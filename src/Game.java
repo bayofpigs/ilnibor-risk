@@ -30,6 +30,7 @@ public class Game {
 		GuiFrame gui = new GuiFrame();
 		Engine engine = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), teams, 
 				gui);
+		engine.start();
 		gui.setVisible(true);		
 	}
 }
