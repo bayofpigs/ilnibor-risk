@@ -32,9 +32,8 @@ public class GuiFrame extends JFrame {
 	private String GAMEPANEL = "Game"; // The string label for the gameboard of the game for the cards variable
 	private ImageIcon icon; // The icon of the game on the titlebar of the program
 	private Dimension frameSize; // The size of the frame in general
-	private Engine game; // The engine that runs the game
-	
-	public GuiFrame(Engine engine) throws FileNotFoundException {
+		
+	public GuiFrame() throws FileNotFoundException {
 		// Setup the menuPanel of the frame (to be implemented)
 		makeMenu();
 		
@@ -73,17 +72,8 @@ public class GuiFrame extends JFrame {
 		// to put a tester like this.)
 		
 		
-		// initialize the game engine
-		game = engine;
-		
-		// More tester code.
-		// Again, don't know if this should be here.
-		// Will separate game engine from implementation later
-		
-		
 		// Setup the mainMenu and the gameboard
 		mainMenu = new MainMenuPanel();
-		gameBoard = new GameBoardPanel(game);
 		
 		// Setup the main menu Panel size
 		mainPanel = new JPanel(new BorderLayout());
@@ -115,7 +105,6 @@ public class GuiFrame extends JFrame {
 		
 		// Add the mainmenu to the cards panel (main, center board)
 		cards.add(mainPanel, MENUPANEL);
-		cards.add(gameBoard, GAMEPANEL);
 		add(cards);
 		
 		// Setup the listeners for the main menu (See: probably should not be here, 
@@ -126,6 +115,12 @@ public class GuiFrame extends JFrame {
 		// NOT IMPLEMENTED YET
 		setupGameListener();
 	}
+	
+	public void setGameBoardPanelInformation(GameBoardPanel gbd) {
+		gameBoard = gbd;
+		cards.add(gameBoard, GAMEPANEL);
+	}
+	
 	
 	/**
 	 * Sets up listener for the start and exit buttons on the mainmenu

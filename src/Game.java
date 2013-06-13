@@ -6,6 +6,14 @@ import java.util.ArrayList;
  * @author Michael Zhang
  * The game runner. Place all game testers and such here.
  *
+ * ~~CLEANING UP CODE PROCESS~~ 
+ * TODO:
+ * Remove references to Engine in Game GUi
+ * Remove reference to Engine in gameboardpanel
+ * add references to gameboardpanel in game GUI
+ * add references to gamegui in engine
+ * ~~MIKE ZHANG~~
+ * 
  */
 
 public class Game {
@@ -19,8 +27,9 @@ public class Game {
 		teams.add(north);
 		teams.add(south);
 		//teams.add(east);
-		Engine engine = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), teams);
-		GuiFrame gui = new GuiFrame(engine);
+		GuiFrame gui = new GuiFrame();
+		Engine engine = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), teams, 
+				gui);
 		gui.setVisible(true);		
 	}
 }

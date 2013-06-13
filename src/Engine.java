@@ -1,7 +1,20 @@
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 
 /**
  * The game engine for the Risk game
@@ -27,6 +40,18 @@ public class Engine {
 	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8, END_GAME = 9;
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
 	
+	private GuiFrame gameGui;
+	private GameBoardPanel gameBoard;
+	private BufferedImage countryMap; //Stores map with corresponding country images
+	private String countryMapDir; //String directory of where the country map image is located
+	private String phaseCompleteDir;
+	private ImageIcon phaseCompleteImage;
+	private JButton phaseComplete;
+	protected ColorTurnIndicator turnIndicator;
+	protected int previousState;
+	protected Color previousColor;
+	protected JLabel reinIndicator;
+	
 	/*
 	 * Text versions:
 	 * PRE_GAME, OCCUPY = "OCCUPY"
@@ -35,8 +60,9 @@ public class Engine {
 	 * FORTIFY = "FORTIFY"
 	 * END_GAME = "GAME OVER"
 	 */
-	public Engine(File mapCountries, File mapNeighbors, File mapContinents, ArrayList<Army> gameArmies) throws FileNotFoundException{
+	public Engine(File mapCountries, File mapNeighbors, File mapContinents, ArrayList<Army> gameArmies, GuiFrame gui) throws FileNotFoundException{
 		// Initialize the array variables
+		
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		armies = gameArmies;
@@ -46,6 +72,7 @@ public class Engine {
 			a.addReinforcements(armies.size());
 			a.addRiskValues(riskValues);
 		}
+		
 		// Fill the countries array with the contents of Countries.txt file
 		Scanner a = new Scanner(mapCountries);
 		buildCountries(a);
@@ -61,6 +88,109 @@ public class Engine {
 		donor = countries.get(0);
 		reciever = countries.get(0);
 		gameState = PRE_GAME;
+		
+		// Build the GUI
+		gameGui = gui;
+		gameBoard = new GameBoardPanel(countries);
+		gui.setGameBoardPanelInformation(gameBoard);
+		
+		countryMapDir = "resources/map.png";
+		try {
+			countryMap = ImageIO.read(new File(countryMapDir));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		previousState = 0;
+		previousColor = Color.gray;
+		setUpGameBoardListeners();
+		setupGameCurrentPlayer();
+	}
+	
+	public void setUpGameBoardListeners() {
+		gameBoard.addMouseListener(
+			new MouseAdapter() {
+				public void mouseReleased(MouseEvent e) {
+					int index = 1000;
+					if (e.getX() < 1160)
+						index = new Color((((BufferedImage) countryMap).getRGB(e.getX() - 14, e.getY()))).getBlue();
+					processColor(index, e.getPoint());
+				}
+			}
+		);
+	}
+	
+	// Set ups the turn indicator
+	public void setupGameCurrentPlayer() {
+		phaseCompleteDir = "resources/turndone.png";
+		phaseCompleteImage = new ImageIcon(phaseCompleteDir);
+		phaseComplete = new JButton(phaseCompleteImage);
+		Insets insets = gameBoard.getInsets();
+		phaseComplete.setBounds(insets.left + 46, insets.top + 443, 
+								phaseCompleteImage.getIconWidth(), 
+								phaseCompleteImage.getIconHeight());
+		phaseComplete.addMouseListener(
+			new MouseAdapter() {
+				
+				public void mouseReleased(MouseEvent e) {
+					endClick();
+					updateIndicator();
+				}
+			}
+		);
+		
+		turnIndicator = new ColorTurnIndicator();
+		Dimension indDim = turnIndicator.getDim();
+		turnIndicator.setBounds(insets.left + 46, insets.top + 530,
+								indDim.width, indDim.height);
+		
+		reinIndicator = new JLabel();
+		
+		turnIndicator.setText(gameState);
+		previousState = gameState;
+		turnIndicator.changeColor(turn.armyColor);
+		
+		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " 
+														+ turn.reinforcements + "</font></head>");
+		reinIndicator.setBounds(insets.left + 46, insets.top + 590, indDim.width, indDim.height);
+		
+		previousColor = turn.armyColor;
+		gameBoard.add(phaseComplete);
+		gameBoard.add(turnIndicator);
+		gameBoard.add(reinIndicator);
+	}
+
+	
+	// Processes the color clicked and uses information to update countries
+	public void processColor(int blueIndex, Point x)
+	{
+		if (blueIndex >= 0 && blueIndex < countries.size())
+			try {
+				processClick(countries.get(blueIndex)); // retrieves color information based on country
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+	}
+	
+	public void processClick(Country c) throws InterruptedException {
+		// sends information on the country clicked to the Engine to be processed
+		readClick(c);
+		updateIndicator();
+	}
+	
+	// Updates the indicator
+	public void updateIndicator() {
+		if (gameState != previousState) {
+			turnIndicator.setText(gameState);
+		}
+		previousState = gameState;
+		if (!turn.armyColor.equals(previousColor)) {
+			turnIndicator.changeColor(turn.armyColor);
+		}
+		previousColor = turn.armyColor;
+		
+		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " 
+				+ turn.reinforcements + "</font></head>");
 	}
 	
 	/**
