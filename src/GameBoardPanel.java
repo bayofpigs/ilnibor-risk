@@ -1,19 +1,9 @@
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JButton;
 import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Color;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -35,10 +25,8 @@ public class GameBoardPanel extends JPanel{
 	private Image mapImg; // Stores the map image
 	
 	private final Dimension BGSIZE; // The size of the map
-	private ArrayList<Country> countries;
 	
 	public GameBoardPanel(ArrayList<Country> cArray) {
-		countries = cArray;
 		
 		// Set the size of the gameboard
 		BGSIZE = new Dimension(1179, 700);

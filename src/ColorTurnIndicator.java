@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 public class ColorTurnIndicator extends JPanel {
+	private static final long serialVersionUID = 8776342095199288987L;
 	private Dimension displayDimension;
 	private JLabel textLabel;
 	

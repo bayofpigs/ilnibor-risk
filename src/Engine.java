@@ -1,4 +1,3 @@
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
@@ -405,8 +404,8 @@ public class Engine {
 	}
 	
 	public void fortifyA(Country c){
-		if (!c.army.equals(turn)) return;
 		donor = c;
+		if (!donor.army.equals(turn) || donor.troops <= 1) return;
 		gameState = FORTIFY_B;
 		donor.toggleSpecialOn();
 	}
@@ -414,6 +413,8 @@ public class Engine {
 	public void fortifyB(Country c){
 		reciever = c;
 		if (!reciever.canReinforce(donor)) return;
+		donor.troops --;
+		reciever.troops ++;
 		gameState = FORTIFY_C;
 	}
 	

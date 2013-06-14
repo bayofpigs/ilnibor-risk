@@ -1,12 +1,9 @@
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.FileNotFoundException;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -21,8 +18,8 @@ import javax.swing.JLabel;
  * @author That Kid Named Sid
  *
  */
-@SuppressWarnings("serial")
 public class GuiFrame extends JFrame {
+	private static final long serialVersionUID = 5633826349468137699L;
 	protected JPanel cards; // The primary, center panel of the board. Flips through multiple pages in response to user input
 	private JPanel mainPanel; // A panel containing the mainMenu of the game. Features the mainMenu and a panel containing text
 	private JPanel sidePanel; // The panel on the right side of the mainmenu. Contains the group credit text.
