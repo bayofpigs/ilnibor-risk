@@ -397,7 +397,7 @@ public class Engine {
 		if (!c.equals(reciever)) return;
 		donor.troops --;
 		reciever.troops ++;
-		if (donor.troops == 1){
+		if (donor.troops <= 1){
 			gameState = ATTACK_A;
 			donor.toggleSpecialOff();
 		}
@@ -422,7 +422,7 @@ public class Engine {
 		if (!c.equals(reciever)) return;
 		donor.troops --;
 		reciever.troops ++;
-		if (donor.troops == 1){
+		if (donor.troops <= 1){
 			rotate();
 			turn.reinforcements();
 			gameState = RECRUIT;
