@@ -17,9 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class NumberOfPlayersFrame extends JDialog{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2278594614920750336L;
 	private Dimension dialogSize;
 	private ArrayList<JLabel> colorLabels;
@@ -27,7 +24,7 @@ public class NumberOfPlayersFrame extends JDialog{
 	private final Color[] COLORS = new Color[]{Color.MAGENTA, Color.blue, Color.green,
 			Color.RED, Color.cyan};
 	private ArrayList<Color> availColors = new ArrayList<Color>();
-	private JComboBox combo;
+	private JComboBox<Integer> combo;
 	private JPanel namePanel;
 	private JPanel comboPanel;
 	private JPanel okayCancelPanel;
@@ -54,7 +51,7 @@ public class NumberOfPlayersFrame extends JDialog{
 		colorLabels = new ArrayList<JLabel>();
 		
 		Integer[] comboOptions = new Integer[] {2, 3, 4, 5};
-		combo = new JComboBox(comboOptions);
+		combo = new JComboBox<Integer>(comboOptions);
 		combo.setSelectedItem(new Integer(3));
 		comboPanel.add(combo);
 		

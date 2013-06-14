@@ -9,6 +9,7 @@ import java.awt.Insets;
 
 
 public class MainMenuPanel extends JPanel {
+	private static final long serialVersionUID = 3614630489279583940L;
 	private Image bg;
 	private ImageIcon startButtonImg;
 	private ImageIcon exitButtonImg;
