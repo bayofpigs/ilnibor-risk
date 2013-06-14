@@ -79,8 +79,7 @@ public class NumberOfPlayersFrame extends JDialog{
 		JLabel newLabel = new JLabel();
 		newLabel.setSize(labelSize);
 		int index = (int)(Math.random() * availColors.size());
-		newLabel.setBackground(availColors.remove(index));
-		newLabel.setOpaque(true);
+		newLabel.setForeground(availColors.remove(index));
 		newLabel.setText("Player " + currentPlayerNum + "'s Name:");
 		colorLabels.add(newLabel);
 		
@@ -161,7 +160,7 @@ public class NumberOfPlayersFrame extends JDialog{
 				nextName = randomNames.remove(nextDigit);
 			}
 			
-			armies.add(new Army(colorLabels.get(i).getBackground(), 
+			armies.add(new Army(colorLabels.get(i).getForeground(), 
 					nextName));
 		}
 		
