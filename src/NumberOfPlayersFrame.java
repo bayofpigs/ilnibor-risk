@@ -24,7 +24,7 @@ public class NumberOfPlayersFrame extends JDialog{
 	private final Color[] COLORS = new Color[]{Color.MAGENTA, Color.blue, Color.green,
 			Color.RED, Color.cyan};
 	private ArrayList<Color> availColors = new ArrayList<Color>();
-	private JComboBox<Integer> combo;
+	private JComboBox combo;
 	private JPanel namePanel;
 	private JPanel comboPanel;
 	private JPanel okayCancelPanel;
@@ -51,7 +51,7 @@ public class NumberOfPlayersFrame extends JDialog{
 		colorLabels = new ArrayList<JLabel>();
 		
 		Integer[] comboOptions = new Integer[] {2, 3, 4, 5};
-		combo = new JComboBox<Integer>(comboOptions);
+		combo = new JComboBox(comboOptions);
 		combo.setSelectedItem(new Integer(3));
 		comboPanel.add(combo);
 		
