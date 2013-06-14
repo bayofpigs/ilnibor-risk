@@ -58,7 +58,7 @@ public class NumberOfPlayersFrame extends JDialog{
 		combo.setSelectedItem(new Integer(3));
 		comboPanel.add(combo);
 		
-		setNameLayout((int)combo.getSelectedItem());
+		setNameLayout((Integer)combo.getSelectedItem());
 		
 		okay = new JButton("OK");
 		cancel = new JButton("Cancel");
@@ -162,7 +162,7 @@ public class NumberOfPlayersFrame extends JDialog{
 			}
 			
 			armies.add(new Army(colorLabels.get(i).getBackground(), 
-					nameFields.get(i).getText()));
+					nextName));
 		}
 		
 		System.out.println(armies);
