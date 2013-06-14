@@ -27,7 +27,7 @@ public class NumberOfPlayersFrame extends JDialog{
 	private final Color[] COLORS = new Color[]{Color.MAGENTA, Color.blue, Color.green,
 			Color.RED, Color.cyan};
 	private ArrayList<Color> availColors = new ArrayList<Color>();
-	private JComboBox<Integer> combo;
+	private JComboBox combo;
 	private JPanel namePanel;
 	private JPanel comboPanel;
 	private JPanel okayCancelPanel;
@@ -54,7 +54,7 @@ public class NumberOfPlayersFrame extends JDialog{
 		colorLabels = new ArrayList<JLabel>();
 		
 		Integer[] comboOptions = new Integer[] {2, 3, 4, 5};
-		combo = new JComboBox<Integer>(comboOptions);
+		combo = new JComboBox(comboOptions);
 		combo.setSelectedItem(new Integer(3));
 		comboPanel.add(combo);
 		
@@ -136,12 +136,36 @@ public class NumberOfPlayersFrame extends JDialog{
 	}
 	
 	public ArrayList<Army> getArmyList() {
+		ArrayList<String> randomNames = new ArrayList<String>();
+		Scanner nameScanner = null;
+		
+		try {
+			nameScanner = new Scanner(new File("resources/PlayerNames.txt"));
+			int numNames = Integer.parseInt(nameScanner.nextLine());
+			for (int i = 0; i < numNames; i++) {
+				randomNames.add(nameScanner.nextLine());
+			}
+			
+			nameScanner.close();
+		} catch (java.io.FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		//System.out.println(randomNames);
+		
 		ArrayList<Army> armies = new ArrayList<Army>();
 		for (int i = 0; i < colorLabels.size(); i++) {
+			String nextName = nameFields.get(i).getText();
+			if (nextName.trim().equals("")) {
+				int nextDigit = (int)(Math.random() * randomNames.size());
+				nextName = randomNames.remove(nextDigit);
+			}
+			
 			armies.add(new Army(colorLabels.get(i).getBackground(), 
 					nameFields.get(i).getText()));
 		}
 		
+		System.out.println(armies);
 		return armies;
 	}
 	

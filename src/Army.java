@@ -15,6 +15,7 @@ public class Army {
 		armyColor = color;
 		armyName = name;
 	}
+
 	public void addRiskValues(ArrayList<Integer> riskValues){
 		risk = riskValues;
 	}
