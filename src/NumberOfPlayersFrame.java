@@ -97,7 +97,7 @@ public class NumberOfPlayersFrame extends JDialog{
 		combo.addActionListener(
 			new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					setNameLayout((int)combo.getSelectedItem());
+					setNameLayout((Integer)combo.getSelectedItem());
 				}
 			}
 		);
