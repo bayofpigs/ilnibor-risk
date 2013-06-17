@@ -41,7 +41,6 @@ public class Engine {
 	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, 
 			ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8, END_GAME = 9;
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
-	
 	private GuiFrame gameGui;
 	private GameBoardPanel gameBoard;
 	private BufferedImage countryMap; //Stores map with corresponding country images
@@ -53,6 +52,9 @@ public class Engine {
 	protected int previousState;
 	protected Color previousColor;
 	protected JLabel reinIndicator;
+	private File countryFile;
+	private File neighborFile;
+	private File continentFile;
 	
 	/*
 	 * Text versions:
@@ -62,29 +64,39 @@ public class Engine {
 	 * FORTIFY = "FORTIFY"
 	 * END_GAME = "GAME OVER"
 	 */
-	public Engine(File mapCountries, File mapNeighbors, File mapContinents, ArrayList<Army> gameArmies, GuiFrame gui) throws FileNotFoundException{
+	public Engine(File mapCountries, File mapNeighbors, File mapContinents, GuiFrame gui) throws FileNotFoundException{
 		// Initialize the array variables
+		countryFile = mapCountries;
+		neighborFile = mapNeighbors;
+		continentFile = mapContinents;
+		gameGui = gui;
+		countries = new ArrayList<Country>();
+		continents = new ArrayList<Continent>();
+		setupGame();
+	}
+	
+	public void setupGame() throws FileNotFoundException {
+		countries.clear();
+		continents.clear();
 		
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		
 		// Fill the countries array with the contents of Countries.txt file
-		Scanner a = new Scanner(mapCountries);
+		Scanner a = new Scanner(countryFile);
 		buildCountries(a);
 		
 		// Add neighbors to each country
-		a = new Scanner(mapNeighbors);
+		a = new Scanner(neighborFile);
 		buildNeighbors(a);
 		
 		// Fill the continents array with the contents of the Continents.txt file
-		a = new Scanner(mapContinents);
+		a = new Scanner(continentFile);
 		buildContinents(a);
 		
 		// Initalize the GUI
-		gameGui = gui;
 		gameBoard = new GameBoardPanel(countries);
-		gui.setGameBoardPanelInformation(gameBoard);
-		
+		gameGui.setGameBoardPanelInformation(gameBoard);
 	}
 	
 	public void start() {
@@ -103,6 +115,11 @@ public class Engine {
 		previousColor = Color.gray;
 		setUpGameBoardListeners();
 		setupMainMenuListener();
+	}
+	
+	public void restart() throws FileNotFoundException {
+		setupGame();
+		start();
 	}
 	
 	public void setUpGameBoardListeners() {
@@ -198,7 +215,6 @@ public class Engine {
 		s.setVisible(true);
 		
 		if (s.getAccepted()) {
-			System.out.println("I'm here!");
 			ArrayList<Army> players = s.getArmyList();
 			setArmies(players);
 			

@@ -114,6 +114,11 @@ public class GuiFrame extends JFrame {
 		cl.show(cards, GAMEPANEL);
 	}
 	
+	public void flipToMenu() {
+		CardLayout c1 = (CardLayout)cards.getLayout();
+		c1.show(cards, MENUPANEL);
+	}
+	
 	public void setGameBoardPanelInformation(GameBoardPanel gbd) {
 		gameBoard = gbd;
 		cards.add(gameBoard, GAMEPANEL);
