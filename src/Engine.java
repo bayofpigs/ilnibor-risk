@@ -446,7 +446,11 @@ public class Engine {
 		if (c.invade(donor)){
 			updateGame();
 			if (armies.size() == 1) gameState = END_GAME;
-			else gameState = OCCUPY;
+			else if (donor.troops > 1) gameState = OCCUPY;
+			else{
+				gameState = ATTACK_A;
+				donor.toggleSpecialOff();
+			}
 		}
 		else{
 			gameState = ATTACK_A;
