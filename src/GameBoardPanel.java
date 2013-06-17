@@ -1,9 +1,12 @@
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Dimension;
 import java.awt.Color;
+import java.awt.Insets;
+import java.awt.Font;
 import java.util.ArrayList;
 
 /**
@@ -25,8 +28,26 @@ public class GameBoardPanel extends JPanel{
 	private Image mapImg; // Stores the map image
 	
 	private final Dimension BGSIZE; // The size of the map
+	protected JLabel instructionLabel;
+	public static final String sPREGAME = "Click the country you would like to take!.",
+							   sREINFORCE = "Click the country you would like to reinforce.",
+							   sRECRUIT = "Click the countries to place your reinforcements!",
+							   sATTACK_A = "<html>Click the country you would like to attack from.<br>Click \"Turn Done\" if finished.</html>",
+							   sATTACK_B = "Click the country you would like to Conquer!",
+							   sOCCUPY = "<html>Continue clicking the conquered territory to send troops.<br>Click \"Turn Done\" if finished</html>",
+							   sFORTIFY = "Click the country you would like to send troops from.",
+							   sFORTIFY_B = "Click the country you would like to send troops to (must be a neighbor)",
+							   sFORTIFY_C = "<html>Continue clicking the receiving country to send more troops.<br>Click \"Turn Done\" when finished</html>";
+							   
 	
 	public GameBoardPanel(ArrayList<Country> cArray) {
+		Insets insets = this.getInsets();
+		instructionLabel = new JLabel();
+		instructionLabel.setBounds(insets.left + 375, insets.top - 10, 
+									500, 100);
+		instructionLabel.setFont(new Font("Serif", Font.BOLD, 14));
+		instructionLabel.setForeground(Color.white);
+		instructionLabel.setText(sPREGAME);
 		
 		// Set the size of the gameboard
 		BGSIZE = new Dimension(1179, 700);
@@ -53,7 +74,7 @@ public class GameBoardPanel extends JPanel{
 		for (Country a: cArray)
 			add(a);
 		
-		
+		this.add(instructionLabel);
 		//  Click Coordinate finder, for usage with country buttons
 	}
 	

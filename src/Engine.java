@@ -110,6 +110,10 @@ public class Engine {
 			new MouseAdapter() {
 				public void mouseReleased(MouseEvent e) {
 					int index = 1000;
+					// Debug code
+					//System.out.println(e.getX() + " " + e.getY());
+					
+					
 					if (e.getX() < 1160)
 						index = new Color((((BufferedImage) countryMap).getRGB(e.getX() - 14, e.getY()))).getBlue();
 					processColor(index, e.getPoint());
@@ -318,6 +322,10 @@ public class Engine {
 
 	
 	public void readClick(Country c) throws InterruptedException {
+		/*
+		 * Series of if statements can be subbed by a single
+		 * switch (select case structure)
+		 */
 		if (gameState == PRE_GAME) preGame(c);
 		else if (gameState == REINFORCE) reinforce(c);
 		else if (gameState == RECRUIT) recruit(c);
@@ -330,17 +338,54 @@ public class Engine {
 		else if (gameState == END_GAME) System.out.println("GAME OVER");
 		for (Country a: countries)
 			a.updateLabel();
+		
+		changeInstruction();
+	}
+	
+	public void changeInstruction() {
+		switch(gameState) {
+			case PRE_GAME: 
+				gameBoard.instructionLabel.setText(GameBoardPanel.sPREGAME);
+				break;
+			case REINFORCE:
+				gameBoard.instructionLabel.setText(GameBoardPanel.sREINFORCE);
+				break;
+			case RECRUIT:
+				gameBoard.instructionLabel.setText(GameBoardPanel.sRECRUIT);
+				break;
+			case ATTACK_A:
+				gameBoard.instructionLabel.setText(GameBoardPanel.sATTACK_A);
+				break;
+			case ATTACK_B:
+				gameBoard.instructionLabel.setText(GameBoardPanel.sATTACK_B);
+				break;
+			case OCCUPY:
+				gameBoard.instructionLabel.setText(GameBoardPanel.sOCCUPY);
+				break;
+			case FORTIFY_A:
+				gameBoard.instructionLabel.setText(GameBoardPanel.sFORTIFY);
+				break;
+			case FORTIFY_B:
+				gameBoard.instructionLabel.setText(GameBoardPanel.sFORTIFY_B);
+				break;
+			case FORTIFY_C:
+				gameBoard.instructionLabel.setText(GameBoardPanel.sFORTIFY_C);
+				break;
+		}
 	}
 	
 	public void endClick(){
 		if (gameState == ATTACK_A || gameState == ATTACK_B) gameState = FORTIFY_A;
-		else if (gameState == OCCUPY) gameState = ATTACK_A;
-		else if (gameState == FORTIFY_A || gameState == FORTIFY_B || gameState == FORTIFY_C){
+		else if (gameState == OCCUPY) {
+			gameState = ATTACK_A;
+		} else if (gameState == FORTIFY_A || gameState == FORTIFY_B || gameState == FORTIFY_C){
 			rotate();
 			turn.reinforcements();
 			gameState = RECRUIT;
 		}
+		
 		donor.toggleSpecialOff();
+		changeInstruction();
 		for (Country a: countries)
 			a.updateLabel();
 	}
