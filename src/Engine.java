@@ -488,15 +488,14 @@ public class Engine {
 	
 	public void fortifyC(Country c){
 		if (!c.equals(reciever)) return;
-		if (donor.troops <= 1){
+		if (donor.troops <= 2){
 			rotate();
 			turn.reinforcements();
 			gameState = RECRUIT;
 			donor.toggleSpecialOff();
-		} else {
-			donor.troops --;
-			reciever.troops ++;
 		}
+		donor.troops --;
+		reciever.troops ++;
 	}
 	
 	public void rotate(){
