@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 /**
  * 
  * @author Michael Zhang
@@ -15,7 +16,7 @@ import java.io.File;
  */
 
 public class Game {
-	public static void main(String[] args) throws java.io.FileNotFoundException{
+	public static void main(String[] args) throws IOException, InterruptedException{
 //		Army north = new Army(Color.RED, "iLCroga");
 //		Army south = new Army(Color.BLUE, "iLNary");
 		//Army east = new Army(Color.ORANGE, "iLFaryn");
@@ -23,8 +24,7 @@ public class Game {
 		//I think it's fine if we just leave it in code.
 		//teams.add(east);
 		GuiFrame gui = new GuiFrame();
-		Engine engine = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), 
-				gui);
+		Engine engine = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), gui);
 		engine.start();
 		gui.setVisible(true);
 		gui.messages.setVisible(true);

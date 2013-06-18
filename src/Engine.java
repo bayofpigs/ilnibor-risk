@@ -47,7 +47,6 @@ public class Engine {
 	private MessageLogFrame log;
 	private GameBoardPanel gameBoard;
 	private BufferedImage countryMap; //Stores map with corresponding country images
-	private String countryMapDir; //String directory of where the country map image is located
 	private String phaseCompleteDir;
 	private ImageIcon phaseCompleteImage;
 	private JButton phaseComplete;
@@ -103,25 +102,23 @@ public class Engine {
 		gameGui.setGameBoardPanelInformation(gameBoard);
 	}
 	
-	public void start() {
+	public void start() throws IOException{
 		donor = countries.get(0);
 		reciever = countries.get(0);
 		gameState = PRE_GAME;
-		
-		countryMapDir = "resources/map.png";
-		try {
-			countryMap = ImageIO.read(new File(countryMapDir));
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
+		countryMap = ImageIO.read(new File("resources/map.png"));
 		previousState = 0;
 		previousColor = Color.gray;
 		setUpGameBoardListeners();
 		setupMainMenuListener();
 	}
 	
-	public void restart() throws FileNotFoundException {
+	public void randomize() throws InterruptedException{
+		for (Country a: countries)
+			readClick(a);
+	}
+	
+	public void restart() throws IOException, InterruptedException {
 		setupGame();
 		start();
 	}
@@ -196,6 +193,13 @@ public class Engine {
 			new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					initiateGame();
+					try {
+						randomize();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					updateIndicator();
 				}
 			}		
 		);
