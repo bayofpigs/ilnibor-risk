@@ -23,6 +23,7 @@ import javax.swing.JLabel;
  * @version 1.0
  * @see Game
  * @Code_Reviewer Mike Zhang
+ * @Debugger Mike Zhang
  *
  *TODO
  *Separate the gameArmies build variable thing from the constructor or at least add a separate setArmies
@@ -53,6 +54,9 @@ public class Engine {
 	protected int previousState;
 	protected Color previousColor;
 	protected JLabel reinIndicator;
+	private File countryFile;
+	private File neighborFile;
+	private File continentFile;
 	
 	/*
 	 * Text versions:
@@ -62,29 +66,39 @@ public class Engine {
 	 * FORTIFY = "FORTIFY"
 	 * END_GAME = "GAME OVER"
 	 */
-	public Engine(File mapCountries, File mapNeighbors, File mapContinents, ArrayList<Army> gameArmies, GuiFrame gui) throws FileNotFoundException{
+	public Engine(File mapCountries, File mapNeighbors, File mapContinents, GuiFrame gui) throws FileNotFoundException{
 		// Initialize the array variables
+		countryFile = mapCountries;
+		neighborFile = mapNeighbors;
+		continentFile = mapContinents;
+		gameGui = gui;
+		countries = new ArrayList<Country>();
+		continents = new ArrayList<Continent>();
+		setupGame();
+	}
+	
+	public void setupGame() throws FileNotFoundException {
+		countries.clear();
+		continents.clear();
 		
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		
 		// Fill the countries array with the contents of Countries.txt file
-		Scanner a = new Scanner(mapCountries);
+		Scanner a = new Scanner(countryFile);
 		buildCountries(a);
 		
 		// Add neighbors to each country
-		a = new Scanner(mapNeighbors);
+		a = new Scanner(neighborFile);
 		buildNeighbors(a);
 		
 		// Fill the continents array with the contents of the Continents.txt file
-		a = new Scanner(mapContinents);
+		a = new Scanner(continentFile);
 		buildContinents(a);
 		
 		// Initalize the GUI
-		gameGui = gui;
 		gameBoard = new GameBoardPanel(countries);
-		gui.setGameBoardPanelInformation(gameBoard);
-		
+		gameGui.setGameBoardPanelInformation(gameBoard);
 	}
 	
 	public void start() {
@@ -103,6 +117,11 @@ public class Engine {
 		previousColor = Color.gray;
 		setUpGameBoardListeners();
 		setupMainMenuListener();
+	}
+	
+	public void restart() throws FileNotFoundException {
+		setupGame();
+		start();
 	}
 	
 	public void setUpGameBoardListeners() {
@@ -198,7 +217,6 @@ public class Engine {
 		s.setVisible(true);
 		
 		if (s.getAccepted()) {
-			System.out.println("I'm here!");
 			ArrayList<Army> players = s.getArmyList();
 			setArmies(players);
 			
@@ -470,14 +488,15 @@ public class Engine {
 	
 	public void fortifyC(Country c){
 		if (!c.equals(reciever)) return;
-		if (donor.troops <= 2){
+		if (donor.troops <= 1){
 			rotate();
 			turn.reinforcements();
-			gameState = ATTACK_A;
+			gameState = RECRUIT;
 			donor.toggleSpecialOff();
+		} else {
+			donor.troops --;
+			reciever.troops ++;
 		}
-		donor.troops --;
-		reciever.troops ++;
 	}
 	
 	public void rotate(){
