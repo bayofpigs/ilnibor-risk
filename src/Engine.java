@@ -128,14 +128,13 @@ public class Engine {
 		gameBoard.addMouseListener(
 			new MouseAdapter() {
 				public void mouseReleased(MouseEvent e) {
-					int index = 1000;
+					//invalid click color index = 1000
+					int colorIndex = 1000;
 					// Debug code
 					//System.out.println(e.getX() + " " + e.getY());
-					
-					
-					if (e.getX() < 1160)
-						index = new Color((((BufferedImage) countryMap).getRGB(e.getX() - 14, e.getY()))).getBlue();
-					processColor(index, e.getPoint());
+					if (e.getX() < 1160 && e.getX() > 14 && e.getY() >= 0 && e.getY() < 670)
+						colorIndex = new Color((((BufferedImage) countryMap).getRGB(e.getX() - 14, e.getY()))).getBlue();
+					processColor(colorIndex, e.getPoint());
 				}
 			}
 		);
