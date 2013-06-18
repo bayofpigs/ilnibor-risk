@@ -23,6 +23,7 @@ import javax.swing.JLabel;
  * @version 1.0
  * @see Game
  * @Code_Reviewer Mike Zhang
+ * @Debugger Mike Zhang
  *
  *TODO
  *Separate the gameArmies build variable thing from the constructor or at least add a separate setArmies
@@ -485,13 +486,14 @@ public class Engine {
 	
 	public void fortifyC(Country c){
 		if (!c.equals(reciever)) return;
-		donor.troops --;
-		reciever.troops ++;
 		if (donor.troops <= 1){
 			rotate();
 			turn.reinforcements();
 			gameState = RECRUIT;
 			donor.toggleSpecialOff();
+		} else {
+			donor.troops --;
+			reciever.troops ++;
 		}
 	}
 	
