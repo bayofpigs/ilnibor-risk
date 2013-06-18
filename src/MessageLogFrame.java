@@ -1,18 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GraphicsEnvironment;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.text.DefaultCaret;
-
 
 /**
  * Frame used to display useful messages.
@@ -22,7 +16,7 @@ import javax.swing.text.DefaultCaret;
 public class MessageLogFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static final String lineMarker = "\n_________________________\n";
-	private ImageIcon icon; // The icon of the game on the titlebar of the program
+	private ImageIcon icon; // The icon of the game on the title bar of the program
 	private Dimension frameSize; // The size of the frame in general
 	private JTextArea text;
 	private JScrollPane scrollText;
@@ -34,7 +28,6 @@ public class MessageLogFrame extends JFrame {
 		setIconImage(icon.getImage());
 		setSize(frameSize);
 		setAlwaysOnTop(true);		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);		
 		// Changes launch location of the frame
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		setLocation((int) (ge.getMaximumWindowBounds().getWidth() -  getWidth()), (int) (ge.getMaximumWindowBounds().getHeight() - getHeight())/2);
