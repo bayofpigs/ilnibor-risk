@@ -15,7 +15,7 @@ import javax.swing.text.DefaultCaret;
  */
 public class MessageLogFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private static final String lineMarker = "\n_________________________\n";
+	private static final String lineMarker = "\n_________________________\n\n";
 	private ImageIcon icon; // The icon of the game on the title bar of the program
 	private Dimension frameSize; // The size of the frame in general
 	private JTextArea text;

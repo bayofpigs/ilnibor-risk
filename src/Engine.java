@@ -389,6 +389,8 @@ public class Engine {
 				break;
 			case FORTIFY_C:
 				gameBoard.instructionLabel.setText(GameBoardPanel.sFORTIFY_C);
+			case END_GAME:
+				gameBoard.instructionLabel.setText(GameBoardPanel.sENDGAME);
 				break;
 		}
 	}
