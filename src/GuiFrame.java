@@ -2,6 +2,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
 import java.io.FileNotFoundException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -29,8 +30,13 @@ public class GuiFrame extends JFrame {
 	protected String GAMEPANEL = "Game"; // The string label for the gameboard of the game for the cards variable
 	private ImageIcon icon; // The icon of the game on the titlebar of the program
 	private Dimension frameSize; // The size of the frame in general
-		
+	public MessageLogFrame messages;
+
 	public GuiFrame() throws FileNotFoundException {
+	
+		// Creates the message log frame
+		messages = new MessageLogFrame();
+		
 		// Setup the menuPanel of the frame (to be implemented)
 		makeMenu();
 		
@@ -52,9 +58,6 @@ public class GuiFrame extends JFrame {
 		// Sets the size of the frame
 		setSize(frameSize);
 		
-		// Changes launch location of the frame
-		setLocationRelativeTo(null);
-		
 		// Sets the frame to non-resizeable
 		setResizable(false);
 		
@@ -67,8 +70,7 @@ public class GuiFrame extends JFrame {
 		// Removed Tester code (don't know if this should have be here, Akhil
 		// it might be better to make a separate class, say Game.java,
 		// to put a tester like this.)
-		
-		
+				
 		// Setup the mainMenu and the gameboard
 		mainMenu = new MainMenuPanel();
 		
@@ -107,6 +109,12 @@ public class GuiFrame extends JFrame {
 		// Setup listeners for the return to main menu button on the actual gameBoard
 		// NOT IMPLEMENTED YET
 		setupGameListener();
+		
+		// Sets startup location of frame
+		//setLocationRelativeTo(null);
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		setLocation(0, (int) (ge.getMaximumWindowBounds().getHeight() - getHeight())/2);
+		
 	}
 	
 	public void flipToGame() {
@@ -131,6 +139,7 @@ public class GuiFrame extends JFrame {
 	 * Exits the application
 	 */
 	public void exitApp() {
+		messages.dispose();
 		this.dispose();
 	}
 	

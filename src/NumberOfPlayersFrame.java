@@ -32,9 +32,11 @@ public class NumberOfPlayersFrame extends JDialog{
 	private JButton cancel;
 	private boolean userClickOK;
 	private int currentPlayerNum;
+	public MessageLogFrame log;
 	
-	public NumberOfPlayersFrame(Frame parentFrame) {
+	public NumberOfPlayersFrame(Frame parentFrame, MessageLogFrame messages) {
 		super(parentFrame);
+		log = messages;
 		this.setModal(true);
 		dialogSize = new Dimension(200, 350);
 		this.setTitle("How many players?");
@@ -158,10 +160,10 @@ public class NumberOfPlayersFrame extends JDialog{
 			}
 			
 			armies.add(new Army(colorLabels.get(i).getForeground(), 
-					nextName));
+					nextName, log));
 		}
 		
-		System.out.println(armies);
+		log.write(armies.toString());
 		return armies;
 	}
 	

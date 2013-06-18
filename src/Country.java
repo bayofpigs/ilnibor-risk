@@ -22,6 +22,7 @@ import javax.swing.SwingConstants;
  */
 public class Country extends JLabel{
 	private static final long serialVersionUID = 1;
+	public MessageLogFrame log;
 	public ArrayList<Country> neighbors;
 	public String name;
 	public String fileName;
@@ -34,8 +35,9 @@ public class Country extends JLabel{
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
 	 */
-	public Country(String name, int leftBound, int topBound) {
+	public Country(String name, int leftBound, int topBound, MessageLogFrame messages) {
 		this.name = name;
+		log = messages;
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
@@ -92,7 +94,7 @@ public class Country extends JLabel{
 	public boolean invade(Country attacker) throws InterruptedException {
 		if (!isNeighbor(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
 		Random die = new Random();
-		System.out.println(attacker.army.armyName + " attacks " + name + " from " + attacker.name + ".\n");
+		log.write(attacker.army.armyName + " attacks " + name + " from " + attacker.name + ".\n");
 		int attackDice = attacker.troops - 1, defendDice = troops;
 		if (attackDice > 3) attackDice = 3;
 		if (defendDice > 2) defendDice = 2;
@@ -105,8 +107,8 @@ public class Country extends JLabel{
 		Collections.sort(attack);
 		Collections.reverse(defend);
 		Collections.reverse(attack);
-		System.out.println("Attacker: " + attack + " (" + attacker.name + ")");
-		System.out.println("Defender: " + defend + " (" + name + ")\n");
+		log.write("Attacker: " + attack + " (" + attacker.name + ")");
+		log.write("Defender: " + defend + " (" + name + ")\n");
 		if (attack.size() < defend.size()) defend.remove(1);
 		while (defend.size() < attack.size())
 			attack.remove(attack.size() - 1);
@@ -124,10 +126,10 @@ public class Country extends JLabel{
 			color = army.armyColor;
 			troops ++;
 			attacker.troops --;
-			System.out.println(name + " has been conquered by " + attacker.army.armyName);
+			log.write(name + " has been conquered by " + attacker.army.armyName);
 			return true;
 		}
-		System.out.println(name + " defends the attack by " + attacker.army.armyName + ".\n");
+		log.write(name + " defends the attack by " + attacker.army.armyName + ".\n");
 		return false;
 	}
 	
@@ -141,9 +143,9 @@ public class Country extends JLabel{
 	public boolean nuke(Country attacker) throws InterruptedException {
 		while (!invade(attacker)){
 			if (!isNeighbor(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
-			System.out.println(attacker + "\n" + toString() + "\n");
-			System.out.println("-------------------------------\n");
-			System.out.println(attacker + "\n" + toString() + "\n");
+			log.write(attacker + "\n" + toString() + "\n");
+			log.write("-------------------------------\n");
+			log.write(attacker + "\n" + toString() + "\n");
 		}
 		return true;
 	}

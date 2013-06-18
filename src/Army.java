@@ -8,7 +8,9 @@ public class Army {
 	public Color armyColor;
 	public String armyName;
 	public int riskCards, reinforcements;
-	public Army(Color color, String name){
+	public MessageLogFrame log;
+	public Army(Color color, String name, MessageLogFrame messages){
+		log = messages;
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		risk = new ArrayList<Integer>();
@@ -30,14 +32,14 @@ public class Army {
 			riskCards -= 3;
 			reinforcements += risk.remove(0);
 		}
-		System.out.println(armyName + " " + reinforcements);
+		log.write(armyName + " " + reinforcements);
 		int territoryTroops = countries.size() / 3;
 		if (territoryTroops < 3) territoryTroops = 3;
 		reinforcements += territoryTroops;
-		System.out.println(armyName + " " + reinforcements);
-		System.out.println(continents);
+		log.write(armyName + " " + reinforcements);
+		log.write(continents.toString());
 		for (Continent a: continents)
 			reinforcements += a.continentValue;
-		System.out.println(armyName + " " + reinforcements);
+		log.write(armyName + " " + reinforcements);
 	}
 }

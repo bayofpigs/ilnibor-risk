@@ -26,6 +26,7 @@ public class Game {
 		Engine engine = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), 
 				gui);
 		engine.start();
-		gui.setVisible(true);		
+		gui.setVisible(true);
+		gui.messages.setVisible(true);
 	}
 }

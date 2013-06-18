@@ -44,6 +44,7 @@ public class Engine {
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
 	
 	private GuiFrame gameGui;
+	private MessageLogFrame log;
 	private GameBoardPanel gameBoard;
 	private BufferedImage countryMap; //Stores map with corresponding country images
 	private String countryMapDir; //String directory of where the country map image is located
@@ -72,6 +73,7 @@ public class Engine {
 		neighborFile = mapNeighbors;
 		continentFile = mapContinents;
 		gameGui = gui;
+		log = gui.messages;
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		setupGame();
@@ -211,7 +213,7 @@ public class Engine {
 	
 	public void initiateGame() {
 		// On user click start: the center panel flips to the main game
-		NumberOfPlayersFrame s = new NumberOfPlayersFrame(gameGui);
+		NumberOfPlayersFrame s = new NumberOfPlayersFrame(gameGui, log);
 		s.setLocationRelativeTo(gameGui);
 		s.setVisible(true);
 		
@@ -276,7 +278,7 @@ public class Engine {
 	public void buildCountries(Scanner in){
 		int a = Integer.parseInt(in.nextLine());
 		for (int i = 0; i < a; i ++)
-			countries.add(new Country(in.nextLine(), Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine())));
+			countries.add(new Country(in.nextLine(), Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine()), log));
 	}
 	
 	/**
@@ -330,7 +332,7 @@ public class Engine {
 			for (Continent b: continents){
 				a.continents.remove(b);
 				if (b.completeControl(a)){
-					System.out.println(b.completeControl(a));
+					log.write("" + b.completeControl(a));
 					a.continents.add(b);
 				}
 			}
@@ -352,7 +354,7 @@ public class Engine {
 		else if (gameState == FORTIFY_A) fortifyA(c);
 		else if (gameState == FORTIFY_B) fortifyB(c);
 		else if (gameState == FORTIFY_C) fortifyC(c);
-		else if (gameState == END_GAME) System.out.println("GAME OVER");
+		else if (gameState == END_GAME) log.write("GAME OVER");
 		for (Country a: countries)
 			a.updateLabel();
 		
