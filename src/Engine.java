@@ -420,7 +420,7 @@ public class Engine {
 	
 	public void attackA(Country c){
 		donor = c;
-		if (!c.army.equals(turn) || c.troops <= 2) return;
+		if (!c.army.equals(turn) || c.troops <= 1) return;
 		gameState = ATTACK_B;
 		donor.toggleSpecialOn();
 	}
