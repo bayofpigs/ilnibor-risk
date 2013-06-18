@@ -443,7 +443,7 @@ public class Engine {
 	}
 	
 	public void attackB(Country c) throws InterruptedException{
-		if (c.equals(donor) || donor.troops <= 1){
+		if (c.equals(donor)){
 			gameState = ATTACK_A;
 			donor.toggleSpecialOff();
 			return;
@@ -457,6 +457,10 @@ public class Engine {
 				gameState = ATTACK_A;
 				donor.toggleSpecialOff();
 			}
+		}
+		if (donor.troops <= 1){
+			gameState = ATTACK_A;
+			donor.toggleSpecialOff();
 		}
 	}
 	
