@@ -419,26 +419,27 @@ public class Engine {
 	}
 	
 	public void attackA(Country c){
-		if (!c.army.equals(turn)) return;
 		donor = c;
+		if (!c.army.equals(turn) || c.troops <= 2) return;
 		gameState = ATTACK_B;
 		donor.toggleSpecialOn();
 	}
 	
 	public void attackB(Country c) throws InterruptedException{
+		if (c.equals(donor) || donor.troops <= 1){
+			gameState = ATTACK_A;
+			donor.toggleSpecialOff();
+			return;
+		}
 		reciever = c;
 		if (c.invade(donor)){
 			updateGame();
 			if (armies.size() == 1) gameState = END_GAME;
-			else if (donor.troops > 1) gameState = OCCUPY;
-			else{
+			else if (donor.troops >= 1) gameState = OCCUPY;
+			else {
 				gameState = ATTACK_A;
 				donor.toggleSpecialOff();
 			}
-		}
-		else{
-			gameState = ATTACK_A;
-			donor.toggleSpecialOff();
 		}
 	}
 	
@@ -469,14 +470,14 @@ public class Engine {
 	
 	public void fortifyC(Country c){
 		if (!c.equals(reciever)) return;
-		donor.troops --;
-		reciever.troops ++;
-		if (donor.troops <= 1){
+		if (donor.troops <= 2){
 			rotate();
 			turn.reinforcements();
-			gameState = RECRUIT;
+			gameState = ATTACK_A;
 			donor.toggleSpecialOff();
 		}
+		donor.troops --;
+		reciever.troops ++;
 	}
 	
 	public void rotate(){
