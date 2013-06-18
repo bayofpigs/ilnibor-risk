@@ -463,12 +463,12 @@ public class Engine {
 	
 	public void occupy(Country c){
 		if (!c.equals(reciever)) return;
-		donor.troops --;
-		reciever.troops ++;
-		if (donor.troops <= 1){
+		if (donor.troops <= 2){
 			gameState = ATTACK_A;
 			donor.toggleSpecialOff();
 		}
+		donor.troops --;
+		reciever.troops ++;
 	}
 	
 	public void fortifyA(Country c){
