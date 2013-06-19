@@ -1,11 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.text.DefaultCaret;
 
 /**
@@ -18,7 +19,7 @@ public class MessageLogFrame extends JFrame {
 	private static final String lineMarker = "\n_________________________\n\n";
 	private ImageIcon icon; // The icon of the game on the title bar of the program
 	private Dimension frameSize; // The size of the frame in general
-	private JTextArea text;
+	private JTextPane text;
 	private JScrollPane scrollText;
 	
 	public MessageLogFrame(){
@@ -31,7 +32,6 @@ public class MessageLogFrame extends JFrame {
 		// Changes launch location of the frame
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		setLocation((int) (ge.getMaximumWindowBounds().getWidth() -  getWidth()), (int) (ge.getMaximumWindowBounds().getHeight() - getHeight())/2);
-		
 		setResizable(false);
 		setLayout(new BorderLayout());	
 		setupScrollingTextArea();
@@ -41,7 +41,7 @@ public class MessageLogFrame extends JFrame {
 	 * Sets up the scrolling text area to contain a JTextArea
 	 */
 	private void setupScrollingTextArea(){
-		text = new JTextArea();
+		text = new JTextPane();
 		DefaultCaret caret = (DefaultCaret)text.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		text.setBackground(Color.BLACK);
@@ -55,12 +55,32 @@ public class MessageLogFrame extends JFrame {
 	 * Updates the display text
 	 * @param message The message to be added to the display
 	 */
+	public void write(String message, Color color, Font font){
+		message = splitLines(message, 25);
+		Font prevFont = text.getFont();
+		Color prevColor = text.getDisabledTextColor();
+		changeFont(color, font);
+		if (text.getText().length() > 0)
+			text.setText(text.getText() + lineMarker + message);
+		else
+			text.setText(message);
+		changeFont(prevColor, prevFont);
+	}
+	
 	public void write(String message){
 		message = splitLines(message, 25);
 		if (text.getText().length() > 0)
 			text.setText(text.getText() + lineMarker + message);
 		else
 			text.setText(message);
+	}
+	
+	/**
+	 * Changes the font and color of the text
+	 */
+	private void changeFont(Color color, Font font){
+		text.setFont(font);
+		text.setDisabledTextColor(color);
 	}
 	
 	/**

@@ -42,4 +42,8 @@ public class Army {
 			reinforcements += a.continentValue;
 		log.write(armyName + " " + reinforcements);
 	}
+	
+	public String toString(){
+		return armyName;
+	}
 }
