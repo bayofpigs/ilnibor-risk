@@ -25,10 +25,6 @@ import javax.swing.JLabel;
  * @Code_Reviewer Mike Zhang
  * @Debugger Mike Zhang
  *
- *TODO
- *Separate the gameArmies build variable thing from the constructor or at least add a separate setArmies
- *once debugging is over. It would be better to have the user input the number of players and
- *the army names through the GUI.
  *
  */
 
@@ -359,7 +355,7 @@ public class Engine {
 		else if (gameState == FORTIFY_A) fortifyA(c);
 		else if (gameState == FORTIFY_B) fortifyB(c);
 		else if (gameState == FORTIFY_C) fortifyC(c);
-		else if (gameState == END_GAME){ log.write("ENGINE 2"); log.write("GAME OVER");}
+		else if (gameState == END_GAME){log.write("GAME OVER: " + armies.get(0) + "WINS!");}
 		for (Country a: countries)
 			a.updateLabel();
 		

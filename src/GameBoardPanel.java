@@ -65,7 +65,7 @@ public class GameBoardPanel extends JPanel{
 		setLayout(null);
 		
 		// Insert the map image into the mapImg variable
-		// The map is drawn onto the gameboard in the paintcomponent() method
+		// The map is drawn onto the gameboard in the paintComponent() method
 		mapImgDir = "resources/map.jpg";
 		mapImg = new ImageIcon(mapImgDir).getImage();
 		

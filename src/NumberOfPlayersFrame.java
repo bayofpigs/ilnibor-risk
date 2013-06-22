@@ -162,11 +162,12 @@ public class NumberOfPlayersFrame extends JDialog{
 			armies.add(new Army(colorLabels.get(i).getForeground(), 
 					nextName, log));
 		}
-		String players = "";
-		for (Army army : armies)
-			players = players + ", " + army;
-		players = players.substring(2);
-		log.write("Players: " + players);
+		log.write("Players:", "NO_LINEMARKER", Color.WHITE);
+		for(Army army : armies)
+			if (army.armyName.equals(armies.get(armies.size() - 1).armyName))
+				log.write(army.armyName, army.armyColor);
+			else
+				log.write(army.armyName,"NO_LINEMARKER", army.armyColor);
 		return armies;
 	}
 	
@@ -176,6 +177,5 @@ public class NumberOfPlayersFrame extends JDialog{
 	
 	public boolean getAccepted() {
 		return userClickOK;
-	}
-	
+	}	
 }

@@ -19,7 +19,7 @@ import javax.swing.text.StyledDocument;
  */
 public class MessageLogFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private static final String lineMarker = "\n________________________\n\n";
+	public static final String lineMarker = "\n________________________\n\n";
 	private static final Color DEFAULT_COLOR = Color.WHITE;
 	private Dimension frameSize;
 	private JTextPane text;
@@ -54,7 +54,7 @@ public class MessageLogFrame extends JFrame {
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		scrollText = new JScrollPane(text);
 		add(scrollText);
-		write("Welcome to iLNibor's Risk!\n\nCreated by: \n\nMIKE ZHANG AKHIL VELAGAPUDI \nSID SENKUMAR");
+		write("Welcome to iLNibor's Risk! \n \n Created by: \n \n MIKE ZHANG \n AKHIL VELAGAPUDI \n SID SENKUMAR");
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class MessageLogFrame extends JFrame {
 	 * @param color The color of the message text
 	 */
 	public void write(String message, Color color){
-		message = splitLines(message, 30);
+		message = splitLines(message, lineMarker.length());
 		//Adds the text in the desired color
 		StyledDocument doc = text.getStyledDocument();
         Style style = text.addStyle("colorStyle", null);
@@ -93,16 +93,43 @@ public class MessageLogFrame extends JFrame {
 	 */
 	private String splitLines(String message, int max){
 		String splitUp = "";
-		int count = 0;
+		int lengthThisLine = 0;
 		String[] words = message.split(" ");
 		for (int i = 0; i < words.length; i++){
-			if (count + words[i].length() > max){
-				splitUp += "\n";
-				count = 0;
+			if (words[i].equals("\n")){
+				splitUp += words[i];
+			//	System.out.println("Caught one");
+			//	System.out.println(splitUp + "\n-----------------\n\n\n");
+				lengthThisLine = 0;
 			}
-			splitUp += words[i] + " ";
-			count += words[i].length();
+			else{
+				if (lengthThisLine + words[i].length() + 1 > max){
+					splitUp += "\n";
+					lengthThisLine = 0;
+				}
+				splitUp += words[i] + " ";
+				lengthThisLine += words[i].length() + 1;
+			}
 		}
+	
+		//System.out.println("========================");
+		//System.out.println(splitUp);
+		//System.out.println("------------------------");
+
 		return splitUp;
+	}
+
+	public void write(String message, String string, Color color) {
+		message = splitLines(message, lineMarker.length());
+		//Adds the text in the desired color
+		StyledDocument doc = text.getStyledDocument();
+        Style style = text.addStyle("colorStyle", null);
+        StyleConstants.setForeground(style, color);
+        try { doc.insertString(doc.getLength(), message, style); }
+        catch (BadLocationException e){}
+        //Goes to the next line and changes the color back to white
+        StyleConstants.setForeground(style, DEFAULT_COLOR);
+        try { doc.insertString(doc.getLength(), "\n", style); }
+        catch (BadLocationException e){}
 	}
 }
