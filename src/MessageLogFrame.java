@@ -1,39 +1,43 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 /**
- * Frame used to display useful messages.
+ * Frame used to display useful messages to the user.
  * Can be edited later to add a chat functionality if over-the-Internet implementation finished
  * @author That Kid Named Sid
  */
 public class MessageLogFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private static final String lineMarker = "\n_________________________\n\n";
-	private ImageIcon icon; // The icon of the game on the title bar of the program
-	private Dimension frameSize; // The size of the frame in general
+	private static final String lineMarker = "\n________________________\n\n";
+	private static final Color DEFAULT_COLOR = Color.WHITE;
+	private Dimension frameSize;
 	private JTextPane text;
 	private JScrollPane scrollText;
+	private ImageIcon icon;
 	
 	public MessageLogFrame(){
-		frameSize = new Dimension(200, 700);		
-		icon = new ImageIcon("resources/messageIcon.png");		
-		setTitle("Messages");		
-		setIconImage(icon.getImage());
+		frameSize = new Dimension(200, 700);
 		setSize(frameSize);
+		icon = new ImageIcon("resources/messageIcon.png");		
+		setIconImage(icon.getImage());
+		setTitle("Messages");		
 		setAlwaysOnTop(true);		
+		setResizable(false);
+		setLayout(new BorderLayout());	
 		// Changes launch location of the frame
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		setLocation((int) (ge.getMaximumWindowBounds().getWidth() -  getWidth()), (int) (ge.getMaximumWindowBounds().getHeight() - getHeight())/2);
-		setResizable(false);
-		setLayout(new BorderLayout());	
 		setupScrollingTextArea();
 	}
 	
@@ -42,45 +46,42 @@ public class MessageLogFrame extends JFrame {
 	 */
 	private void setupScrollingTextArea(){
 		text = new JTextPane();
+		text.setBackground(Color.BLACK);
+		text.setEditable(false);
+		text.setOpaque(true);
+		//Auto-scrolls to latest text
 		DefaultCaret caret = (DefaultCaret)text.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		text.setBackground(Color.BLACK);
-		text.setEnabled(false);
-		text.setOpaque(true);
 		scrollText = new JScrollPane(text);
 		add(scrollText);
+		write("Welcome to iLNibor's Risk!\n\nCreated by: \n\nMIKE ZHANG AKHIL VELAGAPUDI \nSID SENKUMAR");
 	}
 	
 	/**
-	 * Updates the display text
-	 * @param message The message to be added to the display
+	 * Writes a message to the log in color
+	 * @param message The message to be shown
+	 * @param color The color of the message text
 	 */
-	public void write(String message, Color color, Font font){
-		message = splitLines(message, 25);
-		Font prevFont = text.getFont();
-		Color prevColor = text.getDisabledTextColor();
-		changeFont(color, font);
-		if (text.getText().length() > 0)
-			text.setText(text.getText() + lineMarker + message);
-		else
-			text.setText(message);
-		changeFont(prevColor, prevFont);
+	public void write(String message, Color color){
+		message = splitLines(message, 30);
+		//Adds the text in the desired color
+		StyledDocument doc = text.getStyledDocument();
+        Style style = text.addStyle("colorStyle", null);
+        StyleConstants.setForeground(style, color);
+        try { doc.insertString(doc.getLength(), message, style); }
+        catch (BadLocationException e){}
+        //Add the lineMarker in DEFAULT_COLOR
+        StyleConstants.setForeground(style, DEFAULT_COLOR);
+        try { doc.insertString(doc.getLength(), lineMarker, style); }
+        catch (BadLocationException e){}
 	}
 	
+	/**
+	 * Writes to the log with DEFAULT_COLOR
+	 * @param message The message to be shown
+	 */
 	public void write(String message){
-		message = splitLines(message, 25);
-		if (text.getText().length() > 0)
-			text.setText(text.getText() + lineMarker + message);
-		else
-			text.setText(message);
-	}
-	
-	/**
-	 * Changes the font and color of the text
-	 */
-	private void changeFont(Color color, Font font){
-		text.setFont(font);
-		text.setDisabledTextColor(color);
+		write(message, DEFAULT_COLOR);
 	}
 	
 	/**
@@ -93,7 +94,6 @@ public class MessageLogFrame extends JFrame {
 	private String splitLines(String message, int max){
 		String splitUp = "";
 		int count = 0;
-		
 		String[] words = message.split(" ");
 		for (int i = 0; i < words.length; i++){
 			if (count + words[i].length() > max){

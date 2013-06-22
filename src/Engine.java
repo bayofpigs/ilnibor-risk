@@ -196,7 +196,6 @@ public class Engine {
 					try {
 						randomize();
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					updateIndicator();
@@ -336,6 +335,7 @@ public class Engine {
 			for (Continent b: continents){
 				a.continents.remove(b);
 				if (b.completeControl(a)){
+					log.write("Engine 1");
 					log.write("" + b.completeControl(a));
 					a.continents.add(b);
 				}
@@ -358,7 +358,7 @@ public class Engine {
 		else if (gameState == FORTIFY_A) fortifyA(c);
 		else if (gameState == FORTIFY_B) fortifyB(c);
 		else if (gameState == FORTIFY_C) fortifyC(c);
-		else if (gameState == END_GAME) log.write("GAME OVER");
+		else if (gameState == END_GAME){ log.write("ENGINE 2"); log.write("GAME OVER");}
 		for (Country a: countries)
 			a.updateLabel();
 		

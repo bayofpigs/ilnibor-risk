@@ -94,7 +94,8 @@ public class Country extends JLabel{
 	public boolean invade(Country attacker) throws InterruptedException {
 		if (!isNeighbor(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
 		Random die = new Random();
-		log.write(attacker.army.armyName + " attacks " + name + " from " + attacker.name + ".\n");
+		log.write("Country 1");
+		log.write(attacker.army.armyName + " attacks " + name + " from " + attacker.name + ".", attacker.army.armyColor);
 		int attackDice = attacker.troops - 1, defendDice = troops;
 		if (attackDice > 3) attackDice = 3;
 		if (defendDice > 2) defendDice = 2;
@@ -107,8 +108,10 @@ public class Country extends JLabel{
 		Collections.sort(attack);
 		Collections.reverse(defend);
 		Collections.reverse(attack);
-		log.write("Attacker: " + attack + " (" + attacker.name + ")");
-		log.write("Defender: " + defend + " (" + name + ")\n");
+		log.write("Country 2");
+		log.write("Attacker: " + attack + " (" + attacker.name + ")", attacker.army.armyColor);
+		log.write("Country 3");
+		log.write("Defender: " + defend + " (" + name + ")", attacker.army.armyColor);
 		if (attack.size() < defend.size()) defend.remove(1);
 		while (defend.size() < attack.size())
 			attack.remove(attack.size() - 1);
@@ -126,10 +129,12 @@ public class Country extends JLabel{
 			color = army.armyColor;
 			troops ++;
 			attacker.troops --;
-			log.write(name + " has been conquered by " + attacker.army.armyName);
+			log.write("Country 4");
+			log.write(name + " has been conquered by " + attacker.army.armyName + ".", attacker.army.armyColor);
 			return true;
 		}
-		log.write(name + " defends the attack by " + attacker.army.armyName + ".\n");
+		log.write("Country 5");
+		log.write(name + " defends the attack by " + attacker.army.armyName + ".", army.armyColor);
 		return false;
 	}
 	
@@ -143,9 +148,10 @@ public class Country extends JLabel{
 	public boolean nuke(Country attacker) throws InterruptedException {
 		while (!invade(attacker)){
 			if (!isNeighbor(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
-			log.write(attacker + "\n" + toString() + "\n");
-			log.write("-------------------------------\n");
-			log.write(attacker + "\n" + toString() + "\n");
+			log.write("Country 6");
+			log.write(attacker + "\n" + toString(), attacker.army.armyColor);
+			log.write("-------------------------------", attacker.army.armyColor);
+			log.write(attacker + "\n" + toString(), attacker.army.armyColor);
 		}
 		return true;
 	}

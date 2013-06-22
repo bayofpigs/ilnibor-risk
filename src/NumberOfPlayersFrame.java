@@ -162,8 +162,12 @@ public class NumberOfPlayersFrame extends JDialog{
 			armies.add(new Army(colorLabels.get(i).getForeground(), 
 					nextName, log));
 		}
-		
-		log.write(armies.toString());
+		log.write("Num players 1");
+		String players = "";
+		for (Army army : armies)
+			players = players + ", " + army;
+		players = players.substring(2);
+		log.write("Players: " + players);
 		return armies;
 	}
 	
