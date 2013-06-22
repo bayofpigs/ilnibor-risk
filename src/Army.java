@@ -44,8 +44,8 @@ public class Army {
 		//log.write(continents.toString(), armyColor);
 		for (Continent a: continents)
 			reinforcements += a.continentValue;
-		log.write("Army 4");
-		log.write(armyName + "'s Reinforcements: " + reinforcements, armyColor);
+		//log.write("Army 4");
+		log.write(armyName + " has " + reinforcements + " reinforcements.", armyColor);
 	}
 	
 	public String toString(){

@@ -335,8 +335,9 @@ public class Engine {
 			for (Continent b: continents){
 				a.continents.remove(b);
 				if (b.completeControl(a)){
-					log.write("Engine 1");
-					log.write("" + b.completeControl(a));
+					//Debug
+					//log.write("Engine 1");
+					//log.write("" + b.completeControl(a));
 					a.continents.add(b);
 				}
 			}
@@ -393,6 +394,7 @@ public class Engine {
 				break;
 			case FORTIFY_C:
 				gameBoard.instructionLabel.setText(GameBoardPanel.sFORTIFY_C);
+				break;
 			case END_GAME:
 				gameBoard.instructionLabel.setText(GameBoardPanel.sENDGAME);
 				break;

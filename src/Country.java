@@ -94,7 +94,7 @@ public class Country extends JLabel{
 	public boolean invade(Country attacker) throws InterruptedException {
 		if (!isNeighbor(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
 		Random die = new Random();
-		log.write("Country 1");
+		//log.write("Country 1");
 		log.write(attacker.army.armyName + " attacks " + name + " from " + attacker.name + ".", attacker.army.armyColor);
 		int attackDice = attacker.troops - 1, defendDice = troops;
 		if (attackDice > 3) attackDice = 3;
@@ -108,10 +108,22 @@ public class Country extends JLabel{
 		Collections.sort(attack);
 		Collections.reverse(defend);
 		Collections.reverse(attack);
-		log.write("Country 2");
-		log.write("Attacker: " + attack + " (" + attacker.name + ")", attacker.army.armyColor);
-		log.write("Country 3");
-		log.write("Defender: " + defend + " (" + name + ")", attacker.army.armyColor);
+		String attackDieString = "" + attack.get(0);
+		for (int i = 1; i < attack.size(); i++)
+			if (i == attack.size() - 1)
+				attackDieString = attackDieString + " and " + attack.get(i);
+			else
+				attackDieString = attackDieString + ", " + attack.get(i);
+		String defendDieString = "" + defend.get(0);
+		for (int i = 1; i < defend.size(); i++)
+			if (i == defend.size() - 1)
+				defendDieString = defendDieString + " and " + defend.get(i);
+			else
+				defendDieString = defendDieString + ", " + defend.get(i);
+		//log.write("Country 2");
+		log.write("The attacker, " + attacker.name + ", rolls a " + attackDieString + ".", attacker.army.armyColor);
+		//log.write("Country 3");
+		log.write("The defender, " + name + ", rolls a " + defendDieString + ".", army.armyColor);
 		if (attack.size() < defend.size()) defend.remove(1);
 		while (defend.size() < attack.size())
 			attack.remove(attack.size() - 1);
@@ -129,12 +141,12 @@ public class Country extends JLabel{
 			color = army.armyColor;
 			troops ++;
 			attacker.troops --;
-			log.write("Country 4");
+			//log.write("Country 4");
 			log.write(name + " has been conquered by " + attacker.army.armyName + ".", attacker.army.armyColor);
 			return true;
 		}
-		log.write("Country 5");
-		log.write(name + " defends the attack by " + attacker.army.armyName + ".", army.armyColor);
+		//log.write("Country 5");
+		log.write(name + " defends the attack from " + attacker.army.armyName + ".", army.armyColor);
 		return false;
 	}
 	

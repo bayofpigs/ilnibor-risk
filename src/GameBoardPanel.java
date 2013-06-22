@@ -38,7 +38,7 @@ public class GameBoardPanel extends JPanel{
 							   sFORTIFY = "Click the country you would like to send troops from.",
 							   sFORTIFY_B = "<html>Click the country you would like to send troops to<br>(must be a neighbor)</html>",
 							   sFORTIFY_C = "<html>Continue clicking the receiving country to send more troops.<br>Click \"Turn Done\" when finished</html>",
-							   sENDGAME = "Game Over!";
+							   sENDGAME = "                            Game Over!";
 							   
 	
 	public GameBoardPanel(ArrayList<Country> cArray) {
