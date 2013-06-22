@@ -1,0 +1,17 @@
+Suggestions:
+
+Undo function
+Restart game function
+Music/Sounds
+Add more names to the names.txt
+
+Errors:
+nullpointer exception in the beginning if the user declines to enter names and clicks cancel, but remains on the main menu panel
+
+I've noticed that the one below only happens sometimes, so be patient if you decide to attempt to discover and fix the bug
+
+concurrent modification error at udateGame() at the end of the game (probably has to do with the fact that a list is being
+modified within a For Each loop), and probably because of that:
+	doesnt stop game and winner keeps playing
+	doesn't display "end of game"
+	doesn't display winner's name in msgbox
