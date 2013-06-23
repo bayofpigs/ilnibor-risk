@@ -143,6 +143,12 @@ public class GuiFrame extends JFrame {
 		this.dispose();
 	}
 	
+	public void setVisible(boolean visible)
+	{
+		super.setVisible(visible);
+		messages.setVisible(true);
+	}
+	
 	public void setupGameListener() {
 		
 	}
