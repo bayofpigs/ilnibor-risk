@@ -17,12 +17,6 @@ import java.io.IOException;
 
 public class Game {
 	public static void main(String[] args) throws IOException, InterruptedException{
-//		Army north = new Army(Color.RED, "iLCroga");
-//		Army south = new Army(Color.BLUE, "iLNary");
-		//Army east = new Army(Color.ORANGE, "iLFaryn");
-		//Are we going to add the team selection process to the game?
-		//I think it's fine if we just leave it in code.
-		//teams.add(east);
 		GuiFrame gui = new GuiFrame();
 		Engine engine = new Engine(new File("resources/Countries.txt"), new File("resources/Neighbors.txt"), new File("resources/Continents.txt"), gui);
 		engine.start();

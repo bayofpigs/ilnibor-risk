@@ -54,14 +54,6 @@ public class Country extends JLabel{
 		troops = 1;
 	}
 	
-	public void toggleSpecialOn() {
-		special = true;
-	}
-	
-	public void toggleSpecialOff(){
-		special = false;
-	}
-	
 	public boolean isNeighbor(Country other){
 		return neighbors.contains(other);
 	}

@@ -377,7 +377,7 @@ public class Engine {
 			gameState = RECRUIT;
 		}
 		
-		donor.toggleSpecialOff();
+		donor.special = false;
 		changeInstruction();
 		for (Country a: countries)
 			a.updateLabel();
@@ -415,36 +415,29 @@ public class Engine {
 		donor = c;
 		if (!c.army.equals(turn) || c.troops <= 1) return;
 		gameState = ATTACK_B;
-		donor.toggleSpecialOn();
+		donor.special = true;
 	}
 	
 	public void attackB(Country c) throws InterruptedException{
-		if (c.equals(donor)){
-			gameState = ATTACK_A;
-			donor.toggleSpecialOff();
-			return;
-		}
 		reciever = c;
-		if (c.invade(donor)){
+		donor.special = false;
+		if (c.equals(donor)) gameState = ATTACK_A;
+		else if (c.invade(donor)){
 			updateGame();
 			if (armies.size() == 1) gameState = END_GAME;
-			else if (donor.troops >= 1) gameState = OCCUPY;
-			else {
-				gameState = ATTACK_A;
-				donor.toggleSpecialOff();
+			else if (donor.troops >= 2){
+				gameState = OCCUPY;
+				donor.special = true;
 			}
-		}
-		if (donor.troops <= 1){
-			gameState = ATTACK_A;
-			donor.toggleSpecialOff();
-		}
+			else gameState = ATTACK_A;
+		} else donor.special = true;
 	}
 	
 	public void occupy(Country c){
 		if (!c.equals(reciever)) return;
 		if (donor.troops <= 2){
 			gameState = ATTACK_A;
-			donor.toggleSpecialOff();
+			donor.special = false;
 		}
 		donor.troops --;
 		reciever.troops ++;
@@ -454,7 +447,7 @@ public class Engine {
 		donor = c;
 		if (!donor.army.equals(turn) || donor.troops <= 1) return;
 		gameState = FORTIFY_B;
-		donor.toggleSpecialOn();
+		donor.special = true;
 	}
 	
 	public void fortifyB(Country c){
@@ -471,7 +464,7 @@ public class Engine {
 			rotate();
 			turn.reinforcements();
 			gameState = RECRUIT;
-			donor.toggleSpecialOff();
+			donor.special = false;
 		}
 		donor.troops --;
 		reciever.troops ++;
