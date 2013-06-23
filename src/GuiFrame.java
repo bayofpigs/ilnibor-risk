@@ -21,55 +21,31 @@ import javax.swing.JLabel;
  */
 public class GuiFrame extends JFrame {
 	private static final long serialVersionUID = 5633826349468137699L;
-	protected JPanel cards; // The primary, center panel of the board. Flips through multiple pages in response to user input
 	private JPanel mainPanel; // A panel containing the mainMenu of the game. Features the mainMenu and a panel containing text
 	private JPanel sidePanel; // The panel on the right side of the mainmenu. Contains the group credit text.
+	private ImageIcon icon; // The icon of the game on the titlebar of the program
+	private Dimension frameSize; // The size of the frame in general
+	protected JPanel cards; // The primary, center panel of the board. Flips through multiple pages in response to user input
 	protected MainMenuPanel mainMenu; // The mainMenu of the game. To be placed onto the mainPanel.
 	protected GameBoardPanel gameBoard; // The gameboard of the game. To be placed on the cards variable
 	protected String MENUPANEL = "Menu"; // The string label for the mainmenu of the game for the cards variable
 	protected String GAMEPANEL = "Game"; // The string label for the gameboard of the game for the cards variable
-	private ImageIcon icon; // The icon of the game on the titlebar of the program
-	private Dimension frameSize; // The size of the frame in general
 	public MessageLogFrame messages;
 
 	public GuiFrame() throws FileNotFoundException {
 	
-		// Creates the message log frame
 		messages = new MessageLogFrame();
-		
 		// Setup the menuPanel of the frame (to be implemented)
-		makeMenu();
-		
-		// Set the size of the frame
-		frameSize = new Dimension(1179, 700);
-		
-		// Set the location of where the frame icon is located
-		icon = new ImageIcon("resources/iconimage.png");
-		
-		// Set the title of the frame
-		setTitle("iLNibor's RISK");
-		
-		// Set the icon of the frame to be the image contained in icon variable
-		setIconImage(icon.getImage());
-		
-		// Sets the program to end upon user exit of the frame
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		// Sets the size of the frame
+		makeMenu();		
+		frameSize = new Dimension(1179, 700);	
 		setSize(frameSize);
-		
-		// Sets the frame to non-resizeable
 		setResizable(false);
-		
-		// Gives the frame a borderLayout from within the Java Awt API
 		setLayout(new BorderLayout());
-		
-		// Initializes the cards variable
 		cards = new JPanel(new CardLayout());
-		
-		// Removed Tester code (don't know if this should have be here, Akhil
-		// it might be better to make a separate class, say Game.java,
-		// to put a tester like this.)
+		icon = new ImageIcon("resources/iconimage.png");
+		setIconImage(icon.getImage());		
+		setTitle("iLNibor's RISK");		
+		setDefaultCloseOperation(EXIT_ON_CLOSE);		
 				
 		// Setup the mainMenu and the gameboard
 		mainMenu = new MainMenuPanel();
@@ -111,10 +87,8 @@ public class GuiFrame extends JFrame {
 		setupGameListener();
 		
 		// Sets startup location of frame
-		//setLocationRelativeTo(null);
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		setLocation(0, (int) (ge.getMaximumWindowBounds().getHeight() - getHeight())/2);
-		
 	}
 	
 	public void flipToGame() {
@@ -133,7 +107,6 @@ public class GuiFrame extends JFrame {
 		cards.revalidate();
 		cards.repaint();
 	}
-	
 	
 	/**
 	 * Exits the application
@@ -156,5 +129,4 @@ public class GuiFrame extends JFrame {
 	public void makeMenu() {
 		
 	}
-	
 }

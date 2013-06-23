@@ -18,11 +18,10 @@ import java.awt.event.ActionEvent;
 
 public class NumberOfPlayersFrame extends JDialog{
 	private static final long serialVersionUID = 2278594614920750336L;
+	private final Color[] COLORS = new Color[]{Color.MAGENTA, Color.blue, Color.green, Color.RED, Color.cyan};
 	private Dimension dialogSize;
 	private ArrayList<JLabel> colorLabels;
 	private ArrayList<JTextField> nameFields;
-	private final Color[] COLORS = new Color[]{Color.MAGENTA, Color.blue, Color.green,
-			Color.RED, Color.cyan};
 	private ArrayList<Color> availColors = new ArrayList<Color>();
 	private JComboBox combo;
 	private JPanel namePanel;
@@ -48,46 +47,36 @@ public class NumberOfPlayersFrame extends JDialog{
 		namePanel = new JPanel();
 		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.Y_AXIS));
 		okayCancelPanel = new JPanel();
-		
 		nameFields = new ArrayList<JTextField>();
 		colorLabels = new ArrayList<JLabel>();
-		
 		Integer[] comboOptions = new Integer[] {2, 3, 4, 5};
 		combo = new JComboBox(comboOptions);
 		combo.setSelectedItem(new Integer(3));
 		comboPanel.add(combo);
-		
 		setNameLayout((Integer)combo.getSelectedItem());
-		
 		okay = new JButton("OK");
 		cancel = new JButton("Cancel");
 		okayCancelPanel.add(okay);
 		okayCancelPanel.add(cancel);
-		
 		this.add(comboPanel, BorderLayout.NORTH);
 		this.add(namePanel, BorderLayout.CENTER);
 		this.add(okayCancelPanel, BorderLayout.SOUTH);
-		
 		setupListeners();
 	}
 	
 	public JPanel createAndGetNewPanel() {
 		Dimension labelSize = new Dimension(20, 20);
 		JPanel newPanel = new JPanel();
-		
 		JLabel newLabel = new JLabel();
 		newLabel.setSize(labelSize);
 		int index = (int)(Math.random() * availColors.size());
 		newLabel.setForeground(availColors.remove(index));
 		newLabel.setText("Player " + currentPlayerNum + "'s Name:");
 		colorLabels.add(newLabel);
-		
 		JTextField newTextField = new JTextField(10);
-		
 		newPanel.add(newLabel);
 		newPanel.add(newTextField);
 		nameFields.add(newTextField);
-		
 		return newPanel;
 	}
 	
@@ -128,7 +117,6 @@ public class NumberOfPlayersFrame extends JDialog{
 		for (currentPlayerNum = 1; currentPlayerNum <= numSelected; currentPlayerNum++) {
 			namePanel.add(createAndGetNewPanel());
 		}
-		
 		namePanel.revalidate();
 		namePanel.repaint();
 	}
@@ -136,7 +124,6 @@ public class NumberOfPlayersFrame extends JDialog{
 	public ArrayList<Army> getArmyList() {
 		ArrayList<String> randomNames = new ArrayList<String>();
 		Scanner nameScanner = null;
-		
 		try {
 			nameScanner = new Scanner(new File("resources/PlayerNames.txt"));
 			int numNames = Integer.parseInt(nameScanner.nextLine());
@@ -148,7 +135,7 @@ public class NumberOfPlayersFrame extends JDialog{
 		} catch (java.io.FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+		//Debug
 		//System.out.println(randomNames);
 		
 		ArrayList<Army> armies = new ArrayList<Army>();
@@ -157,8 +144,7 @@ public class NumberOfPlayersFrame extends JDialog{
 			if (nextName.trim().equals("")) {
 				int nextDigit = (int)(Math.random() * randomNames.size());
 				nextName = randomNames.remove(nextDigit);
-			}
-			
+			}			
 			armies.add(new Army(colorLabels.get(i).getForeground(), 
 					nextName, log));
 		}

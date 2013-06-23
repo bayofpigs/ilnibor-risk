@@ -54,6 +54,9 @@ public class ColorTurnIndicator extends JPanel {
 		case Engine.END_GAME:
 			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">GAME OVER</font></html>");
 			break;
+		default:
+			//textLabel.setText("INVALID GAME STATE See ColorTurnIndicator Class");
+			break;
 		}
 	}
 }

@@ -18,8 +18,8 @@ import javax.swing.text.StyledDocument;
  * @author That Kid Named Sid
  */
 public class MessageLogFrame extends JFrame {
-	private static final long serialVersionUID = 1L;
 	public static final String lineMarker = "\n________________________\n\n";
+	private static final long serialVersionUID = 1L;
 	private static final Color DEFAULT_COLOR = Color.WHITE;
 	private Dimension frameSize;
 	private JTextPane text;
@@ -38,6 +38,7 @@ public class MessageLogFrame extends JFrame {
 		// Changes launch location of the frame to be on the right side of the screen, centered vertically
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		setLocation((int) (ge.getMaximumWindowBounds().getWidth() -  getWidth()), (int) (ge.getMaximumWindowBounds().getHeight() - getHeight())/2);
+		//Puts scrollable text area onto jFrame
 		setupScrollingTextArea();
 	}
 	
@@ -139,7 +140,7 @@ public class MessageLogFrame extends JFrame {
 				lengthThisLine += words[i].length() + 1;
 			}
 		}
-	
+		//Debug
 		//System.out.println("========================");
 		//System.out.println(splitUp);
 		//System.out.println("------------------------");

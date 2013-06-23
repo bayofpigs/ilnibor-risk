@@ -24,10 +24,10 @@ import java.util.ArrayList;
  */
 @SuppressWarnings("serial")
 public class GameBoardPanel extends JPanel{
+
+	private final Dimension BGSIZE; // The size of the map
 	private String mapImgDir; // String directory of where the map image is located
 	private Image mapImg; // Stores the map image
-	
-	private final Dimension BGSIZE; // The size of the map
 	protected JLabel instructionLabel;
 	public static final String sPREGAME = "Click the country you would like to take!",
 							   sREINFORCE = "Click the country you would like to reinforce.",
@@ -44,17 +44,14 @@ public class GameBoardPanel extends JPanel{
 	public GameBoardPanel(ArrayList<Country> cArray) {
 		Insets insets = this.getInsets();
 		instructionLabel = new JLabel();
-		instructionLabel.setBounds(insets.left + 425, insets.top - 10, 
-									500, 100);
+		instructionLabel.setBounds(insets.left + 425, insets.top - 10, 500, 100);
 		instructionLabel.setFont(new Font("Serif", Font.BOLD, 14));
 		instructionLabel.setForeground(Color.white);
 		instructionLabel.setText(sPREGAME);
 		
 		// Set the size of the gameboard
 		BGSIZE = new Dimension(1179, 700);
-		
-		// initialize the engine
-		
+				
 		// set the size of the gameboard
 		setPreferredSize(BGSIZE);
 		setMaximumSize(BGSIZE);
