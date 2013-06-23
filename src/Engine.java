@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -35,15 +34,10 @@ public class Engine {
 	public int gameState;
 	public Army turn;
 	private Country donor, reciever;
-	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, 
-			ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8, END_GAME = 9;
+	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8, END_GAME = 9;
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
-	
 	private GuiFrame gameGui;
-	private MessageLogFrame log;
 	private GameBoardPanel gameBoard;
-	private BufferedImage countryMap; //Stores map with corresponding country images
-	private String phaseCompleteDir;
 	private ImageIcon phaseCompleteImage;
 	private JButton phaseComplete;
 	protected ColorTurnIndicator turnIndicator;
@@ -66,7 +60,6 @@ public class Engine {
 		neighborFile = mapNeighbors;
 		continentFile = mapContinents;
 		gameGui = gui;
-		log = gui.messages;
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		setupGame();
@@ -100,27 +93,18 @@ public class Engine {
 		donor = countries.get(0);
 		reciever = countries.get(0);
 		gameState = PRE_GAME;
-		countryMap = ImageIO.read(new File("resources/map.png"));
 		setUpGameBoardListeners();
 		setupMainMenuListener();
 	}
 	
-	public void restart() throws IOException, InterruptedException {
-		setupGame();
-		start();
-	}
-	
-	public void setUpGameBoardListeners() {
+	public void setUpGameBoardListeners() throws IOException {
+		final BufferedImage map = ImageIO.read(new File("resources/map.png"));
 		gameBoard.addMouseListener(
 			new MouseAdapter() {
 				public void mouseReleased(MouseEvent e) {
-					//invalid click color index = 1000
 					int colorIndex = 1000;
-					// Debug code
-					//System.out.println(e.getX() + " " + e.getY());
-					if (e.getX() < 1160 && e.getX() > 14 && e.getY() >= 0 && e.getY() < 670)
-						colorIndex = new Color((((BufferedImage) countryMap).getRGB(e.getX() - 14, e.getY()))).getBlue();
-					processColor(colorIndex, e.getPoint());
+					colorIndex = new Color(map.getRGB(e.getX(), e.getY())).getBlue();
+					processColor(colorIndex);
 				}
 			}
 		);
@@ -128,8 +112,7 @@ public class Engine {
 	
 	// Set ups the turn indicator
 	public void setupGameCurrentPlayer() {
-		phaseCompleteDir = "resources/turndone.png";
-		phaseCompleteImage = new ImageIcon(phaseCompleteDir);
+		phaseCompleteImage = new ImageIcon("resources/turndone.png");
 		phaseComplete = new JButton(phaseCompleteImage);
 		Insets insets = gameBoard.getInsets();
 		phaseComplete.setBounds(insets.left + 46, insets.top + 443, 
@@ -193,7 +176,7 @@ public class Engine {
 	
 	public void initiateGame() {
 		// On user click start: the center panel flips to the main game
-		NumberOfPlayersFrame s = new NumberOfPlayersFrame(gameGui, log);
+		InitiationFrame s = new InitiationFrame(gameGui);
 		s.setLocationRelativeTo(gameGui);
 		s.setVisible(true);
 		
@@ -216,7 +199,7 @@ public class Engine {
 	}
 	
 	// Processes the color clicked and uses information to update countries
-	public void processColor(int blueIndex, Point x)
+	public void processColor(int blueIndex)
 	{
 		if (blueIndex >= 0 && blueIndex < countries.size())
 			try {
@@ -247,7 +230,7 @@ public class Engine {
 	public void buildCountries(Scanner in){
 		int a = Integer.parseInt(in.nextLine());
 		for (int i = 0; i < a; i ++)
-			countries.add(new Country(in.nextLine(), Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine()), log));
+			countries.add(new Country(in.nextLine(), Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine()), gameGui.messages));
 	}
 	
 	/**
@@ -325,7 +308,7 @@ public class Engine {
 		else if (gameState == FORTIFY_A) fortifyA(c);
 		else if (gameState == FORTIFY_B) fortifyB(c);
 		else if (gameState == FORTIFY_C) fortifyC(c);
-		else if (gameState == END_GAME){log.write("GAME OVER: " + armies.get(0) + "WINS!");}
+		else if (gameState == END_GAME){gameGui.messages.write("GAME OVER: " + armies.get(0) + "WINS!");}
 		for (Country a: countries)
 			a.updateLabel();
 		
