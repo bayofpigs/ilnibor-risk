@@ -28,23 +28,29 @@ import javax.swing.JLabel;
  */
 
 public class Engine {
+	
+	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, 
+	ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8, END_GAME = 9;
+	
 	public ArrayList<Country> countries; // The array of countries; to be read from Countries.txt
 	public ArrayList<Continent> continents; // The array of continents, to be read from Continents.txt
 	public ArrayList<Army> armies; // The array of Armies to be read from input
-	public int gameState;
 	public Army turn;
+	public int gameState;
+	
 	private Country donor, reciever;
-	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8, END_GAME = 9;
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
 	private GuiFrame gameGui;
 	private GameBoardPanel gameBoard;
 	private ImageIcon phaseCompleteImage;
 	private JButton phaseComplete;
-	protected ColorTurnIndicator turnIndicator;
-	protected JLabel reinIndicator;
 	private File countryFile;
 	private File neighborFile;
 	private File continentFile;
+	
+	protected ColorTurnIndicator turnIndicator;
+	protected JLabel reinIndicator;
+
 	
 	/*
 	 * Text versions:
@@ -54,12 +60,12 @@ public class Engine {
 	 * FORTIFY = "FORTIFY"
 	 * END_GAME = "GAME OVER"
 	 */
-	public Engine(File mapCountries, File mapNeighbors, File mapContinents, GuiFrame gui) throws FileNotFoundException{
+	public Engine(File mapCountries, File mapNeighbors, File mapContinents) throws FileNotFoundException{
 		// Initialize the array variables
 		countryFile = mapCountries;
 		neighborFile = mapNeighbors;
 		continentFile = mapContinents;
-		gameGui = gui;
+		gameGui = new GuiFrame();
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		setupGame();
@@ -95,6 +101,7 @@ public class Engine {
 		gameState = PRE_GAME;
 		setUpGameBoardListeners();
 		setupMainMenuListener();
+		gameGui.setVisible(true);
 	}
 	
 	public void setUpGameBoardListeners() throws IOException {
@@ -133,8 +140,7 @@ public class Engine {
 		turnIndicator.setBounds(insets.left + 46, insets.top + 530,
 								indDim.width, indDim.height);
 		
-		reinIndicator = new JLabel();
-		
+		reinIndicator = new JLabel();	
 		turnIndicator.setText(gameState);
 		turnIndicator.changeColor(turn.armyColor);
 		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " 
@@ -144,7 +150,6 @@ public class Engine {
 		gameBoard.add(turnIndicator);
 		gameBoard.add(reinIndicator);
 	}
-
 	
 	/**
 	 * Sets up listener for the start and exit buttons on the mainmenu
@@ -170,8 +175,7 @@ public class Engine {
 					gameGui.exitApp();
 				}
 			}
-		);
-				
+		);			
 	}
 	
 	public void initiateGame() {
@@ -193,7 +197,6 @@ public class Engine {
 			
 			turn = armies.get(0);
 			setupGameCurrentPlayer();
-			
 			gameGui.flipToGame();
 		}
 	}
@@ -267,9 +270,8 @@ public class Engine {
 	}
 	
 	/**
-	 * 
-	 * @return A Boolean indicated whether or not any territories remained
-	 * unoccupied
+	 * Returns whether any territories are still unoccupied
+	 * @return A boolean that tells whether any territories are still unoccupied
 	 */
 	public boolean unoccupiedTerritory(){
 		for (Country a: countries)
@@ -292,26 +294,49 @@ public class Engine {
 			}
 		}
 	}
-
 	
 	public void readClick(Country c) throws InterruptedException {
 		/*
 		 * Series of if statements can be subbed by a single
 		 * switch (select case structure)
 		 */
-		if (gameState == PRE_GAME) preGame(c);
-		else if (gameState == REINFORCE) reinforce(c);
-		else if (gameState == RECRUIT) recruit(c);
-		else if (gameState == ATTACK_A) attackA(c);
-		else if (gameState == ATTACK_B) attackB(c);
-		else if (gameState == OCCUPY) occupy(c);
-		else if (gameState == FORTIFY_A) fortifyA(c);
-		else if (gameState == FORTIFY_B) fortifyB(c);
-		else if (gameState == FORTIFY_C) fortifyC(c);
-		else if (gameState == END_GAME){gameGui.messages.write("GAME OVER: " + armies.get(0) + "WINS!");}
+		switch (gameState) {
+		case PRE_GAME:
+			preGame(c);
+			break;
+		case REINFORCE:
+			reinforce(c);
+			break;
+		case RECRUIT:
+			recruit(c);
+			break;
+		case ATTACK_A:
+			attackA(c);
+			break;
+		case ATTACK_B:
+			attackB(c);
+			break;
+		case OCCUPY:
+			occupy(c);
+			break;
+		case FORTIFY_A:
+			fortifyA(c);
+			break;
+		case FORTIFY_B:
+			fortifyB(c);
+			break;
+		case FORTIFY_C:
+			fortifyC(c);
+			break;
+		case END_GAME:
+			endGame(c);
+			break;
+		default:
+			//log.write("INVALID GAME STATE IN ENGINE");
+			break;
+		}
 		for (Country a: countries)
 			a.updateLabel();
-		
 		changeInstruction();
 	}
 	
@@ -346,6 +371,9 @@ public class Engine {
 				break;
 			case END_GAME:
 				gameBoard.instructionLabel.setText(GameBoardPanel.sENDGAME);
+				break;
+			default:
+				//gameBoard.instructionLabel.setText("Invalid Game State in Engine");
 				break;
 		}
 	}
@@ -451,6 +479,10 @@ public class Engine {
 		}
 		donor.troops --;
 		reciever.troops ++;
+	}
+	
+	public void endGame(Country c){
+		gameGui.messages.write("GAME OVER");
 	}
 	
 	public void rotate(){

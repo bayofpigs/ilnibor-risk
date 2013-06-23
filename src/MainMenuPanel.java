@@ -10,6 +10,9 @@ import java.awt.Insets;
 
 public class MainMenuPanel extends JPanel {
 	private static final long serialVersionUID = 3614630489279583940L;
+	private final int BUTTON_WIDTH = 250;
+	private final int BUTTON_HEIGHT = 90;
+	private final Dimension BGSIZE = new Dimension(900, 700);
 	private Image bg;
 	private ImageIcon startButtonImg;
 	private ImageIcon exitButtonImg;
@@ -18,16 +21,11 @@ public class MainMenuPanel extends JPanel {
 	private String exitDir;
 	private JButton startButton;
 	private JButton exitButton;
-	
-	private final int BUTTON_WIDTH = 250;
-	private final int BUTTON_HEIGHT = 90;
-	private final Dimension BGSIZE = new Dimension(900, 700);
 
 	public MainMenuPanel() {
 		setPreferredSize(BGSIZE);
 		setMinimumSize(BGSIZE);
 		setMaximumSize(BGSIZE);
-		
 		setLayout(null);
 		
 		bgDir = "resources/bgimage.png";
@@ -36,7 +34,6 @@ public class MainMenuPanel extends JPanel {
 		bg = new ImageIcon(bgDir).getImage();
 		startButtonImg = new ImageIcon(startDir);
 		exitButtonImg = new ImageIcon(exitDir);
-		
 		startButton = new JButton(startButtonImg);
 		exitButton = new JButton(exitButtonImg);
 		Insets insets = this.getInsets();

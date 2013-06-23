@@ -18,8 +18,8 @@ import javax.swing.text.StyledDocument;
  * @author That Kid Named Sid
  */
 public class MessageLogFrame extends JFrame {
-	private static final long serialVersionUID = 1L;
 	public static final String lineMarker = "\n________________________\n\n";
+	private static final long serialVersionUID = 1L;
 	private static final Color DEFAULT_COLOR = Color.WHITE;
 	private Dimension frameSize;
 	private JTextPane text;
@@ -29,15 +29,16 @@ public class MessageLogFrame extends JFrame {
 	public MessageLogFrame(){
 		frameSize = new Dimension(200, 700);
 		setSize(frameSize);
+		setResizable(false);
+		setLayout(new BorderLayout());
 		icon = new ImageIcon("resources/messageIcon.png");		
 		setIconImage(icon.getImage());
 		setTitle("Messages");		
 		setAlwaysOnTop(true);		
-		setResizable(false);
-		setLayout(new BorderLayout());	
-		// Changes launch location of the frame
+		// Changes launch location of the frame to be on the right side of the screen, centered vertically
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		setLocation((int) (ge.getMaximumWindowBounds().getWidth() -  getWidth()), (int) (ge.getMaximumWindowBounds().getHeight() - getHeight())/2);
+		//Puts scrollable text area onto jFrame
 		setupScrollingTextArea();
 	}
 	
@@ -52,6 +53,7 @@ public class MessageLogFrame extends JFrame {
 		//Auto-scrolls to latest text
 		DefaultCaret caret = (DefaultCaret)text.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		//Puts textPane onto scrollPane, then scrollPane onto jFrame
 		scrollText = new JScrollPane(text);
 		add(scrollText);
 		write("Welcome to iLNibor's Risk! \n \n Created by: \n \n MIKE ZHANG \n AKHIL VELAGAPUDI \n SID SENKUMAR");
@@ -74,6 +76,33 @@ public class MessageLogFrame extends JFrame {
         StyleConstants.setForeground(style, DEFAULT_COLOR);
         try { doc.insertString(doc.getLength(), lineMarker, style); }
         catch (BadLocationException e){}
+	}
+	
+	/**
+	 * Writes with special conditions and/or special colors
+	 * @param message The message to be written
+	 * @param string The special condition switch
+	 * @param color The color of the text
+	 */
+	public void write(String message, String condition, Color color) {
+		if (condition.equals("NO_LINEMARKER")){
+			message = splitLines(message, lineMarker.length());
+			//Adds the text in the desired color
+			StyledDocument doc = text.getStyledDocument();
+	        Style style = text.addStyle("colorStyle", null);
+	        StyleConstants.setForeground(style, color);
+	        try { doc.insertString(doc.getLength(), message, style); }
+	        catch (BadLocationException e){}
+	        //Goes to the next line and changes the color back to white
+	        StyleConstants.setForeground(style, DEFAULT_COLOR);
+	        try { doc.insertString(doc.getLength(), "\n", style); }
+	        catch (BadLocationException e){}
+		}
+		//Can add more conditions later if necessary
+		else
+		{
+			
+		}
 	}
 	
 	/**
@@ -111,25 +140,11 @@ public class MessageLogFrame extends JFrame {
 				lengthThisLine += words[i].length() + 1;
 			}
 		}
-	
+		//Debug
 		//System.out.println("========================");
 		//System.out.println(splitUp);
 		//System.out.println("------------------------");
 
 		return splitUp;
-	}
-
-	public void write(String message, String string, Color color) {
-		message = splitLines(message, lineMarker.length());
-		//Adds the text in the desired color
-		StyledDocument doc = text.getStyledDocument();
-        Style style = text.addStyle("colorStyle", null);
-        StyleConstants.setForeground(style, color);
-        try { doc.insertString(doc.getLength(), message, style); }
-        catch (BadLocationException e){}
-        //Goes to the next line and changes the color back to white
-        StyleConstants.setForeground(style, DEFAULT_COLOR);
-        try { doc.insertString(doc.getLength(), "\n", style); }
-        catch (BadLocationException e){}
 	}
 }
