@@ -13,6 +13,8 @@ import javax.swing.JLabel;
  */
 public class Country extends JLabel{
 	private static final long serialVersionUID = 1;
+	private final Font DEFAULT_FONT = new Font(getFont().getName(), Font.BOLD, getFont().getSize());
+	private final Font SELECTED_FONT = new Font(getFont().getName(), Font.BOLD, getFont().getSize() + 7);
 	public MessageLogFrame log;
 	public ArrayList<Country> neighbors;
 	public String name;
@@ -33,11 +35,14 @@ public class Country extends JLabel{
 		setBounds(leftBound + 6, topBound, 25, 25);
 		updateLabel();
 	}
+	/**
+	 * TODO: Create a better way to show a "highlighted" country
+	 */
 	public void updateLabel(){
-		setFont(new Font(getFont().getName(), Font.PLAIN, getFont().getSize()));
+		setFont(DEFAULT_FONT);
 		if (army != null) setForeground(army.armyColor);
 		if (troops > 0) setText("" + troops);
-		if (special) setFont(new Font(getFont().getName(), Font.BOLD, getFont().getSize()));
+		if (special) setFont(SELECTED_FONT);
 	}
 	
 	public void addNeighbors(ArrayList<Country> countryNeighbors){
