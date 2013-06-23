@@ -20,8 +20,7 @@ public class ArmySelection extends JDialog{
 	private Dimension dialogSize;
 	private ArrayList<JLabel> colorLabels;
 	private ArrayList<JTextField> nameFields;
-	private final Color[] COLORS = new Color[]{Color.MAGENTA, Color.blue, Color.green,
-			Color.RED, Color.cyan};
+	private final Color[] COLORS = new Color[]{Color.MAGENTA, Color.BLUE, Color.GRAY, Color.RED, Color.GREEN};
 	private ArrayList<Color> availColors = new ArrayList<Color>();
 	private JComboBox<Integer> combo;
 	private JPanel namePanel;

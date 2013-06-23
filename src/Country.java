@@ -13,8 +13,8 @@ import javax.swing.JLabel;
  */
 public class Country extends JLabel{
 	private static final long serialVersionUID = 1;
-	private final Font DEFAULT_FONT = new Font(getFont().getName(), Font.BOLD, getFont().getSize());
-	private final Font SELECTED_FONT = new Font(getFont().getName(), Font.BOLD, getFont().getSize() + 4);
+	private final Font DEFAULT_FONT = new Font(getFont().getName(), Font.PLAIN, getFont().getSize());
+	private final Font SPECIAL_FONT = new Font(getFont().getName(), Font.BOLD, getFont().getSize() + 1);
 	public MessageLog log;
 	public ArrayList<Country> neighbors;
 	public String name;
@@ -42,7 +42,7 @@ public class Country extends JLabel{
 		setFont(DEFAULT_FONT);
 		if (army != null) setForeground(army.armyColor);
 		if (troops > 0) setText("" + troops);
-		if (special) setFont(SELECTED_FONT);
+		if (special) setFont(SPECIAL_FONT);
 	}
 	
 	public void addNeighbors(ArrayList<Country> countryNeighbors){
