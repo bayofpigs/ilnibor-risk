@@ -29,9 +29,7 @@ import javax.swing.JLabel;
 
 public class Engine {
 	
-	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, 
-	ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8, END_GAME = 9;
-	
+	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8;
 	public ArrayList<Country> countries; // The array of countries; to be read from Countries.txt
 	public ArrayList<Continent> continents; // The array of continents, to be read from Continents.txt
 	public ArrayList<Army> armies; // The array of Armies to be read from input
@@ -39,7 +37,6 @@ public class Engine {
 	public int gameState;
 	
 	private Country donor, reciever;
-	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
 	private GuiFrame gameGui;
 	private GameBoard gameBoard;
 	private ImageIcon phaseCompleteImage;
@@ -185,16 +182,7 @@ public class Engine {
 		s.setVisible(true);
 		
 		if (s.getAccepted()) {
-			ArrayList<Army> players = s.getArmyList();
-			armies = players;
-			
-			for (int i = 2; i < 40; i += 2)
-				riskValues.add(i);
-			for (Army a: armies){
-				a.addReinforcements(armies.size());
-				a.addRiskValues(riskValues);
-			}
-			
+			armies = s.getArmyList();
 			turn = armies.get(0);
 			setupGameCurrentPlayer();
 			gameGui.flipToGame();
@@ -215,7 +203,6 @@ public class Engine {
 	public void processClick(Country c) throws InterruptedException {
 		// sends information on the country clicked to the Engine to be processed
 		readClick(c);
-		updateIndicator();
 	}
 	
 	// Updates the indicator
@@ -280,123 +267,50 @@ public class Engine {
 	}
 	
 	public void updateGame(){
-		for (Army a: armies){
-			if (a.countries.size() == 0)
-				armies.remove(a);
+		for (int i = 0; i < armies.size(); i ++){
+			Army a = armies.get(i);
+			if (a.countries.size() == 0 && gameState > REINFORCE) armies.remove(i);
 			for (Continent b: continents){
 				a.continents.remove(b);
-				if (b.completeControl(a)){
-					//Debug
-					//log.write("Engine 1");
-					//log.write("" + b.completeControl(a));
-					a.continents.add(b);
-				}
+				if (b.completeControl(a)) a.continents.add(b);
 			}
-		}
-	}
-	
-	public void readClick(Country c) throws InterruptedException {
-		/*
-		 * Series of if statements can be subbed by a single
-		 * switch (select case structure)
-		 */
-		switch (gameState) {
-		case PRE_GAME:
-			preGame(c);
-			break;
-		case REINFORCE:
-			reinforce(c);
-			break;
-		case RECRUIT:
-			recruit(c);
-			break;
-		case ATTACK_A:
-			attackA(c);
-			break;
-		case ATTACK_B:
-			attackB(c);
-			break;
-		case OCCUPY:
-			occupy(c);
-			break;
-		case FORTIFY_A:
-			fortifyA(c);
-			break;
-		case FORTIFY_B:
-			fortifyB(c);
-			break;
-		case FORTIFY_C:
-			fortifyC(c);
-			break;
-		case END_GAME:
-			endGame(c);
-			break;
-		default:
-			//log.write("INVALID GAME STATE IN ENGINE");
-			break;
 		}
 		for (Country a: countries)
 			a.updateLabel();
-		changeInstruction();
+		updateIndicator();
+		if (armies.size() == 1) endGame();
 	}
 	
-	public void changeInstruction() {
-		switch(gameState) {
-			case PRE_GAME: 
-				gameBoard.instructionLabel.setText(GameBoard.sPREGAME);
-				break;
-			case REINFORCE:
-				gameBoard.instructionLabel.setText(GameBoard.sREINFORCE);
-				break;
-			case RECRUIT:
-				gameBoard.instructionLabel.setText(GameBoard.sRECRUIT);
-				break;
-			case ATTACK_A:
-				gameBoard.instructionLabel.setText(GameBoard.sATTACK_A);
-				break;
-			case ATTACK_B:
-				gameBoard.instructionLabel.setText(GameBoard.sATTACK_B);
-				break;
-			case OCCUPY:
-				gameBoard.instructionLabel.setText(GameBoard.sOCCUPY);
-				break;
-			case FORTIFY_A:
-				gameBoard.instructionLabel.setText(GameBoard.sFORTIFY);
-				break;
-			case FORTIFY_B:
-				gameBoard.instructionLabel.setText(GameBoard.sFORTIFY_B);
-				break;
-			case FORTIFY_C:
-				gameBoard.instructionLabel.setText(GameBoard.sFORTIFY_C);
-				break;
-			case END_GAME:
-				gameBoard.instructionLabel.setText(GameBoard.sENDGAME);
-				break;
-			default:
-				//gameBoard.instructionLabel.setText("Invalid Game State in Engine");
-				break;
-		}
+	public void readClick(Country c) throws InterruptedException {
+		switch (gameState) {
+		case PRE_GAME:	preGame(c); break;
+		case REINFORCE:	reinforce(c); break;
+		case RECRUIT:	recruit(c); break;
+		case ATTACK_A:	attackA(c); break;
+		case ATTACK_B: 	attackB(c); break;
+		case OCCUPY: 	occupy(c); break;
+		case FORTIFY_A: fortifyA(c); break;
+		case FORTIFY_B: fortifyB(c); break;
+		case FORTIFY_C: fortifyC(c); break;
+		} updateGame();
 	}
 	
 	public void endClick(){
 		if (gameState == ATTACK_A || gameState == ATTACK_B) gameState = FORTIFY_A;
-		else if (gameState == OCCUPY) {
-			gameState = ATTACK_A;
-		} else if (gameState == FORTIFY_A || gameState == FORTIFY_B || gameState == FORTIFY_C){
+		else if (gameState == OCCUPY) gameState = ATTACK_A;
+		else if (gameState == FORTIFY_A || gameState == FORTIFY_B || gameState == FORTIFY_C){
 			rotate();
 			turn.reinforcements();
 			gameState = RECRUIT;
-		}
-		
+		} updateGame();
 		donor.special = false;
-		changeInstruction();
-		for (Country a: countries)
-			a.updateLabel();
 	}
 	
 	public void preGame(Country c){
 		if (c.troops != 0) return;
-		c.occupy(turn);
+		c.army = turn;
+		turn.countries.add(c);
+		c.troops ++;
 		turn.reinforcements --;
 		rotate();
 		if (!unoccupiedTerritory()) gameState = REINFORCE;
@@ -407,10 +321,8 @@ public class Engine {
 		c.troops ++;
 		turn.reinforcements --;
 		rotate();
-		gameState = RECRUIT;
-		for (Army a: armies)
-			if (a.reinforcements > 0) gameState = REINFORCE;
-		if (gameState == RECRUIT){
+		if (turn.reinforcements == 0){
+			gameState = RECRUIT;
 			turn.reinforcements();
 		}
 	}
@@ -433,15 +345,12 @@ public class Engine {
 		reciever = c;
 		donor.special = false;
 		if (c.equals(donor)) gameState = ATTACK_A;
-		else if (c.invade(donor)){
-			updateGame();
-			if (armies.size() == 1) gameState = END_GAME;
-			else if (donor.troops >= 2){
+		else if (c.invade(donor))
+			if (donor.troops >= 2){
 				gameState = OCCUPY;
 				donor.special = true;
-			}
-			else gameState = ATTACK_A;
-		} else donor.special = true;
+			} else gameState = ATTACK_A;
+		else donor.special = true;
 	}
 	
 	public void occupy(Country c){
@@ -481,7 +390,7 @@ public class Engine {
 		reciever.troops ++;
 	}
 	
-	public void endGame(Country c){
+	public void endGame(){
 		gameGui.messages.write("GAME OVER");
 	}
 	

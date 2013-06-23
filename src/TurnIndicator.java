@@ -51,9 +51,6 @@ public class TurnIndicator extends JPanel {
 		case Engine.FORTIFY_A:
 			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">FORTIFY</font></html>");
 			break;
-		case Engine.END_GAME:
-			textLabel.setText("<html><font color = \"white\" size = \"5\" face = \"georgia\">GAME OVER</font></html>");
-			break;
 		default:
 			//textLabel.setText("INVALID GAME STATE See ColorTurnIndicator Class");
 			break;

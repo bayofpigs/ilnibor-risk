@@ -9,17 +9,15 @@ public class Army {
 	public String armyName;
 	public int riskCards, reinforcements;
 	public MessageLog log;
-	public Army(Color color, String name, MessageLog messages){
+	public Army(Color color, String name, MessageLog messages, int numArmies, ArrayList<Integer> riskValues){
 		log = messages;
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
 		risk = new ArrayList<Integer>();
 		armyColor = color;
 		armyName = name;
-	}
-
-	public void addRiskValues(ArrayList<Integer> riskValues){
 		risk = riskValues;
+		addReinforcements(numArmies);
 	}
 	public void addReinforcements(int armies){
 		if (armies == 2) reinforcements += 40;

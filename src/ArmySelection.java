@@ -132,6 +132,9 @@ public class ArmySelection extends JDialog{
 	}
 	
 	public ArrayList<Army> getArmyList() {
+		ArrayList<Integer> riskValues = new ArrayList<Integer>();
+		for (int i = 2; i < 40; i += 2)
+			riskValues.add(i);
 		ArrayList<String> randomNames = new ArrayList<String>();
 		Scanner nameScanner = null;
 		
@@ -157,8 +160,7 @@ public class ArmySelection extends JDialog{
 				nextName = randomNames.remove(nextDigit);
 			}
 			
-			armies.add(new Army(colorLabels.get(i).getForeground(), 
-					nextName, log));
+			armies.add(new Army(colorLabels.get(i).getForeground(), nextName, log, colorLabels.size(), riskValues));
 		}
 		log.write("Players:", "NO_LINEMARKER", Color.WHITE);
 		for(Army army : armies)

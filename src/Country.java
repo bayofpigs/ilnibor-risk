@@ -35,9 +35,6 @@ public class Country extends JLabel{
 		setBounds(leftBound + 6, topBound, 25, 25);
 		updateLabel();
 	}
-	/**
-	 * TODO: Create a better way to show a "highlighted" country
-	 */
 	public void updateLabel(){
 		setFont(DEFAULT_FONT);
 		if (army != null) setForeground(army.armyColor);
@@ -50,20 +47,6 @@ public class Country extends JLabel{
 	}
 	
 	/**
-	 * Updates the army that owns this territory.
-	 * @param teamNumber The team constant color to occupy this territory
-	 */
-	public void occupy(Army anArmy) {
-		army = anArmy;
-		anArmy.countries.add(this);
-		troops = 1;
-	}
-	
-	public boolean isNeighbor(Country other){
-		return neighbors.contains(other);
-	}
-	
-	/**
 	 * Attacker attacks the country once.
 	 * Returns true if and only if attacker successfully conquers the country.
 	 * @param attacker The country attacking this country
@@ -71,7 +54,7 @@ public class Country extends JLabel{
 	 * @throws InterruptedException
 	 */
 	public boolean invade(Country attacker) throws InterruptedException {
-		if (!isNeighbor(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
+		if (!neighbors.contains(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
 		Random die = new Random();
 		//log.write("Country 1");
 		log.write(attacker.army.armyName + " attacks " + name + " from " + attacker.name + ".", attacker.army.armyColor);
@@ -137,7 +120,7 @@ public class Country extends JLabel{
 	 */
 	public boolean nuke(Country attacker) throws InterruptedException {
 		while (!invade(attacker)){
-			if (!isNeighbor(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
+			if (!neighbors.contains(attacker) || army.equals(attacker.army) || attacker.troops == 1) return false;
 			log.write("Country 6");
 			log.write(attacker + "\n" + toString(), attacker.army.armyColor);
 			log.write("-------------------------------", attacker.army.armyColor);
@@ -147,7 +130,7 @@ public class Country extends JLabel{
 	}
 	
 	public boolean canReinforce(Country donator) {
-		return (isNeighbor(donator) && army.equals(donator.army) && !donator.equals(this));
+		return (neighbors.contains(donator) && army.equals(donator.army) && !donator.equals(this));
 	}
 	
 	/**
