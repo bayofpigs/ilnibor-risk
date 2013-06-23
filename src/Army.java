@@ -8,8 +8,8 @@ public class Army {
 	public Color armyColor;
 	public String armyName;
 	public int riskCards, reinforcements;
-	public MessageLogFrame log;
-	public Army(Color color, String name, MessageLogFrame messages){
+	public MessageLog log;
+	public Army(Color color, String name, MessageLog messages){
 		log = messages;
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();

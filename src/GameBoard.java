@@ -17,13 +17,13 @@ import java.util.ArrayList;
  * @author Akhil Velagapudi
  *
  * @see GuiFrame
- * @see MainMenuPanel
+ * @see MainMenu
  * @see Engine
  * @see Country
  * 
  */
 @SuppressWarnings("serial")
-public class GameBoardPanel extends JPanel{
+public class GameBoard extends JPanel{
 
 	private final Dimension BGSIZE; // The size of the map
 	private String mapImgDir; // String directory of where the map image is located
@@ -41,7 +41,7 @@ public class GameBoardPanel extends JPanel{
 							   sENDGAME = "                            Game Over!";
 							   
 	
-	public GameBoardPanel(ArrayList<Country> cArray) {
+	public GameBoard(ArrayList<Country> cArray) {
 		Insets insets = this.getInsets();
 		instructionLabel = new JLabel();
 		instructionLabel.setBounds(insets.left + 425, insets.top - 10, 500, 100);

@@ -26,15 +26,15 @@ public class GuiFrame extends JFrame {
 	private ImageIcon icon; // The icon of the game on the titlebar of the program
 	private Dimension frameSize; // The size of the frame in general
 	protected JPanel cards; // The primary, center panel of the board. Flips through multiple pages in response to user input
-	protected MainMenuPanel mainMenu; // The mainMenu of the game. To be placed onto the mainPanel.
-	protected GameBoardPanel gameBoard; // The gameboard of the game. To be placed on the cards variable
+	protected MainMenu mainMenu; // The mainMenu of the game. To be placed onto the mainPanel.
+	protected GameBoard gameBoard; // The gameboard of the game. To be placed on the cards variable
 	protected String MENUPANEL = "Menu"; // The string label for the mainmenu of the game for the cards variable
 	protected String GAMEPANEL = "Game"; // The string label for the gameboard of the game for the cards variable
-	public MessageLogFrame messages;
+	public MessageLog messages;
 
 	public GuiFrame() throws FileNotFoundException {
 	
-		messages = new MessageLogFrame();
+		messages = new MessageLog();
 		// Setup the menuPanel of the frame (to be implemented)
 		makeMenu();		
 		frameSize = new Dimension(1179, 700);	
@@ -48,7 +48,7 @@ public class GuiFrame extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);		
 				
 		// Setup the mainMenu and the gameboard
-		mainMenu = new MainMenuPanel();
+		mainMenu = new MainMenu();
 		
 		// Setup the main menu Panel size
 		mainPanel = new JPanel(new BorderLayout());
@@ -101,7 +101,7 @@ public class GuiFrame extends JFrame {
 		c1.show(cards, MENUPANEL);
 	}
 	
-	public void setGameBoardPanelInformation(GameBoardPanel gbd) {
+	public void setGameBoardPanelInformation(GameBoard gbd) {
 		gameBoard = gbd;
 		cards.add(gameBoard, GAMEPANEL);
 		cards.revalidate();

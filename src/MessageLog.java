@@ -17,7 +17,7 @@ import javax.swing.text.StyledDocument;
  * Can be edited later to add a chat functionality if over-the-Internet implementation finished
  * @author That Kid Named Sid
  */
-public class MessageLogFrame extends JFrame {
+public class MessageLog extends JFrame {
 	public static final String lineMarker = "\n________________________\n\n";
 	private static final long serialVersionUID = 1L;
 	private static final Color DEFAULT_COLOR = Color.WHITE;
@@ -26,7 +26,7 @@ public class MessageLogFrame extends JFrame {
 	private JScrollPane scrollText;
 	private ImageIcon icon;
 	
-	public MessageLogFrame(){
+	public MessageLog(){
 		frameSize = new Dimension(200, 700);
 		setSize(frameSize);
 		setResizable(false);

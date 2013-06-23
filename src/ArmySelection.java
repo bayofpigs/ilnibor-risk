@@ -15,7 +15,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class InitiationFrame extends JDialog{
+public class ArmySelection extends JDialog{
 	private static final long serialVersionUID = 2278594614920750336L;
 	private Dimension dialogSize;
 	private ArrayList<JLabel> colorLabels;
@@ -31,9 +31,9 @@ public class InitiationFrame extends JDialog{
 	private JButton cancel;
 	private boolean userClickOK;
 	private int currentPlayerNum;
-	public MessageLogFrame log;
+	public MessageLog log;
 	
-	public InitiationFrame(GuiFrame parentFrame) {
+	public ArmySelection(GuiFrame parentFrame) {
 		super(parentFrame);
 		log = parentFrame.messages;
 		this.setModal(true);

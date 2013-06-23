@@ -15,7 +15,7 @@ public class Country extends JLabel{
 	private static final long serialVersionUID = 1;
 	private final Font DEFAULT_FONT = new Font(getFont().getName(), Font.BOLD, getFont().getSize());
 	private final Font SELECTED_FONT = new Font(getFont().getName(), Font.BOLD, getFont().getSize() + 4);
-	public MessageLogFrame log;
+	public MessageLog log;
 	public ArrayList<Country> neighbors;
 	public String name;
 	public int troops;
@@ -25,7 +25,7 @@ public class Country extends JLabel{
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
 	 */
-	public Country(String countryName, int leftBound, int topBound, MessageLogFrame messages) {
+	public Country(String countryName, int leftBound, int topBound, MessageLog messages) {
 		name = countryName;
 		log = messages;
 		neighbors = new ArrayList<Country>();

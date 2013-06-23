@@ -41,14 +41,14 @@ public class Engine {
 	private Country donor, reciever;
 	private ArrayList<Integer> riskValues = new ArrayList<Integer>();
 	private GuiFrame gameGui;
-	private GameBoardPanel gameBoard;
+	private GameBoard gameBoard;
 	private ImageIcon phaseCompleteImage;
 	private JButton phaseComplete;
 	private File countryFile;
 	private File neighborFile;
 	private File continentFile;
 	
-	protected ColorTurnIndicator turnIndicator;
+	protected TurnIndicator turnIndicator;
 	protected JLabel reinIndicator;
 
 	
@@ -91,7 +91,7 @@ public class Engine {
 		buildContinents(a);
 		
 		// Initalize the GUI
-		gameBoard = new GameBoardPanel(countries);
+		gameBoard = new GameBoard(countries);
 		gameGui.setGameBoardPanelInformation(gameBoard);
 	}
 	
@@ -135,7 +135,7 @@ public class Engine {
 			}
 		);
 		
-		turnIndicator = new ColorTurnIndicator();
+		turnIndicator = new TurnIndicator();
 		Dimension indDim = turnIndicator.getDim();
 		turnIndicator.setBounds(insets.left + 46, insets.top + 530,
 								indDim.width, indDim.height);
@@ -180,7 +180,7 @@ public class Engine {
 	
 	public void initiateGame() {
 		// On user click start: the center panel flips to the main game
-		InitiationFrame s = new InitiationFrame(gameGui);
+		ArmySelection s = new ArmySelection(gameGui);
 		s.setLocationRelativeTo(gameGui);
 		s.setVisible(true);
 		
@@ -343,34 +343,34 @@ public class Engine {
 	public void changeInstruction() {
 		switch(gameState) {
 			case PRE_GAME: 
-				gameBoard.instructionLabel.setText(GameBoardPanel.sPREGAME);
+				gameBoard.instructionLabel.setText(GameBoard.sPREGAME);
 				break;
 			case REINFORCE:
-				gameBoard.instructionLabel.setText(GameBoardPanel.sREINFORCE);
+				gameBoard.instructionLabel.setText(GameBoard.sREINFORCE);
 				break;
 			case RECRUIT:
-				gameBoard.instructionLabel.setText(GameBoardPanel.sRECRUIT);
+				gameBoard.instructionLabel.setText(GameBoard.sRECRUIT);
 				break;
 			case ATTACK_A:
-				gameBoard.instructionLabel.setText(GameBoardPanel.sATTACK_A);
+				gameBoard.instructionLabel.setText(GameBoard.sATTACK_A);
 				break;
 			case ATTACK_B:
-				gameBoard.instructionLabel.setText(GameBoardPanel.sATTACK_B);
+				gameBoard.instructionLabel.setText(GameBoard.sATTACK_B);
 				break;
 			case OCCUPY:
-				gameBoard.instructionLabel.setText(GameBoardPanel.sOCCUPY);
+				gameBoard.instructionLabel.setText(GameBoard.sOCCUPY);
 				break;
 			case FORTIFY_A:
-				gameBoard.instructionLabel.setText(GameBoardPanel.sFORTIFY);
+				gameBoard.instructionLabel.setText(GameBoard.sFORTIFY);
 				break;
 			case FORTIFY_B:
-				gameBoard.instructionLabel.setText(GameBoardPanel.sFORTIFY_B);
+				gameBoard.instructionLabel.setText(GameBoard.sFORTIFY_B);
 				break;
 			case FORTIFY_C:
-				gameBoard.instructionLabel.setText(GameBoardPanel.sFORTIFY_C);
+				gameBoard.instructionLabel.setText(GameBoard.sFORTIFY_C);
 				break;
 			case END_GAME:
-				gameBoard.instructionLabel.setText(GameBoardPanel.sENDGAME);
+				gameBoard.instructionLabel.setText(GameBoard.sENDGAME);
 				break;
 			default:
 				//gameBoard.instructionLabel.setText("Invalid Game State in Engine");

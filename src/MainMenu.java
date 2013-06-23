@@ -8,7 +8,7 @@ import java.awt.Dimension;
 import java.awt.Insets;
 
 
-public class MainMenuPanel extends JPanel {
+public class MainMenu extends JPanel {
 	private static final long serialVersionUID = 3614630489279583940L;
 	private final int BUTTON_WIDTH = 250;
 	private final int BUTTON_HEIGHT = 90;
@@ -22,7 +22,7 @@ public class MainMenuPanel extends JPanel {
 	private JButton startButton;
 	private JButton exitButton;
 
-	public MainMenuPanel() {
+	public MainMenu() {
 		setPreferredSize(BGSIZE);
 		setMinimumSize(BGSIZE);
 		setMaximumSize(BGSIZE);

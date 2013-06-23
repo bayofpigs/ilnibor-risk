@@ -5,12 +5,12 @@ import javax.swing.SwingConstants;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
-public class ColorTurnIndicator extends JPanel {
+public class TurnIndicator extends JPanel {
 	private static final long serialVersionUID = 8776342095199288987L;
 	private Dimension displayDimension;
 	private JLabel textLabel;
 	
-	public ColorTurnIndicator() {
+	public TurnIndicator() {
 		displayDimension = new Dimension(200, 70);
 		textLabel = new JLabel();
 		textLabel.setHorizontalAlignment(SwingConstants.CENTER);
