@@ -47,8 +47,6 @@ public class Engine {
 	private ImageIcon phaseCompleteImage;
 	private JButton phaseComplete;
 	protected ColorTurnIndicator turnIndicator;
-	protected int previousState;
-	protected Color previousColor;
 	protected JLabel reinIndicator;
 	private File countryFile;
 	private File neighborFile;
@@ -103,15 +101,8 @@ public class Engine {
 		reciever = countries.get(0);
 		gameState = PRE_GAME;
 		countryMap = ImageIO.read(new File("resources/map.png"));
-		previousState = 0;
-		previousColor = Color.gray;
 		setUpGameBoardListeners();
 		setupMainMenuListener();
-	}
-	
-	public void randomize() throws InterruptedException{
-		for (Country a: countries)
-			readClick(a);
 	}
 	
 	public void restart() throws IOException, InterruptedException {
@@ -162,14 +153,10 @@ public class Engine {
 		reinIndicator = new JLabel();
 		
 		turnIndicator.setText(gameState);
-		previousState = gameState;
 		turnIndicator.changeColor(turn.armyColor);
-		
 		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " 
 														+ turn.reinforcements + "</font></head>");
 		reinIndicator.setBounds(insets.left + 46, insets.top + 590, indDim.width, indDim.height);
-		
-		previousColor = turn.armyColor;
 		gameBoard.add(phaseComplete);
 		gameBoard.add(turnIndicator);
 		gameBoard.add(reinIndicator);
@@ -189,12 +176,6 @@ public class Engine {
 			new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					initiateGame();
-					try {
-						randomize();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					updateIndicator();
 				}
 			}		
 		);
@@ -218,7 +199,7 @@ public class Engine {
 		
 		if (s.getAccepted()) {
 			ArrayList<Army> players = s.getArmyList();
-			setArmies(players);
+			armies = players;
 			
 			for (int i = 2; i < 40; i += 2)
 				riskValues.add(i);
@@ -232,10 +213,6 @@ public class Engine {
 			
 			gameGui.flipToGame();
 		}
-	}
-	
-	public void setArmies(ArrayList<Army> players) {
-		armies = players;
 	}
 	
 	// Processes the color clicked and uses information to update countries
@@ -257,15 +234,8 @@ public class Engine {
 	
 	// Updates the indicator
 	public void updateIndicator() {
-		if (gameState != previousState) {
-			turnIndicator.setText(gameState);
-		}
-		previousState = gameState;
-		if (!turn.armyColor.equals(previousColor)) {
-			turnIndicator.changeColor(turn.armyColor);
-		}
-		previousColor = turn.armyColor;
-		
+		turnIndicator.setText(gameState);
+		turnIndicator.changeColor(turn.armyColor);
 		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " 
 				+ turn.reinforcements + "</font></head>");
 	}

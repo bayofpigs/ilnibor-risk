@@ -1,19 +1,10 @@
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-import java.awt.Color;
-import java.awt.Dimension;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-
 
 /**
- * TODO: 
- * Find where the Country label is being created and its bounds set
- * Fix the bounds so that the label displays properly on the map, not just weird squares/rectangles
- * Align the images of the countries on the map by modifying the countries.txt file
- * Change Black Images to Country Images so that images are transparent again
- * 
  * The Country class represents a country in the board-game RISK.
  * It is capable of holding up to 100 troops from a single army but can also exist in an unoccupied state.
  * @author Akhil Velagapudi
@@ -25,36 +16,28 @@ public class Country extends JLabel{
 	public MessageLogFrame log;
 	public ArrayList<Country> neighbors;
 	public String name;
-	public String fileName;
 	public int troops;
 	public Army army;
-	public Color color;
-	public Dimension dim;
-	public boolean attackPosition;
+	public boolean special;
 	/**
 	 * Class Country constructor. 
 	 * @param countryName The name of the country.
 	 */
-	public Country(String name, int leftBound, int topBound, MessageLogFrame messages) {
-		this.name = name;
+	public Country(String countryName, int leftBound, int topBound, MessageLogFrame messages) {
+		name = countryName;
 		log = messages;
 		neighbors = new ArrayList<Country>();
 		army = null;
 		troops = 0;
-		attackPosition = false;
-		setPreferredSize(new Dimension(49, 49));
-		setHorizontalAlignment(SwingConstants.CENTER);
-		setVerticalAlignment(SwingConstants.CENTER);
-		setBounds(leftBound - 12, topBound - 12, 49, 49);
-		
-		// Debug -- sets the hit box to opaque
-		//setOpaque(true);
+		special = false;
+		setBounds(leftBound + 6, topBound, 25, 25);
 		updateLabel();
 	}
 	public void updateLabel(){
+		setFont(new Font(getFont().getName(), Font.PLAIN, getFont().getSize()));
 		if (army != null) setForeground(army.armyColor);
 		setText("" + troops);
-		if (attackPosition) setText("=" + troops + "=");
+		if (special) setFont(new Font(getFont().getName(), Font.BOLD, getFont().getSize()));
 	}
 	
 	public void addNeighbors(ArrayList<Country> countryNeighbors){
@@ -68,16 +51,15 @@ public class Country extends JLabel{
 	public void occupy(Army anArmy) {
 		army = anArmy;
 		anArmy.countries.add(this);
-		color = anArmy.armyColor;
 		troops = 1;
 	}
 	
 	public void toggleSpecialOn() {
-		attackPosition = true;
+		special = true;
 	}
 	
 	public void toggleSpecialOff(){
-		attackPosition = false;
+		special = false;
 	}
 	
 	public boolean isNeighbor(Country other){
@@ -138,7 +120,6 @@ public class Country extends JLabel{
 				attacker.army.riskCards += army.riskCards;
 			army = attacker.army;
 			army.countries.add(this);
-			color = army.armyColor;
 			troops ++;
 			attacker.troops --;
 			//log.write("Country 4");
