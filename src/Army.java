@@ -32,9 +32,6 @@ public class Army {
 			riskCards -= 3;
 			reinforcements += risk.remove(0);
 		}
-		//Debugging
-		//log.write("Army 1");
-		//log.write(armyName + "'s Reinforcements: " + reinforcements, armyColor);
 		int territoryTroops = countries.size() / 3;
 		if (territoryTroops < 3) territoryTroops = 3;
 		reinforcements += territoryTroops;

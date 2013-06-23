@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 public class Country extends JLabel{
 	private static final long serialVersionUID = 1;
 	private final Font DEFAULT_FONT = new Font(getFont().getName(), Font.BOLD, getFont().getSize());
-	private final Font SELECTED_FONT = new Font(getFont().getName(), Font.BOLD, getFont().getSize() + 7);
+	private final Font SELECTED_FONT = new Font(getFont().getName(), Font.BOLD, getFont().getSize() + 4);
 	public MessageLogFrame log;
 	public ArrayList<Country> neighbors;
 	public String name;
