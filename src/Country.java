@@ -36,7 +36,7 @@ public class Country extends JLabel{
 	public void updateLabel(){
 		setFont(new Font(getFont().getName(), Font.PLAIN, getFont().getSize()));
 		if (army != null) setForeground(army.armyColor);
-		setText("" + troops);
+		if (troops > 0) setText("" + troops);
 		if (special) setFont(new Font(getFont().getName(), Font.BOLD, getFont().getSize()));
 	}
 	
