@@ -1,6 +1,4 @@
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -35,173 +33,111 @@ public class Engine {
 	private Country donor, reciever;
 	private GuiFrame gameGui;
 	private GameBoard gameBoard;
-	private ImageIcon phaseCompleteImage;
 	private JButton phaseComplete;
-	private File countryFile;
-	private File neighborFile;
-	private File continentFile;
-	
 	protected TurnIndicator turnIndicator;
 	protected JLabel reinIndicator;
-
 	
-	/*
-	 * Text versions:
-	 * PRE_GAME, OCCUPY = "OCCUPY"
-	 * REINFORCE_A, RECRUIT = "REINFORCE"
-	 * ATTACK_A, ATTACK_B = "ATTACK"
-	 * FORTIFY = "FORTIFY"
-	 * END_GAME = "GAME OVER"
-	 */
 	public Engine(File mapCountries, File mapNeighbors, File mapContinents) throws FileNotFoundException{
-		// Initialize the array variables
-		countryFile = mapCountries;
-		neighborFile = mapNeighbors;
-		continentFile = mapContinents;
 		gameGui = new GuiFrame();
 		countries = new ArrayList<Country>();
 		continents = new ArrayList<Continent>();
-		setupGame();
-	}
-	
-	public void setupGame() throws FileNotFoundException {
-		countries.clear();
-		continents.clear();
-		
-		countries = new ArrayList<Country>();
-		continents = new ArrayList<Continent>();
-		
-		// Fill the countries array with the contents of Countries.txt file
-		Scanner a = new Scanner(countryFile);
+		Scanner a = new Scanner(mapCountries);
 		buildCountries(a);
-		
-		// Add neighbors to each country
-		a = new Scanner(neighborFile);
+		a = new Scanner(mapNeighbors);
 		buildNeighbors(a);
-		
-		// Fill the continents array with the contents of the Continents.txt file
-		a = new Scanner(continentFile);
+		a = new Scanner(mapContinents);
 		buildContinents(a);
-		
-		// Initalize the GUI
 		gameBoard = new GameBoard(countries);
 		gameGui.setGameBoardPanelInformation(gameBoard);
 	}
-	
 	public void start() throws IOException{
 		donor = countries.get(0);
 		reciever = countries.get(0);
 		gameState = PRE_GAME;
-		setUpGameBoardListeners();
-		setupMainMenuListener();
+		colorAnalyzer();
+		mainMenu();
 		gameGui.setVisible(true);
 	}
 	
-	public void setUpGameBoardListeners() throws IOException {
+	public void initiateGame() {
+		ArmySelection s = new ArmySelection(gameGui);
+		s.setLocationRelativeTo(gameGui);
+		s.setVisible(true);
+		if (s.getAccepted()) {
+			armies = s.getArmyList();
+			turn = armies.get(0);
+			gameInformation();
+			gameGui.flipToGame();
+		}
+	}
+	
+	public void colorAnalyzer() throws IOException {
 		final BufferedImage map = ImageIO.read(new File("resources/map.png"));
 		gameBoard.addMouseListener(
 			new MouseAdapter() {
 				public void mouseReleased(MouseEvent e) {
-					int colorIndex = 1000;
-					colorIndex = new Color(map.getRGB(e.getX(), e.getY())).getBlue();
-					processColor(colorIndex);
+					int blueIndex = 1000;
+					blueIndex = new Color(map.getRGB(e.getX(), e.getY())).getBlue();
+					if (blueIndex >= 0 && blueIndex < countries.size())
+						try {processClick(countries.get(blueIndex));}
+						catch (InterruptedException e1) {}
 				}
 			}
 		);
 	}
 	
-	// Set ups the turn indicator
-	public void setupGameCurrentPlayer() {
+	public void gameInformation() {
 		phaseComplete = new JButton(new ImageIcon("resources/turndone.png"));
 		phaseComplete.setBounds(46, 443, 200, 72);
 		phaseComplete.addMouseListener(
 			new MouseAdapter() {
-				
-				public void mouseReleased(MouseEvent e) {
-					endClick();
-					updateIndicator();
-				}
+				public void mouseReleased(MouseEvent e) {endClick();}
 			}
 		);
-		
+		gameBoard.add(phaseComplete);
 		turnIndicator = new TurnIndicator();
 		turnIndicator.setBounds(46, 530, 200, 72);
-		
-		reinIndicator = new JLabel();	
 		turnIndicator.setText(gameState);
 		turnIndicator.changeColor(turn.armyColor);
-		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " 
-														+ turn.reinforcements + "</font></head>");
-		reinIndicator.setBounds(46, 590, 200, 72);
-		gameBoard.add(phaseComplete);
 		gameBoard.add(turnIndicator);
+		reinIndicator = new JLabel();
+		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " + turn.reinforcements + "</font></head>");
+		reinIndicator.setBounds(46, 590, 200, 72);
 		gameBoard.add(reinIndicator);
 	}
 	
 	/**
 	 * Sets up listener for the start and exit buttons on the mainmenu
 	 */
-	public void setupMainMenuListener() {
-		// The start button from the main menu
-		JButton start = gameGui.mainMenu.getStartButton();
-		
-		// The exit button from the mainmenu
-		JButton exit = gameGui.mainMenu.getExitButton();
-		start.addActionListener(
+	public void mainMenu() {
+		gameGui.mainMenu.startButton.addActionListener(
 			new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					initiateGame();
-				}
+				public void actionPerformed(ActionEvent arg0) {initiateGame();}
 			}		
 		);
-		
-		exit.addActionListener(
+		gameGui.mainMenu.exitButton.addActionListener(
 			new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					// On user click exit, the application exits.
-					gameGui.exitApp();
-				}
+				public void actionPerformed(ActionEvent arg0) {gameGui.exitApp();}
 			}
 		);			
 	}
 	
-	public void initiateGame() {
-		// On user click start: the center panel flips to the main game
-		ArmySelection s = new ArmySelection(gameGui);
-		s.setLocationRelativeTo(gameGui);
-		s.setVisible(true);
-		
-		if (s.getAccepted()) {
-			armies = s.getArmyList();
-			turn = armies.get(0);
-			setupGameCurrentPlayer();
-			gameGui.flipToGame();
-		}
-	}
-	
-	// Processes the color clicked and uses information to update countries
-	public void processColor(int blueIndex)
-	{
-		if (blueIndex >= 0 && blueIndex < countries.size())
-			try {
-				processClick(countries.get(blueIndex)); // retrieves color information based on country
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-	}
 	
 	public void processClick(Country c) throws InterruptedException {
-		// sends information on the country clicked to the Engine to be processed
-		readClick(c);
+		switch (gameState) {
+			case PRE_GAME:	preGame(c); break;
+			case REINFORCE:	reinforce(c); break;
+			case RECRUIT:	recruit(c); break;
+			case ATTACK_A:	attackA(c); break;
+			case ATTACK_B: 	attackB(c); break;
+			case OCCUPY: 	occupy(c); break;
+			case FORTIFY_A: fortifyA(c); break;
+			case FORTIFY_B: fortifyB(c); break;
+			case FORTIFY_C: fortifyC(c); break;
+		} updateGame();
 	}
 	
-	// Updates the indicator
-	public void updateIndicator() {
-		turnIndicator.setText(gameState);
-		turnIndicator.changeColor(turn.armyColor);
-		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " 
-				+ turn.reinforcements + "</font></head>");
-	}
+	
 	
 	/**
 	 * Builds the country array
@@ -267,22 +203,10 @@ public class Engine {
 		}
 		for (Country a: countries)
 			a.updateLabel();
-		updateIndicator();
+		turnIndicator.setText(gameState);
+		turnIndicator.changeColor(turn.armyColor);
+		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " + turn.reinforcements + "</font></head>");
 		if (armies.size() == 1) endGame();
-	}
-	
-	public void readClick(Country c) throws InterruptedException {
-		switch (gameState) {
-		case PRE_GAME:	preGame(c); break;
-		case REINFORCE:	reinforce(c); break;
-		case RECRUIT:	recruit(c); break;
-		case ATTACK_A:	attackA(c); break;
-		case ATTACK_B: 	attackB(c); break;
-		case OCCUPY: 	occupy(c); break;
-		case FORTIFY_A: fortifyA(c); break;
-		case FORTIFY_B: fortifyB(c); break;
-		case FORTIFY_C: fortifyC(c); break;
-		} updateGame();
 	}
 	
 	public void endClick(){
@@ -303,7 +227,9 @@ public class Engine {
 		c.troops ++;
 		turn.reinforcements --;
 		rotate();
-		if (!unoccupiedTerritory()) gameState = REINFORCE;
+		gameState = REINFORCE;
+		for (Country a: countries)
+			if (a.army == null) gameState = PRE_GAME;
 	}
 	
 	public void reinforce(Country c){

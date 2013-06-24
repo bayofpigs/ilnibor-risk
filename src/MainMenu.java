@@ -19,8 +19,8 @@ public class MainMenu extends JPanel {
 	private String bgDir;
 	private String startDir;
 	private String exitDir;
-	private JButton startButton;
-	private JButton exitButton;
+	public JButton startButton;
+	public JButton exitButton;
 
 	public MainMenu() {
 		setPreferredSize(BGSIZE);
@@ -44,14 +44,6 @@ public class MainMenu extends JPanel {
 		
 		add(startButton);
 		add(exitButton);
-	}
-	
-	public JButton getStartButton() {
-		return startButton;
-	}
-	
-	public JButton getExitButton() {
-		return exitButton;
 	}
 	
 	public void paintComponent(Graphics g) {

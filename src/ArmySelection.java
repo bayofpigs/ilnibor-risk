@@ -22,7 +22,7 @@ public class ArmySelection extends JDialog{
 	private ArrayList<JTextField> nameFields;
 	private final Color[] COLORS = new Color[]{Color.MAGENTA, Color.BLUE, Color.GRAY, Color.RED, Color.GREEN};
 	private ArrayList<Color> availColors = new ArrayList<Color>();
-	private JComboBox combo;
+	private JComboBox<Integer> combo;
 	private JPanel namePanel;
 	private JPanel comboPanel;
 	private JPanel okayCancelPanel;
@@ -51,7 +51,7 @@ public class ArmySelection extends JDialog{
 		colorLabels = new ArrayList<JLabel>();
 		
 		Integer[] comboOptions = new Integer[] {2, 3, 4, 5};
-		combo = new JComboBox(comboOptions);
+		combo = new JComboBox<Integer>(comboOptions);
 		combo.setSelectedItem(new Integer(3));
 		comboPanel.add(combo);
 		
