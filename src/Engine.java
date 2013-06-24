@@ -19,12 +19,8 @@ import javax.swing.JLabel;
 /**
  * The game engine for the Risk game
  * @author Akhil Velegapudi
- * @version 1.0
+ * @version 2.0
  * @see Game
- * @Code_Reviewer Mike Zhang
- * @Debugger Mike Zhang
- *
- *
  */
 
 public class Engine {
@@ -116,12 +112,8 @@ public class Engine {
 	
 	// Set ups the turn indicator
 	public void setupGameCurrentPlayer() {
-		phaseCompleteImage = new ImageIcon("resources/turndone.png");
-		phaseComplete = new JButton(phaseCompleteImage);
-		Insets insets = gameBoard.getInsets();
-		phaseComplete.setBounds(insets.left + 46, insets.top + 443, 
-								phaseCompleteImage.getIconWidth(), 
-								phaseCompleteImage.getIconHeight());
+		phaseComplete = new JButton(new ImageIcon("resources/turndone.png"));
+		phaseComplete.setBounds(46, 443, 200, 72);
 		phaseComplete.addMouseListener(
 			new MouseAdapter() {
 				
@@ -133,16 +125,14 @@ public class Engine {
 		);
 		
 		turnIndicator = new TurnIndicator();
-		Dimension indDim = turnIndicator.getDim();
-		turnIndicator.setBounds(insets.left + 46, insets.top + 530,
-								indDim.width, indDim.height);
+		turnIndicator.setBounds(46, 530, 200, 72);
 		
 		reinIndicator = new JLabel();	
 		turnIndicator.setText(gameState);
 		turnIndicator.changeColor(turn.armyColor);
 		reinIndicator.setText("<html><font color = \"white\" size = \"5\">Reinforcements: " 
 														+ turn.reinforcements + "</font></head>");
-		reinIndicator.setBounds(insets.left + 46, insets.top + 590, indDim.width, indDim.height);
+		reinIndicator.setBounds(46, 590, 200, 72);
 		gameBoard.add(phaseComplete);
 		gameBoard.add(turnIndicator);
 		gameBoard.add(reinIndicator);
