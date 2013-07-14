@@ -23,18 +23,45 @@ import javax.swing.JLabel;
 
 public class Engine {
 	
-	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8;
-	public ArrayList<Country> countries; // The array of countries; to be read from Countries.txt
-	public ArrayList<Continent> continents; // The array of continents, to be read from Continents.txt
-	public ArrayList<Army> armies; // The array of Armies to be read from input
+	// The constants dictating the Gamestate:
+	public static final int PRE_GAME = 0, REINFORCE = 1, RECRUIT = 2, ATTACK_A = 3, 
+			ATTACK_B = 4, OCCUPY = 5, FORTIFY_A = 6, FORTIFY_B = 7, FORTIFY_C = 8;
+	
+	// The array of countries; to be read from Countries.txt:
+	public ArrayList<Country> countries;
+	
+	// The array of continents, to be read from Continents.txt:
+	public ArrayList<Continent> continents;
+	
+	// The array of Armies to be read from input:
+	public ArrayList<Army> armies;
+	
+	// The state variable indicating which player's turn it is:
+	// Can take the value of any army within the armies array
 	public Army turn;
+	
+	// The state variable indicating what state the game is
+	// Can take the value of any Gamestate constant value
 	public int gameState;
 	
+	// Game state variables indicating which country is donating troops
+	// and which country is receiving troops. Changes depending on user interaction
 	private Country donor, reciever;
+	
+	// An instance variable of the game gui. The gui contains an instance of a GameBoard
+	// and a main-menu board
 	private GuiFrame gameGui;
+	
+	// An instance variable of gameBoard. Will be contained by the gameGui
 	private GameBoard gameBoard;
+	
+	// The "Turn Done" button. Interactive with the user. To be placed on the GameBoard
 	private JButton phaseComplete;
+	
+	// The indicator informing the players whose turn it is. To be placed on the GameBoard.
 	protected TurnIndicator turnIndicator;
+	
+	// The indicator informing the current player how many reinforcements he has left.
 	protected JLabel reinIndicator;
 	
 	public Engine(File mapCountries, File mapNeighbors, File mapContinents) throws FileNotFoundException{
